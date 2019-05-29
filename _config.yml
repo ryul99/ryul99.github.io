@@ -1,42 +1,29 @@
-# -----------------------------------------------------------------------------
-#  User configuration
-# -----------------------------------------------------------------------------
+# External gems
+# See http://ixti.net/software/2013/01/28/using-jekyll-plugins-on-github-pages.html for making `jekyll archives` work.
+gems:
+  - jekyll-archives # Sorry, not GitHub pages friendly!
+  - jekyll-sitemap
+  - jekyll-paginate
 
+exclude:
+  - "/vendor/"
+
+# Site settings
 title: Lab of ryul99
+subtitle: "Developer from Somewhere"
+email: cmchoi9901@gmail.com
+name: ryul99
+description: >
+  Laboratory for do somethings that ryul99 wants
+# Base URL of site (i.e. /blog). It should always start with a slash,
+# and never end with a slash. Set it to a blank value if hosting at the
+# root of your server.
+baseurl: "" # the subpath of your site, e.g. /blog/
+url: "http://ryul99.github.io" # the base hostname & protocol for your site
+cover: "/assets/header_image.jpg"
+logo: "/assets/logo.png"
 
-# The unique resource location of your page.
-# Set to `https://<username>.github.io` when hosting on GitHub Pages
-url: https://ryul99.github.io
-
-# Set to '' when hosting a blog on GitHub Pages, ie on `//<username>.github.io`
-# Set to '/<reponame>' when using the `gh-pages` branch of a repository
-baseurl: ""
-
-# A very short description of your page
-tagline: Developer from Somewhere
-
-# A short description of the page, used in the sidebar and as fallback for the meta description tag.
-# Markdown enabled, but don't use more than one paragraph (enforced by `>`)
-description: 
-
-# This should be the same author as first entry in `_data/authors.yml`
-author:
-  name: ryul99
-  email: cmchoi9901@gmail.com
-
-# Set your Google Analytics id to receive `pageview` events.
-# To remove Google Anaylics from your page, remove the line below.
-google_analytics: UA-141055984-1
-
-# Setting a disqus shortname will enable the comment section on pages with `comments: true` in the front matter
-disqus_shortname: 
-
-# This text will appear in the footer of every page. Markdown enabled.
-copyright: '&copy; 2019. by ryul99'
-
-# Format of the permalinks
-permalink: pretty
-
+# Build settings
 markdown: kramdown
 paginate: 5
 paginate_path: "/page:num/"
@@ -53,79 +40,147 @@ jekyll-archives:
     category: '/category/:name/'
     tag: '/tag/:name/'
 
-# If you are upgrading form a v5 verison of Hydejack, uncomment the two lines below,
-# so that the location of the feed XML stays the same.
-# feed:
-#   path:              atom.xml
+# Disqus comments
+# disqus_shortname: bencentra
 
-# Set to true when building with the `--lsi` option
-# See: https://jekyllrb.com/docs/variables/#site-variables
-# use_lsi:             true
+# Google analytics
+# ga_tracking_id: "UA-XXXX-1"
 
-# Set to `true` if you don't want to show an icon after each link that opens to an external site
-# no_mark_external:    true
+# Category descriptions (for archive pages)
+descriptions:
+  - cat: jekyll
+    desc: "Posts describing Jekyll setup techniques."
 
-# Uncomment this line if third party plugins fail to work with dynimically loaded pages
-# disable_push_state:  true
+  - cat: dummy
+    desc: "Just some placeholder posts, lorem ipsum and the rest."
 
-# Uncomment this line if want to disable the touch drawer on mobile
-# disable_drawer: true
+# Social icons and sharing options
+#
+# Social settings are used in two places:
+# * In the footer, as links to your personal profiles
+# * After each blog post for sharing widgets
+#
+# Example:
+#
+# social:
+#   - name: Twitter                         # Name of the service
+#     icon: twitter                         # Font Awesome icon to use (minus fa- prefix)
+#     username: "@TheBenCentra"             # (User) Name to display in the footer link
+#     url: https://twitter.com/TheBenCentra # URL of your profile (leave blank to not display in footer)
+#     desc: Follow me on Twitter            # Description to display as link title, etc
+#     share: true                           # Include in the "Share" section of posts
+social:
+  # - name: Twitter
+  #   icon: twitter
+  #   username: TheBenCentra
+  #   url: https://twitter.com/TheBenCentra
+  #   desc: Follow me on Twitter
+  #   share: true
 
-# -----------------------------------------------------------------------------
-#  Collections
-# -----------------------------------------------------------------------------
+  # - name: Facebook
+  #   icon: facebook
+  #   username: thebencentra
+  #   url:
+  #   desc: Friend me on Facebook
+  #   share: true
 
-collections:
-  featured_categories:
-    permalink:       /category/:name/
-    output:          true
-  featured_tags:
-    permalink:       /tag/:name/
-    output:          true
-  projects:
-    permalink:       /projects/:path/
-    output:          true
+  - name: GitHub
+    icon: github
+    username: ryul99
+    url: https://github.com/ryul99
+    desc: Fork me on GitHub
+    share: false
 
-# -----------------------------------------------------------------------------
-#  Advanced configuration
-# -----------------------------------------------------------------------------
+  - name: LinkedIn
+    icon: linkedin
+    username: 
+    url: 
+    desc: Connect with me on LinkedIn
+    share: true
 
-# External gems
-# See http://ixti.net/software/2013/01/28/using-jekyll-plugins-on-github-pages.html for making `jekyll archives` work.
-gems:
-  - jekyll-archives # Sorry, not GitHub pages friendly!
-  - jekyll-sitemap
-  - jekyll-paginate
+  - name: Google+
+    icon: google-plus
+    username:
+    url:
+    desc: Add me to your Circles
+    share: true
 
-exclude:
-  - README.md
-  - LICENSE.md
-  - node_modules
-  - package.json
-  - package-lock.json
-  - Gemfile
-  - Gemfile.lock
-  - "/vendor/"
+  - name: YouTube
+    icon: youtube
+    username:
+    url:
+    desc: Subscribe on YouTube
+    share: false
 
-kramdown:
-  footnote_backlink: '&#x21a9;&#xfe0e;'
-  math_engine:       mathjax
-  math_engine_opts:
-    preview:         true
-    preview_as_code: true
+  - name: Instagram
+    icon: instagram
+    username:
+    url:
+    desc: Follow me on Instagram
+    share: false
 
-compress_html:
-  comments:          ["<!-- ", " -->"]
-  clippings:         all
-  endings:           all
-  ignore:
-    envs:            [development]
+  - name: Pinterest
+    icon: pinterest
+    username:
+    url:
+    desc: Follow me on Pinterest
+    share: true
 
-sass:
-  style:             compressed
+  - name: SoundCloud
+    icon: soundcloud
+    username:
+    url:
+    desc: Follow me on SoundCloud
+    share: false
 
-# URL of your avatar or profile pic (you could use your GitHub profile pic)
-avatar: https://avatars1.githubusercontent.com/u/16446699?s=460&v=4
+  - name: Tumblr
+    icon: tumblr
+    username:
+    url:
+    desc: Follow me on Tumblr
+    share: false
+
+  - name: Steam
+    icon: steam
+    username:
+    url:
+    desc: Friend me on Steam
+    share: false
+
+  - name: Dribbble
+    icon: dribbble
+    username:
+    url:
+    desc: Follow me on Dribble
+    share: false
+
+  - name: Vimeo
+    icon: vimeo-square
+    username:
+    url:
+    desc: Follow me on Vimeo
+    share: false
+
+  - name: Vine
+    icon: vine
+    username:
+    url:
+    desc: Follow me on Vine
+    share: false
+
+  - name: Reddit
+    icon: reddit
+    username:
+    url:
+    desc: Share to Reddit
+    share: true
+
+  - name: "Hacker News"
+    icon: hacker-news
+    username:
+    url:
+    desc: Share to Hacker News
+    share: false
 
 # Social sharing protocols
 # These are for automatically generating sharing metadata for FB and Twitter
@@ -138,6 +193,6 @@ protocols:
 
     twitter_image: "/assets/logo.png"
 
-    os_repo: "https://github.com/bencentra/centrarium.com"
+    os_repo: "https://github.com/ryul99/ryul99.github.io"
     os_rcs_type: "git"
-    os_src: "git@github.com:bencentra/centrarium.com.git"
+    os_src: "git@github.com:ryul99/ryul99.github.io.git"
