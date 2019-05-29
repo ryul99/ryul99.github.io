@@ -24,19 +24,6 @@ author:
   name: ryul99
   email: cmchoi9901@gmail.com
 
-# The font used for headings. Expects a string that is a valid CSS font-family value.
-font_heading: "'Lato', 'Sans-serif'"
-
-# The text font. Expects a string that is a valid CSS font-family value.
-font: "'Lato', 'Sans-serif'"
-
-# The string encoding what fonts to fetch from Google Fonts.
-# See: https://qwtel.com/hydejack/docs/configuration/
-google_fonts: Lato
-
-# If you do not use a Google Fonts, uncomment the line below
-# no_google_fonts:     true
-
 # Set your Google Analytics id to receive `pageview` events.
 # To remove Google Anaylics from your page, remove the line below.
 google_analytics: UA-141055984-1
