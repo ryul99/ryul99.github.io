@@ -24,10 +24,6 @@ author:
   name: ryul99
   email: cmchoi9901@gmail.com
 
-# Fallback image and color
-image: /assets/img/nap.jpg
-color: '#4f86aa'
-
 # The font used for headings. Expects a string that is a valid CSS font-family value.
 font_heading: "'Lato', 'Sans-serif'"
 
@@ -54,9 +50,21 @@ copyright: '&copy; 2019. by ryul99'
 # Format of the permalinks
 permalink: pretty
 
-# Pagination configuration (used by the `blog` layout)
-paginate: 8
-paginate_path: '/page-:num/'
+markdown: kramdown
+paginate: 5
+paginate_path: "/page:num/"
+inter_post_navigation: false
+highlightjs_theme: "monokai-sublime"
+
+# Archive settings (see https://github.com/jekyll/jekyll-archives/)
+jekyll-archives:
+  enabled:
+    - categories
+    - tags
+  layout: 'archive'
+  permalinks:
+    category: '/category/:name/'
+    tag: '/tag/:name/'
 
 # If you are upgrading form a v5 verison of Hydejack, uncomment the two lines below,
 # so that the location of the feed XML stays the same.
@@ -95,11 +103,12 @@ collections:
 #  Advanced configuration
 # -----------------------------------------------------------------------------
 
+# External gems
+# See http://ixti.net/software/2013/01/28/using-jekyll-plugins-on-github-pages.html for making `jekyll archives` work.
 gems:
-  - jekyll-feed
+  - jekyll-archives # Sorry, not GitHub pages friendly!
   - jekyll-sitemap
   - jekyll-paginate
-  - jekyll-redirect-from
 
 exclude:
   - README.md
@@ -109,6 +118,7 @@ exclude:
   - package-lock.json
   - Gemfile
   - Gemfile.lock
+  - "/vendor/"
 
 kramdown:
   footnote_backlink: '&#x21a9;&#xfe0e;'
@@ -129,3 +139,18 @@ sass:
 
 # URL of your avatar or profile pic (you could use your GitHub profile pic)
 avatar: https://avatars1.githubusercontent.com/u/16446699?s=460&v=4
+
+# Social sharing protocols
+# These are for automatically generating sharing metadata for FB and Twitter
+# OS Protocol is for sharing the source of your site, if you're interested. For more, see osprotocol.com
+protocols:
+    fb_image: "/assets/logo.png"
+    fb_image_width: 612
+    fb_image_height: 605
+    fb_image_type: "image/png"
+
+    twitter_image: "/assets/logo.png"
+
+    os_repo: "https://github.com/bencentra/centrarium.com"
+    os_rcs_type: "git"
+    os_src: "git@github.com:bencentra/centrarium.com.git"
