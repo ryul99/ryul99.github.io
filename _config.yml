@@ -1,88 +1,131 @@
-theme: jekyll-theme-slate
-#
-# This file contains configuration flags to customize your site
-#
-title: Lab of ryul99
-# Name of your site (displayed in the header)
-name: ryul99
+# -----------------------------------------------------------------------------
+#  User configuration
+# -----------------------------------------------------------------------------
 
-# Short bio or description (displayed in the header)
-description: Developer from Somewhere
+title: Lab of ryul99
+
+# The unique resource location of your page.
+# Set to `https://<username>.github.io` when hosting on GitHub Pages
+url: https://ryul99.github.io
+
+# Set to '' when hosting a blog on GitHub Pages, ie on `//<username>.github.io`
+# Set to '/<reponame>' when using the `gh-pages` branch of a repository
+baseurl: ""
+
+# A very short description of your page
+tagline: Developer from Somewhere
+
+# A short description of the page, used in the sidebar and as fallback for the meta description tag.
+# Markdown enabled, but don't use more than one paragraph (enforced by `>`)
+description: 
+
+# This should be the same author as first entry in `_data/authors.yml`
+author:
+  name: ryul99
+  email: cmchoi9901@gmail.com
+
+# Fallback image and color
+image: /assets/img/nap.jpg
+color: '#4f86aa'
+
+# The font used for headings. Expects a string that is a valid CSS font-family value.
+font_heading: "'Lato', 'Sans-serif'"
+
+# The text font. Expects a string that is a valid CSS font-family value.
+font: "'Lato', 'Sans-serif'"
+
+# The string encoding what fonts to fetch from Google Fonts.
+# See: https://qwtel.com/hydejack/docs/configuration/
+google_fonts: Lato
+
+# If you do not use a Google Fonts, uncomment the line below
+# no_google_fonts:     true
+
+# Set your Google Analytics id to receive `pageview` events.
+# To remove Google Anaylics from your page, remove the line below.
+google_analytics: UA-141055984-1
+
+# Setting a disqus shortname will enable the comment section on pages with `comments: true` in the front matter
+disqus_shortname: 
+
+# This text will appear in the footer of every page. Markdown enabled.
+copyright: '&copy; 2019. by ryul99'
+
+# Format of the permalinks
+permalink: pretty
+
+# Pagination configuration (used by the `blog` layout)
+paginate: 8
+paginate_path: '/page-:num/'
+
+# If you are upgrading form a v5 verison of Hydejack, uncomment the two lines below,
+# so that the location of the feed XML stays the same.
+# feed:
+#   path:              atom.xml
+
+# Set to true when building with the `--lsi` option
+# See: https://jekyllrb.com/docs/variables/#site-variables
+# use_lsi:             true
+
+# Set to `true` if you don't want to show an icon after each link that opens to an external site
+# no_mark_external:    true
+
+# Uncomment this line if third party plugins fail to work with dynimically loaded pages
+# disable_push_state:  true
+
+# Uncomment this line if want to disable the touch drawer on mobile
+# disable_drawer: true
+
+# -----------------------------------------------------------------------------
+#  Collections
+# -----------------------------------------------------------------------------
+
+collections:
+  featured_categories:
+    permalink:       /category/:name/
+    output:          true
+  featured_tags:
+    permalink:       /tag/:name/
+    output:          true
+  projects:
+    permalink:       /projects/:path/
+    output:          true
+
+# -----------------------------------------------------------------------------
+#  Advanced configuration
+# -----------------------------------------------------------------------------
+
+gems:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-paginate
+  - jekyll-redirect-from
+
+exclude:
+  - README.md
+  - LICENSE.md
+  - node_modules
+  - package.json
+  - package-lock.json
+  - Gemfile
+  - Gemfile.lock
+
+kramdown:
+  footnote_backlink: '&#x21a9;&#xfe0e;'
+  math_engine:       mathjax
+  math_engine_opts:
+    preview:         true
+    preview_as_code: true
+
+compress_html:
+  comments:          ["<!-- ", " -->"]
+  clippings:         all
+  endings:           all
+  ignore:
+    envs:            [development]
+
+sass:
+  style:             compressed
 
 # URL of your avatar or profile pic (you could use your GitHub profile pic)
 avatar: https://avatars1.githubusercontent.com/u/16446699?s=460&v=4
-
-paginate: 10
-#
-# Flags below are optional
-#
-
-# Includes an icon in the footer for each username you enter
-footer-links:
-  dribbble:
-  email:
-  facebook:
-  flickr:
-  github: ryul99/ryul99.github.io
-  instagram:
-  linkedin:
-  pinterest:
-  rss: # just type anything here for a working RSS icon
-  twitter: 
-  stackoverflow: # your stackoverflow profile, e.g. "users/50476/bart-kiers"
-  youtube: # channel/<your_long_string> or user/<user-name>
-  googleplus: # anything in your profile username that comes after plus.google.com/
-
-
-# Enter your Disqus shortname (not your username) to enable commenting on posts
-# You can find your shortname on the Settings page of your Disqus account
-disqus:
-
-# Enter your Google Analytics web tracking code (e.g. UA-2110908-2) to activate tracking
-google_analytics: UA-141055984-1
-
-# Your website URL (e.g. http://barryclark.github.io or http://www.barryclark.co)
-# Used for Sitemap.xml and your RSS feed
-url: https://ryul99.github.io
-
-# If you're hosting your site at a Project repository on GitHub pages
-# (http://yourusername.github.io/repository-name)
-# and NOT your User repository (http://yourusername.github.io)
-# then add in the baseurl here, like this: "/repository-name"
-baseurl: ""
-
-#
-# !! You don't need to change any of the configuration flags below !!
-#
-
-permalink: /:title/
-
-# The release of Jekyll Now that you're using
-version: v1.2.0
-
-# Jekyll 3 now only supports Kramdown for Markdown
-kramdown:
-  # Use GitHub flavored markdown, including triple backtick fenced code blocks
-  input: GFM
-  # Jekyll 3 and GitHub Pages now only support rouge for syntax highlighting
-  syntax_highlighter: rouge
-  syntax_highlighter_opts:
-    # Use existing pygments syntax highlighting css
-    css_class: 'highlight'
-
-# Set the Sass partials directory, as we're using @imports
-sass:
-  style: :expanded # You might prefer to minify using :compressed
-
-# Use the following plug-ins
-gems:
-  - jekyll-sitemap # Create a sitemap using the official Jekyll sitemap gem
-  - jekyll-feed # Create an Atom feed using the official Jekyll feed gem
-
-# Exclude these files from your production _site
-exclude:
-  - Gemfile
-  - Gemfile.lock
-  - LICENSE
-  - README.md
-  - CNAME
