@@ -3,7 +3,7 @@ layout: post
 title:  "Github Pages에 구글 애드센스 달기"
 date:   2019-05-30 11:43:59
 author: ryul99
-categories: 삽질
+categories: Yak-shaving
 tags:	github adsense
 ---
 
