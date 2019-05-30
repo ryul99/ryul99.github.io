@@ -48,7 +48,7 @@ ga_tracking_id: "UA-141055984-1"
 
 # Category descriptions (for archive pages)
 descriptions:
-  - cat: Yak-shaving
+  - cat: 삽질
     desc: "ryul99가 했던 삽질들. 다른 사람들이 이 삽질들을 보고 이 삽질을 반복하지 않기를"
 
   # - cat: dummy
