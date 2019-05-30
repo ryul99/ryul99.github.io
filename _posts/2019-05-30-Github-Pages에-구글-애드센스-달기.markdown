@@ -28,7 +28,7 @@ tags:	github adsense
 `_includes`와 `_layouts`는 실제 html를 담고 있습니다. 보통 `_includes`에는 `_layouts`에서 사용할 코드들을 조각조각으로 가지고 있고 `_layouts`에 있는 파일들을 이용해서 페이지를 렌더링할 수 있습니다.
 `_post`에는 말 그대로 블로그의 글들이 담기게 됩니다. 여기에 담기는 파일들의 양식은 `YYYY-MM-DD-title.md`이런 식으로 담기고 이 파일의 맨 위에 `---`로 감싼 부분에서 layout과 다른 설정들을 정할 수 있습니다.
 예를 들어
-{% raw %}
+```
 ---
 layout: post
 title:  "Github Pages에 구글 애드센스 달기"
@@ -37,7 +37,7 @@ author: ryul99
 categories: 삽질
 tags:	github adsense
 ---
-{% endraw %}
+```
 라고 하면 `_layouts`에 저장된 post.html이 적용되어 나오게 됩니다.
 
 # 애드센스/애널리틱스의 코드 스니펫 추가하기
@@ -46,4 +46,4 @@ tags:	github adsense
 제가 추가했던 커밋은 [여기서](https://github.com/ryul99/ryul99.github.io/commit/2c77701489c15aa6de77a1eaf3d07784359ee80b) 확인하실 수 있으니 함께 참고하시면 좋을 듯 합니다.
 
 
--[github help]: https://help.github.com/en/articles/adding-a-jekyll-theme-to-your-github-pages-site-with-the-jekyll-theme-chooser
+[github help]: https://help.github.com/en/articles/adding-a-jekyll-theme-to-your-github-pages-site-with-the-jekyll-theme-chooser
