@@ -7,7 +7,7 @@ gems:
 
 exclude:
   - "/vendor/"
-
+permalink: /category/:categories/:title/
 # Site settings
 title: Lab of ryul99
 subtitle: "Developer from Somewhere"
