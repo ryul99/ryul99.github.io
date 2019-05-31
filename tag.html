@@ -1,0 +1,22 @@
+---
+layout: page
+title: "Tag"
+permalink: /tag/
+---
+
+{% for tag in site.tags %}
+  {% capture tag %}{{ tag | first }}{% endcapture %}
+  <h2 id="{{tag}}">{{ tag | capitalize }}</h2>
+  <ul class="posts-list">
+  {% for post in site.tags[cat] %}
+    <li>
+      <strong>
+        <a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+      </strong>
+      <span class="post-date">- {{ post.date | date_to_long_string }}</span>
+    </li>
+  {% endfor %}
+  </ul>
+  {% if forloop.last == false %}<hr>{% endif %}
+{% endfor %}
+<br>
