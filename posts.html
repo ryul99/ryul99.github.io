@@ -1,12 +1,14 @@
 ---
 layout: page
 title: "Posts"
-permalink: /posts/
+permalink: /category/
 ---
 
 {% for category in site.categories %}
-  {% capture cat %}{{ category | first }}{% endcapture %}
-  <h2 id="{{cat}}">{{ cat | capitalize }}</h2>
+	{% capture cat %}{{ category | first }}{% endcapture %}
+	<a href="{{ cat | prepend: site.baseurl }}">
+		<h2 id="{{cat}}">{{ cat | capitalize }}</h2>
+	</a>
   {% for desc in site.descriptions %}
     {% if desc.cat == cat %}
       <p class="desc"><em>{{ desc.desc }}</em></p>
