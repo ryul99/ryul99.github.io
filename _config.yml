@@ -44,15 +44,6 @@ jekyll-archives:
 # Disqus comments
 # disqus_shortname: bencentra
 
-# header bar
-header-bar:
-  - About:
-    - url: '/about/'
-    - title: 'About'
-  - Posts:
-    - url: '/category/'
-    - title: 'Posts'
-
 # Google analytics
 ga_tracking_id: "UA-141055984-1"
 
