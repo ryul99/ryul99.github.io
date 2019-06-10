@@ -31,6 +31,12 @@ paginate_path: "/page:num/"
 inter_post_navigation: true
 highlightjs_theme: "monokai-sublime"
 
+header-bar:
+  - title: 'About'
+    url: '/about/'
+  - title: 'Posts'
+    url: '/category/'
+
 # Archive settings (see https://github.com/jekyll/jekyll-archives/)
 jekyll-archives:
   enabled:
