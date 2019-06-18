@@ -1,0 +1,62 @@
+---
+layout: post
+title:  "Linux cgroups"
+date:   2019-06-18 15:20:59 +0900
+author: ryul99
+categories: 삽질
+tags:	Linux cgroups
+---
+
+# cgroups?
+[위키피디아](https://en.wikipedia.org/wiki/Cgroups)에서는 cgroups가 다음과 같이 설명되어 있습니다.
+
+> cgroups (abbreviated from control groups) is a Linux kernel feature that limits, accounts for, and isolates the resource usage (CPU, memory, disk I/O, network, etc.) of a collection of processes. 
+
+즉, **프로세스 모음**에 대해 시스템의 자원을 제한할 수 있는 커널의 기능입니다. 때문에 cgroups는 하나의 프로세스에 대해 제한을 가하는 ulimit과는 다릅니다. cgroups에는 2007년 부터 있던 cgroups v1이 있고 커널 4.5에서 처음 등장한 cgroups v2가 있습니다. 이 글에서 다룰 cgroups는 v1입니다.
+
+<br>
+
+# 주요 용어
+cgroups에서 사용되는 주요 단어들이 있습니다. 아래의 설명들은 [kernel.org](https://www.kernel.org/doc/Documentation/cgroup-v1/cgroups.txt)의 설명을 번역한 것입니다.
+1. **cgroup**: task의 집합과 하나 이상의 subsystem들의 parameters의 집합이 서로 연관된 형태입니다.
+1. **subsystem**: 묶어진 cgroup의 task들을 특정한 형태로 사용하는 모듈입니다. 여기서는 resource controller로서 cgroup당 자원을 관리하는 모듈입니다.
+1. **hierarchy**: 트리 형태로 구성된 cgroup들의 집합입니다. 시스템의 모든 task는 hierarchy상의 하나의 cgroup에 존재합니다. 가상의 파일시스템으로 구성되어 있습니다.
+
+cgroups는 process와 유사하게 1. 계층적이고, 2. child가 parent로 부터 특정 attributes를 상속받습니다. 하지만 process는 init프로세스를 root로 하는 거대한 하나의 트리지만 cgroups는 하나 이상의 분리된 hierarchy를 가집니다.
+
+<br>
+
+# 규칙
+cgroups에는 규칙이 4가지 있습니다. 각 규칙은 다음과 같습니다.
+
+### 규칙 1
+각 hierarchy는 하나 이상의 subsystem들을 가질 수 있습니다. 
+<img src="{{ site.baseurl }}/assets/images/cgroups/image1.png" title="Rule 1">
+
+### 규칙 2
+한 subsystem이 연결하려는 hierarchy들이 이미 다른 subsystem을 가지고 있다면 둘 이상의 다른 hierarchy에 연결할 수 없습니다.(그 중 하나에만 연결할 수 있습니다.) 하지만 연결하려는 hierarchy들이 subsystem으로 자신 하나만 가진다면 여러 hierarchy에 연결할 수 있습니다.
+<img src="{{ site.baseurl }}/assets/images/cgroups/image2.png" title="Rule 2">
+
+### 규칙 3
+각 task들은 여러 cgroup에 속할 수 있지만 한 hierarchy내에서는 하나의 cgroup에만 속해야 합니다. 또한 모든 system task는 항상 적어도 하나의 cgroup에 속합니다.
+<img src="{{ site.baseurl }}/assets/images/cgroups/image3.png" title="Rule 3">
+
+### 규칙 4
+항상 child task는 parent task의 cgroup을 상속받아 초기화됩니다. 하지만 parent와 child는 독립적이기 때문에 이후에 바뀔 수 있습니다.
+<img src="{{ site.baseurl }}/assets/images/cgroups/image4.png" title="Rule 4">
+
+<br>
+
+# 기본적인 사용법
+가장 기본적인 사용법은 다음과 같습니다.
+1. `mount -t tmpfs <cgroup_root> <path>`: cgroup_root라는 이름으로 path를 tmpfs마운트 합니다. 이곳이 hierarchy들을 담을 장소가 됩니다.
+1. `mount -t cgroup -o <comma_separated_subsystem_names> <path>`: path에 subsystem들을 마운트합니다. path폴더가 하나의 cgroup이 됩니다.
+1. cgroup의 폴더 안에 있는 파일 중 task파일 안에 원하는 프로세스 pid를 적어주면 됩니다.
+
+하지만 이런 방법으로는 실제 사용하기가 매우 힘듭니다. 다음 게시글에서 실제 사용법을 알아 보겠습니다.
+
+--------
+# Reference
+- [kernel.org](https://www.kernel.org/doc/Documentation/cgroup-v1/cgroups.txt)
+- [redhat 7](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/resource_management_guide/index)
+- [redhat 6](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/resource_management_guide/index)
