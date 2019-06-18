@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://ryul99.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="http://ryul99.github.io/" rel="alternate" type="text/html" /><updated>2019-06-18T17:26:07+09:00</updated><id>http://ryul99.github.io/feed.xml</id><title type="html">Lab of ryul99</title><subtitle>Lab for doing what ryul99 wants
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://ryul99.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="http://ryul99.github.io/" rel="alternate" type="text/html" /><updated>2019-06-18T17:42:48+09:00</updated><id>http://ryul99.github.io/feed.xml</id><title type="html">Lab of ryul99</title><subtitle>Lab for doing what ryul99 wants
 </subtitle><entry><title type="html">Linux cgroups</title><link href="http://ryul99.github.io/category/%EC%82%BD%EC%A7%88/cgroups/" rel="alternate" type="text/html" title="Linux cgroups" /><published>2019-06-18T15:20:59+09:00</published><updated>2019-06-18T15:20:59+09:00</updated><id>http://ryul99.github.io/category/%EC%82%BD%EC%A7%88/cgroups</id><content type="html" xml:base="http://ryul99.github.io/category/%EC%82%BD%EC%A7%88/cgroups/">&lt;h1 id=&quot;cgroups&quot;&gt;cgroups?&lt;/h1&gt;
 &lt;p&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Cgroups&quot;&gt;위키피디아&lt;/a&gt;에서는 cgroups가 다음과 같이 설명되어 있습니다.&lt;/p&gt;
 
@@ -6,19 +6,19 @@
   &lt;p&gt;cgroups (abbreviated from control groups) is a Linux kernel feature that limits, accounts for, and isolates the resource usage (CPU, memory, disk I/O, network, etc.) of a collection of processes.&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;즉, &lt;strong&gt;프로세스 모음&lt;/strong&gt;에 대해 시스템의 자원을 제한할 수 있는 커널의 기능입니다. 때문에 cgroups는 하나의 프로세스에 대해 제한을 가하는 ulimit과는 다릅니다. cgroups에는 2007년 부터 있던 cgroups v1이 있고 커널 4.5에서 처음 등장한 cgroups v2가 있습니다. 이 글에서 다룰 cgroups는 v1입니다.&lt;/p&gt;
+&lt;p&gt;즉, &lt;strong&gt;프로세스 모음&lt;/strong&gt;에 대해 시스템의 자원을 제한할 수 있는 커널의 기능입니다. 때문에 cgroups는 하나의 프로세스에 대해 제한을 가하는 ulimit와는 다릅니다. cgroups에는 2007년부터 있던 cgroups v1이 있고 커널 4.5에서 처음 등장한 cgroups v2가 있습니다. 이 글에서 다룰 cgroups는 v1입니다.&lt;/p&gt;
 
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
 &lt;h1 id=&quot;주요-용어&quot;&gt;주요 용어&lt;/h1&gt;
-&lt;p&gt;cgroups에서 사용되는 주요 단어들이 있습니다. 아래의 설명들은 &lt;a href=&quot;https://www.kernel.org/doc/Documentation/cgroup-v1/cgroups.txt&quot;&gt;kernel.org&lt;/a&gt;의 설명을 번역한 것입니다.&lt;/p&gt;
+&lt;p&gt;cgroups에서 사용되는 주요 단어들이 있습니다. 아래의 설명은 &lt;a href=&quot;https://www.kernel.org/doc/Documentation/cgroup-v1/cgroups.txt&quot;&gt;kernel.org&lt;/a&gt;의 설명을 번역한 것입니다.&lt;/p&gt;
 &lt;ol&gt;
-  &lt;li&gt;&lt;strong&gt;cgroup&lt;/strong&gt;: task의 집합과 하나 이상의 subsystem들의 parameters의 집합이 서로 연관된 형태입니다.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;cgroup&lt;/strong&gt;: task의 집합과 하나 이상의 subsystem들의 parameters 집합이 서로 연관된 형태입니다.&lt;/li&gt;
   &lt;li&gt;&lt;strong&gt;subsystem&lt;/strong&gt;: 묶어진 cgroup의 task들을 특정한 형태로 사용하는 모듈입니다. 여기서는 resource controller로서 cgroup당 자원을 관리하는 모듈입니다.&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;hierarchy&lt;/strong&gt;: 트리 형태로 구성된 cgroup들의 집합입니다. 시스템의 모든 task는 hierarchy상의 하나의 cgroup에 존재합니다. 가상의 파일시스템으로 구성되어 있습니다.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;hierarchy&lt;/strong&gt;: 트리 형태로 구성된 cgroup들의 집합입니다. 시스템의 모든 task는 hierarchy 상의 하나의 cgroup에 존재합니다. 가상의 파일시스템으로 구성되어 있습니다.&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;cgroups는 process와 유사하게 1. 계층적이고, 2. child가 parent로 부터 특정 attributes를 상속받습니다. 하지만 process는 init프로세스를 root로 하는 거대한 하나의 트리지만 cgroups는 하나 이상의 분리된 hierarchy를 가집니다.&lt;/p&gt;
+&lt;p&gt;cgroups는 process와 유사하게 1. 계층적이고, 2. child가 parent로부터 특정 attributes를 상속받습니다. 하지만 process는 init프로세스를 root로 하는 거대한 하나의 트리지만 cgroups는 하나 이상의 분리된 hierarchy를 가집니다.&lt;/p&gt;
 
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
@@ -34,7 +34,7 @@
 &lt;img src=&quot;/assets/images/cgroups/image2.png&quot; title=&quot;Rule 2&quot; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&quot;규칙-3&quot;&gt;규칙 3&lt;/h3&gt;
-&lt;p&gt;각 task들은 여러 cgroup에 속할 수 있지만 한 hierarchy내에서는 하나의 cgroup에만 속해야 합니다. 또한 모든 system task는 항상 적어도 하나의 cgroup에 속합니다.
+&lt;p&gt;각 task들은 여러 cgroup에 속할 수 있지만 한 hierarchy 내에서는 하나의 cgroup에만 속해야 합니다. 또한 모든 system task는 항상 적어도 하나의 cgroup에 속합니다.
 &lt;img src=&quot;/assets/images/cgroups/image3.png&quot; title=&quot;Rule 3&quot; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&quot;규칙-4&quot;&gt;규칙 4&lt;/h3&gt;
@@ -48,10 +48,10 @@
 &lt;ol&gt;
   &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;mount -t tmpfs &amp;lt;cgroup_root&amp;gt; &amp;lt;path&amp;gt;&lt;/code&gt;: cgroup_root라는 이름으로 path를 tmpfs마운트 합니다. 이곳이 hierarchy들을 담을 장소가 됩니다.&lt;/li&gt;
   &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;mount -t cgroup -o &amp;lt;comma_separated_subsystem_names&amp;gt; &amp;lt;path&amp;gt;&lt;/code&gt;: path에 subsystem들을 마운트합니다. path폴더가 하나의 cgroup이 됩니다.&lt;/li&gt;
-  &lt;li&gt;cgroup의 폴더 안에 있는 파일 중 task파일 안에 원하는 프로세스 pid를 적어주면 됩니다.&lt;/li&gt;
+  &lt;li&gt;cgroup의 폴더 안에 있는 파일 중 task파일 안에 원하는 프로세스 PID를 적어주면 됩니다.&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;하지만 이런 방법으로는 실제 사용하기가 매우 힘듭니다. 다음 게시글에서 실제 사용법을 알아 보겠습니다.&lt;/p&gt;
+&lt;p&gt;하지만 이런 방법으로는 실제 사용하기가 매우 힘듭니다. 다음 게시글에서 실제 사용법을 알아보겠습니다.&lt;/p&gt;
 
 &lt;hr /&gt;
 &lt;h1 id=&quot;reference&quot;&gt;Reference&lt;/h1&gt;
