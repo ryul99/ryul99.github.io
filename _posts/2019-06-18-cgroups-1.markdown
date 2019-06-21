@@ -1,11 +1,17 @@
 ---
 layout: post
-title:  "Linux cgroups"
+title:  "Linux cgroups에 대해 알아보자 1"
 date:   2019-06-18 15:20:59 +0900
 author: ryul99
 categories: 삽질
 tags:	Linux cgroups
 ---
+
+### 목차
+1. <a href="{{ site.baseurl }}/category/삽질/cgroups-1/">Linux cgroups에 대해 알아보자 1</a>
+1. <a href="{{ site.baseurl }}/category/삽질/cgroups-2/">Linux cgroups에 대해 알아보자 2</a>
+
+----
 
 # cgroups?
 [위키피디아](https://en.wikipedia.org/wiki/Cgroups)에서는 cgroups가 다음과 같이 설명되어 있습니다.
@@ -19,7 +25,7 @@ tags:	Linux cgroups
 # 주요 용어
 cgroups에서 사용되는 주요 단어들이 있습니다. 아래의 설명은 [kernel.org](https://www.kernel.org/doc/Documentation/cgroup-v1/cgroups.txt)의 설명을 번역한 것입니다.
 1. **cgroup**: task의 집합과 하나 이상의 subsystem들의 parameters 집합이 서로 연관된 형태입니다.
-1. **subsystem**: 묶어진 cgroup의 task들을 특정한 형태로 사용하는 모듈입니다. 여기서는 resource controller로서 cgroup당 자원을 관리하는 모듈입니다.
+1. **subsystem**: 묶어진 cgroup의 task들을 특정한 형태로 사용하는 모듈입니다. 여기서는 resource controller로서 cgroup당 자원을 관리하는 모듈입니다. `lssubsys -am`명령어를 통해 종류와 마운트 지점을 알 수 있습니다.
 1. **hierarchy**: 트리 형태로 구성된 cgroup들의 집합입니다. 시스템의 모든 task는 hierarchy 상의 하나의 cgroup에 존재합니다. 가상의 파일시스템으로 구성되어 있습니다.
 
 cgroups는 process와 유사하게 1. 계층적이고, 2. child가 parent로부터 특정 attributes를 상속받습니다. 하지만 process는 init프로세스를 root로 하는 거대한 하나의 트리지만 cgroups는 하나 이상의 분리된 hierarchy를 가집니다.
@@ -31,19 +37,19 @@ cgroups에는 규칙이 4가지 있습니다. 각 규칙은 다음과 같습니�
 
 ### 규칙 1
 각 hierarchy는 하나 이상의 subsystem들을 가질 수 있습니다. 
-<img src="{{ site.baseurl }}/assets/images/cgroups/image1.png" title="Rule 1">
+<img src="{{ site.baseurl }}/assets/images/cgroups-1/image1.png" title="Rule 1">
 
 ### 규칙 2
 한 subsystem이 연결하려는 hierarchy들이 이미 다른 subsystem을 가지고 있다면 둘 이상의 다른 hierarchy에 연결할 수 없습니다.(그 중 하나에만 연결할 수 있습니다.) 하지만 연결하려는 hierarchy들이 subsystem으로 자신 하나만 가진다면 여러 hierarchy에 연결할 수 있습니다.
-<img src="{{ site.baseurl }}/assets/images/cgroups/image2.png" title="Rule 2">
+<img src="{{ site.baseurl }}/assets/images/cgroups-1/image2.png" title="Rule 2">
 
 ### 규칙 3
 각 task들은 여러 cgroup에 속할 수 있지만 한 hierarchy 내에서는 하나의 cgroup에만 속해야 합니다. 또한 모든 system task는 항상 적어도 하나의 cgroup에 속합니다.
-<img src="{{ site.baseurl }}/assets/images/cgroups/image3.png" title="Rule 3">
+<img src="{{ site.baseurl }}/assets/images/cgroups-1/image3.png" title="Rule 3">
 
 ### 규칙 4
 항상 child task는 parent task의 cgroup을 상속받아 초기화됩니다. 하지만 parent와 child는 독립적이기 때문에 이후에 바뀔 수 있습니다.
-<img src="{{ site.baseurl }}/assets/images/cgroups/image4.png" title="Rule 4">
+<img src="{{ site.baseurl }}/assets/images/cgroups-1/image4.png" title="Rule 4">
 
 <br>
 
