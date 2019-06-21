@@ -1,5 +1,54 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://ryul99.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="http://ryul99.github.io/" rel="alternate" type="text/html" /><updated>2019-06-18T18:00:58+09:00</updated><id>http://ryul99.github.io/feed.xml</id><title type="html">Lab of ryul99</title><subtitle>Lab for doing what ryul99 wants
-</subtitle><entry><title type="html">IT 구직시 팁들</title><link href="http://ryul99.github.io/category/%EC%82%BD%EC%A7%88/Finding-Job-Tips/" rel="alternate" type="text/html" title="IT 구직시 팁들" /><published>2019-06-18T17:20:59+09:00</published><updated>2019-06-18T17:20:59+09:00</updated><id>http://ryul99.github.io/category/%EC%82%BD%EC%A7%88/Finding-Job-Tips</id><content type="html" xml:base="http://ryul99.github.io/category/%EC%82%BD%EC%A7%88/Finding-Job-Tips/">&lt;p&gt;줄이고 있는 추세긴 하지만 IT계열에 관심 있는 많은 학생들이 IT병역특례를 지원하고 있습니다. IT병역특례를 하려고 찾고 있거나 구직을 처음 하는 사람들을 위한 팁을 남겨 봅니다. 여기서 언급되는 구인구직이 아닌 병역 관련 정보들은 언제든지 바뀔 수 있습니다. 병역 관련 정보들은 쉽게 바뀌기 때문에 병무청이 올리는 공지나 기타 정보들을 최대한 수집하고 관심을 기울이셔야 합니다. 여기서 언급되는 병특 관련 정보들은 모두 2019년 6월 기준 정보들입니다. 여기서 언급하는 구인구직 팁들은 공채가 아닌 중소기업(스타트업) 상시채용 기준입니다.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://ryul99.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="http://ryul99.github.io/" rel="alternate" type="text/html" /><updated>2019-06-21T13:35:19+09:00</updated><id>http://ryul99.github.io/feed.xml</id><title type="html">Lab of ryul99</title><subtitle>Lab for doing what ryul99 wants
+</subtitle><entry><title type="html">Linux cgroups에 대해 알아보자 2</title><link href="http://ryul99.github.io/category/%EC%82%BD%EC%A7%88/cgroups-2/" rel="alternate" type="text/html" title="Linux cgroups에 대해 알아보자 2" /><published>2019-06-21T13:20:59+09:00</published><updated>2019-06-21T13:20:59+09:00</updated><id>http://ryul99.github.io/category/%EC%82%BD%EC%A7%88/cgroups-2</id><content type="html" xml:base="http://ryul99.github.io/category/%EC%82%BD%EC%A7%88/cgroups-2/">&lt;h3 id=&quot;목차&quot;&gt;목차&lt;/h3&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;/category/삽질/cgroups-1/&quot;&gt;Linux cgroups에 대해 알아보자 1&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/category/삽질/cgroups-2/&quot;&gt;Linux cgroups에 대해 알아보자 2&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a href=&quot;/category/삽질/cgroups-1/&quot;&gt;지난 포스트&lt;/a&gt;에서 cgroups이 어떤 것이고 기본적으로 어떻게 사용하면 되는지 알아보았습니다. 이번 글에서는 실제로 어떻게 적용할 수 있는지 알아보도록 하겠습니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;systemd&quot;&gt;systemd&lt;/h1&gt;
+&lt;p&gt;cgroups는 기본적으로 systemd에 적용할 수 있습니다. 하지만 제가 필요했던 제한은 유저에게 가해지는 제한이었기 때문에 systemd 유닛에 제한을 가하는 방법은 사용해보지 않았습니다. 자세한 방법은 &lt;a href=&quot;https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/resource_management_guide/sec-modifying_control_groups&quot;&gt;redhat 7의 관련 문서&lt;/a&gt; 혹은 아래의 reference에서 redhat7 부분을 참고하시면 좋을 듯합니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;libcgroup&quot;&gt;libcgroup&lt;/h1&gt;
+&lt;p&gt;이 친구는 따로 설치를 해줘야 합니다. OS에 맞게 설치를 진행하시면 됩니다. 저의 경우&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;centos: &lt;code class=&quot;highlighter-rouge&quot;&gt;yum install libcgroup libcgroup-tools&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;ubuntu: &lt;code class=&quot;highlighter-rouge&quot;&gt;apt-get install cgroup-bin cgroup-lite libcgroup1&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;로 설치했습니다.
+libcgroup은 다양한 기능이 있지만 이번에 살펴볼 것은 &lt;code class=&quot;highlighter-rouge&quot;&gt;cgconfig.conf&lt;/code&gt; 작성법입니다. 이 파일은 &lt;code class=&quot;highlighter-rouge&quot;&gt;/etc/cgconfig.conf&lt;/code&gt;에 있으며 이 파일을 보고 libcgroup이 cgroup을 생성하는 방식입니다. 파일 작성법은 다음과 같습니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/cgroups-2/image1.png&quot; title=&quot;cgconfig.conf&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;controller&amp;gt;&lt;/code&gt;부분은 subsystem을 적어주면 됩니다. RHEL 7 기준 default subsystem들은 이미 &lt;code class=&quot;highlighter-rouge&quot;&gt;/sys/fs/cgroup/&amp;lt;controller_name&amp;gt;&lt;/code&gt;에 마운트 되어 있습니다. 따라서 맨 윗 블록인 mount블록은 작성을 하지 않아도 됩니다. &lt;br /&gt; perm부분은 name이라는 cgroup의 권한을 설정하는 부분입니다. 생략해도 상관없으며 task에 있는 유저들은 task를 추가, 삭제할 수 있고 admin에 있는 유저들은 cgroup설정을 변경 가능합니다. &lt;br /&gt; 마지막으로 원하는 subsystem을 적어준 뒤 &lt;a href=&quot;https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/resource_management_guide/ch-subsystems_and_tunable_parameters&quot;&gt;이곳&lt;/a&gt;에 있는 subsystem들의 parameter를 원하는 것만 설정해주면 됩니다. &lt;br /&gt; 마지막으로 수정 후에는 cgconfig service를 재시작 해야 합니다.(systemctl restart &lt;서비스 이름=&quot;&quot;&gt;). 서비스 이름은 OS별로 다를 수 있습니다. 실제 예시는 다음과 같습니다.&lt;/서비스&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/cgroups-2/image2.png&quot; title=&quot;cgconfig.conf-example&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;cgred&quot;&gt;cgred&lt;/h1&gt;
+&lt;p&gt;cgred는 만들어진 제한 정책을 유저, 혹은 유저그룹단위로 적용할 수 있게 합니다. 즉, 특정 유저그룹의 모든 혹은 특정 프로세스를 원하는 cgroup에 속하도록 하는 것입니다. &lt;code class=&quot;highlighter-rouge&quot;&gt;/etc/cgrules.conf&lt;/code&gt;에 configure파일을 작성해주면 됩니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/cgroups-2/image3.png&quot; title=&quot;cgrules.conf-example&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;앞에서부터 user / subsystems / cgroup 순으로 작성하면 되고 매칭은 맨 윗줄부터 매칭해서 할당됩니다. user자리의 경우 앞에 @가 붙으면 user group이 됩니다. subsystem에서 *의 경우 모든 subsystem을 의미합니다. %는 윗 줄의 item과 똑같다를 의미합니다. 마찬가지로 수정 후 cgred service를 재시작해야 합니다.&lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;h1 id=&quot;reference&quot;&gt;Reference&lt;/h1&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.kernel.org/doc/Documentation/cgroup-v1/cgroups.txt&quot;&gt;kernel.org&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/resource_management_guide/index&quot;&gt;redhat 7&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/resource_management_guide/index&quot;&gt;redhat 6&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>ryul99</name></author><category term="Linux" /><category term="cgroups" /><summary type="html">목차 Linux cgroups에 대해 알아보자 1 Linux cgroups에 대해 알아보자 2</summary></entry><entry><title type="html">IT 구직시 팁들</title><link href="http://ryul99.github.io/category/%EC%82%BD%EC%A7%88/Finding-Job-Tips/" rel="alternate" type="text/html" title="IT 구직시 팁들" /><published>2019-06-18T17:20:59+09:00</published><updated>2019-06-18T17:20:59+09:00</updated><id>http://ryul99.github.io/category/%EC%82%BD%EC%A7%88/Finding-Job-Tips</id><content type="html" xml:base="http://ryul99.github.io/category/%EC%82%BD%EC%A7%88/Finding-Job-Tips/">&lt;p&gt;줄이고 있는 추세긴 하지만 IT계열에 관심 있는 많은 학생들이 IT병역특례를 지원하고 있습니다. IT병역특례를 하려고 찾고 있거나 구직을 처음 하는 사람들을 위한 팁을 남겨 봅니다. 여기서 언급되는 구인구직이 아닌 병역 관련 정보들은 언제든지 바뀔 수 있습니다. 병역 관련 정보들은 쉽게 바뀌기 때문에 병무청이 올리는 공지나 기타 정보들을 최대한 수집하고 관심을 기울이셔야 합니다. 여기서 언급되는 병특 관련 정보들은 모두 2019년 6월 기준 정보들입니다. 여기서 언급하는 구인구직 팁들은 공채가 아닌 중소기업(스타트업) 상시채용 기준입니다.&lt;/p&gt;
 
 &lt;h1 id=&quot;현역이라면-연초에-병특-회사를-찾아야-합니다&quot;&gt;현역이라면 연초에 병특 회사를 찾아야 합니다&lt;/h1&gt;
 &lt;p&gt;2019년 기준으로 현역은 TO가 있는 회사를 찾아서 들어가야 합니다. 일반적으로 TO를 받는 회사들이 있고 이는 병무청에서 알 수 있는데 문제는 이 TO가 연초에 거의 다 동납니다. 실제 현역 재배정 TO는 연말에 결정되지만 연초에 회사에서 TO제공을 약속받고 들어가는 사람들이 많기 때문입니다. 때문에 최대한 빨리, 연초에 병특 회사를 찾아야 합니다.
@@ -17,7 +66,15 @@
 
 &lt;h1 id=&quot;연락을-하세요&quot;&gt;연락을 하세요&lt;/h1&gt;
 &lt;p&gt;지원 후에 회사에서 연락이 늦어지는 경우가 있습니다. 공채가 아니기 때문에 일반적으로 회사가 사람을 탈락시킬 때에는 연락을 주고 안 주면 저희가 연락을 해서 알아내야 합니다. 지원 후에 회사로부터 연락이 없다고 탈락했다고 생각하지 마시고 꼭 회사에 입사 전형이 진행되고 있는지 연락을 하셔야 합니다. 대부분의 경우는 회사가 바빠서, 혹은 다른 일 때문에 정신이 없어서 까먹고 연락을 못 주고 있는 경우입니다. 때문에 회사에서 연락이 늦으면 꼭 회사와 연락해서 진행되고 있는지 확인하셔야 합니다. 제 기준으로 연락이 늦는 것은 5영업일, 일주일 정도입니다.&lt;br /&gt;
-병특회사 중에는 탈락 시에 왜 탈락했는지 물어보면 이유를 알려주는 회사도 있습니다. 탈락이유를 아는 것은 지원자 입장에서 거부할 이유가 없습니다. 가능하다면 물어보세요.&lt;/p&gt;</content><author><name>ryul99</name></author><category term="Jobs" /><category term="병특" /><summary type="html">줄이고 있는 추세긴 하지만 IT계열에 관심 있는 많은 학생들이 IT병역특례를 지원하고 있습니다. IT병역특례를 하려고 찾고 있거나 구직을 처음 하는 사람들을 위한 팁을 남겨 봅니다. 여기서 언급되는 구인구직이 아닌 병역 관련 정보들은 언제든지 바뀔 수 있습니다. 병역 관련 정보들은 쉽게 바뀌기 때문에 병무청이 올리는 공지나 기타 정보들을 최대한 수집하고 관심을 기울이셔야 합니다. 여기서 언급되는 병특 관련 정보들은 모두 2019년 6월 기준 정보들입니다. 여기서 언급하는 구인구직 팁들은 공채가 아닌 중소기업(스타트업) 상시채용 기준입니다.</summary></entry><entry><title type="html">Linux cgroups</title><link href="http://ryul99.github.io/category/%EC%82%BD%EC%A7%88/cgroups/" rel="alternate" type="text/html" title="Linux cgroups" /><published>2019-06-18T15:20:59+09:00</published><updated>2019-06-18T15:20:59+09:00</updated><id>http://ryul99.github.io/category/%EC%82%BD%EC%A7%88/cgroups</id><content type="html" xml:base="http://ryul99.github.io/category/%EC%82%BD%EC%A7%88/cgroups/">&lt;h1 id=&quot;cgroups&quot;&gt;cgroups?&lt;/h1&gt;
+병특회사 중에는 탈락 시에 왜 탈락했는지 물어보면 이유를 알려주는 회사도 있습니다. 탈락이유를 아는 것은 지원자 입장에서 거부할 이유가 없습니다. 가능하다면 물어보세요.&lt;/p&gt;</content><author><name>ryul99</name></author><category term="Jobs" /><category term="병특" /><summary type="html">줄이고 있는 추세긴 하지만 IT계열에 관심 있는 많은 학생들이 IT병역특례를 지원하고 있습니다. IT병역특례를 하려고 찾고 있거나 구직을 처음 하는 사람들을 위한 팁을 남겨 봅니다. 여기서 언급되는 구인구직이 아닌 병역 관련 정보들은 언제든지 바뀔 수 있습니다. 병역 관련 정보들은 쉽게 바뀌기 때문에 병무청이 올리는 공지나 기타 정보들을 최대한 수집하고 관심을 기울이셔야 합니다. 여기서 언급되는 병특 관련 정보들은 모두 2019년 6월 기준 정보들입니다. 여기서 언급하는 구인구직 팁들은 공채가 아닌 중소기업(스타트업) 상시채용 기준입니다.</summary></entry><entry><title type="html">Linux cgroups에 대해 알아보자 1</title><link href="http://ryul99.github.io/category/%EC%82%BD%EC%A7%88/cgroups-1/" rel="alternate" type="text/html" title="Linux cgroups에 대해 알아보자 1" /><published>2019-06-18T15:20:59+09:00</published><updated>2019-06-18T15:20:59+09:00</updated><id>http://ryul99.github.io/category/%EC%82%BD%EC%A7%88/cgroups-1</id><content type="html" xml:base="http://ryul99.github.io/category/%EC%82%BD%EC%A7%88/cgroups-1/">&lt;h3 id=&quot;목차&quot;&gt;목차&lt;/h3&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;/category/삽질/cgroups-1/&quot;&gt;Linux cgroups에 대해 알아보자 1&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/category/삽질/cgroups-2/&quot;&gt;Linux cgroups에 대해 알아보자 2&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;hr /&gt;
+
+&lt;h1 id=&quot;cgroups&quot;&gt;cgroups?&lt;/h1&gt;
 &lt;p&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Cgroups&quot;&gt;위키피디아&lt;/a&gt;에서는 cgroups가 다음과 같이 설명되어 있습니다.&lt;/p&gt;
 
 &lt;blockquote&gt;
@@ -32,7 +89,7 @@
 &lt;p&gt;cgroups에서 사용되는 주요 단어들이 있습니다. 아래의 설명은 &lt;a href=&quot;https://www.kernel.org/doc/Documentation/cgroup-v1/cgroups.txt&quot;&gt;kernel.org&lt;/a&gt;의 설명을 번역한 것입니다.&lt;/p&gt;
 &lt;ol&gt;
   &lt;li&gt;&lt;strong&gt;cgroup&lt;/strong&gt;: task의 집합과 하나 이상의 subsystem들의 parameters 집합이 서로 연관된 형태입니다.&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;subsystem&lt;/strong&gt;: 묶어진 cgroup의 task들을 특정한 형태로 사용하는 모듈입니다. 여기서는 resource controller로서 cgroup당 자원을 관리하는 모듈입니다.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;subsystem&lt;/strong&gt;: 묶어진 cgroup의 task들을 특정한 형태로 사용하는 모듈입니다. 여기서는 resource controller로서 cgroup당 자원을 관리하는 모듈입니다. &lt;code class=&quot;highlighter-rouge&quot;&gt;lssubsys -am&lt;/code&gt;명령어를 통해 종류와 마운트 지점을 알 수 있습니다.&lt;/li&gt;
   &lt;li&gt;&lt;strong&gt;hierarchy&lt;/strong&gt;: 트리 형태로 구성된 cgroup들의 집합입니다. 시스템의 모든 task는 hierarchy 상의 하나의 cgroup에 존재합니다. 가상의 파일시스템으로 구성되어 있습니다.&lt;/li&gt;
 &lt;/ol&gt;
 
@@ -45,19 +102,19 @@
 
 &lt;h3 id=&quot;규칙-1&quot;&gt;규칙 1&lt;/h3&gt;
 &lt;p&gt;각 hierarchy는 하나 이상의 subsystem들을 가질 수 있습니다. 
-&lt;img src=&quot;/assets/images/cgroups/image1.png&quot; title=&quot;Rule 1&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cgroups-1/image1.png&quot; title=&quot;Rule 1&quot; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&quot;규칙-2&quot;&gt;규칙 2&lt;/h3&gt;
 &lt;p&gt;한 subsystem이 연결하려는 hierarchy들이 이미 다른 subsystem을 가지고 있다면 둘 이상의 다른 hierarchy에 연결할 수 없습니다.(그 중 하나에만 연결할 수 있습니다.) 하지만 연결하려는 hierarchy들이 subsystem으로 자신 하나만 가진다면 여러 hierarchy에 연결할 수 있습니다.
-&lt;img src=&quot;/assets/images/cgroups/image2.png&quot; title=&quot;Rule 2&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cgroups-1/image2.png&quot; title=&quot;Rule 2&quot; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&quot;규칙-3&quot;&gt;규칙 3&lt;/h3&gt;
 &lt;p&gt;각 task들은 여러 cgroup에 속할 수 있지만 한 hierarchy 내에서는 하나의 cgroup에만 속해야 합니다. 또한 모든 system task는 항상 적어도 하나의 cgroup에 속합니다.
-&lt;img src=&quot;/assets/images/cgroups/image3.png&quot; title=&quot;Rule 3&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cgroups-1/image3.png&quot; title=&quot;Rule 3&quot; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&quot;규칙-4&quot;&gt;규칙 4&lt;/h3&gt;
 &lt;p&gt;항상 child task는 parent task의 cgroup을 상속받아 초기화됩니다. 하지만 parent와 child는 독립적이기 때문에 이후에 바뀔 수 있습니다.
-&lt;img src=&quot;/assets/images/cgroups/image4.png&quot; title=&quot;Rule 4&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/assets/images/cgroups-1/image4.png&quot; title=&quot;Rule 4&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
@@ -77,7 +134,7 @@
   &lt;li&gt;&lt;a href=&quot;https://www.kernel.org/doc/Documentation/cgroup-v1/cgroups.txt&quot;&gt;kernel.org&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/resource_management_guide/index&quot;&gt;redhat 7&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/resource_management_guide/index&quot;&gt;redhat 6&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>ryul99</name></author><category term="Linux" /><category term="cgroups" /><summary type="html">cgroups? 위키피디아에서는 cgroups가 다음과 같이 설명되어 있습니다.</summary></entry><entry><title type="html">Github Pages deploy</title><link href="http://ryul99.github.io/category/%EC%82%BD%EC%A7%88/Github-Pages-deploy/" rel="alternate" type="text/html" title="Github Pages deploy" /><published>2019-06-09T23:43:59+09:00</published><updated>2019-06-09T23:43:59+09:00</updated><id>http://ryul99.github.io/category/%EC%82%BD%EC%A7%88/Github-Pages-deploy</id><content type="html" xml:base="http://ryul99.github.io/category/%EC%82%BD%EC%A7%88/Github-Pages-deploy/">&lt;p&gt;Github Pages는 지원되는 jekyll plugin이 정해져 있습니다. (&lt;a href=&quot;https://pages.github.com/versions/&quot;&gt;여기&lt;/a&gt;에서 확인할 수 있습니다.) 때문에 깃헙에서 지원되지 않는 jekyll plugin을 사용하려면 jekyll 소스코드를 build 하는 것이 아니라 빌드된 결과물을 서빙해야 합니다. 이번에는 이 방법을 몇 가지 정리해보려 합니다.&lt;/p&gt;
+&lt;/ul&gt;</content><author><name>ryul99</name></author><category term="Linux" /><category term="cgroups" /><summary type="html">목차 Linux cgroups에 대해 알아보자 1 Linux cgroups에 대해 알아보자 2</summary></entry><entry><title type="html">Github Pages deploy</title><link href="http://ryul99.github.io/category/%EC%82%BD%EC%A7%88/Github-Pages-deploy/" rel="alternate" type="text/html" title="Github Pages deploy" /><published>2019-06-09T23:43:59+09:00</published><updated>2019-06-09T23:43:59+09:00</updated><id>http://ryul99.github.io/category/%EC%82%BD%EC%A7%88/Github-Pages-deploy</id><content type="html" xml:base="http://ryul99.github.io/category/%EC%82%BD%EC%A7%88/Github-Pages-deploy/">&lt;p&gt;Github Pages는 지원되는 jekyll plugin이 정해져 있습니다. (&lt;a href=&quot;https://pages.github.com/versions/&quot;&gt;여기&lt;/a&gt;에서 확인할 수 있습니다.) 때문에 깃헙에서 지원되지 않는 jekyll plugin을 사용하려면 jekyll 소스코드를 build 하는 것이 아니라 빌드된 결과물을 서빙해야 합니다. 이번에는 이 방법을 몇 가지 정리해보려 합니다.&lt;/p&gt;
 
 &lt;h1 id=&quot;subtree&quot;&gt;subtree&lt;/h1&gt;
 &lt;p&gt;git subtree는 기본적으로 하나의 깃 레포 안에 다른 깃 레포가 포함되어 있는 형태입니다. 다만, subtree의 경우 포함되어 있는 하위 레포는 포함하고 있는 상위 레포에 의해 버전 관리가 이루어지고 이렇게 관리된 버전을 하위 폴더의 remote에 push 혹은 pull 하기만 할 뿐입니다. Workflow는 다음과 같습니다.&lt;/p&gt;
