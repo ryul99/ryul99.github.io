@@ -6,3 +6,8 @@
 # Bundler
 .bundle/
 vendor/
+
+### Jekyll ###
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
