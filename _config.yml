@@ -6,8 +6,19 @@ gems:
   - jekyll-paginate
   - jekyll-feed
 
+future: true
+ 
 exclude:
-  - "/vendor/"
+- .sass-cache/
+- .jekyll-cache/
+- gemfiles/
+- Gemfile
+- Gemfile.lock
+- node_modules/
+- vendor/bundle/
+- vendor/cache/
+- vendor/gems/
+- vendor/ruby/
 permalink: /category/:categories/:title/
 # Site settings
 title: Lab of ryul99
@@ -31,6 +42,12 @@ paginate_path: "/page:num/"
 inter_post_navigation: true
 highlightjs_theme: "monokai-sublime"
 
+kramdown:
+  input: GFM
+  auto_ids: true
+  syntax_highlighter: rouge
+
+
 header-bar:
   - title: 'About'
     url: '/about/'
@@ -48,7 +65,7 @@ jekyll-archives:
     tag: '/tag/:name/'
 
 # Disqus comments
-# disqus_shortname: bencentra
+disqus_shortname: bencentra
 
 # Google analytics
 ga_tracking_id: "UA-141055984-1"
