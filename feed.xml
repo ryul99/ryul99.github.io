@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="http://ryul99.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="http://ryul99.github.io/" rel="alternate" type="text/html" /><updated>2019-09-24T17:20:00+09:00</updated><id>http://ryul99.github.io/feed.xml</id><title type="html">Lab of ryul99</title><subtitle>Lab for doing what ryul99 wants
+</subtitle><entry><title type="html">Linux cgroups에 대해 알아보자 2</title><link href="http://ryul99.github.io/category/%EC%82%BD%EC%A7%88/cgroups-2/" rel="alternate" type="text/html" title="Linux cgroups에 대해 알아보자 2" /><published>2019-06-21T13:20:59+09:00</published><updated>2019-06-21T13:20:59+09:00</updated><id>http://ryul99.github.io/category/%EC%82%BD%EC%A7%88/cgroups-2</id><content type="html" xml:base="http://ryul99.github.io/category/%EC%82%BD%EC%A7%88/cgroups-2/">&lt;h3 id=&quot;목차&quot;&gt;목차&lt;/h3&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;/category/삽질/cgroups-1/&quot;&gt;Linux cgroups에 대해 알아보자 1&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/category/삽질/cgroups-2/&quot;&gt;Linux cgroups에 대해 알아보자 2&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a href=&quot;/category/삽질/cgroups-1/&quot;&gt;지난 포스트&lt;/a&gt;에서 cgroups이 어떤 것이고 기본적으로 어떻게 사용하면 되는지 알아보았습니다. 이번 글에서는 실제로 어떻게 적용할 수 있는지 알아보도록 하겠습니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;systemd&quot;&gt;systemd&lt;/h1&gt;
+&lt;p&gt;cgroups는 기본적으로 systemd에 적용할 수 있습니다. 하지만 제가 필요했던 제한은 유저에게 가해지는 제한이었기 때문에 systemd 유닛에 제한을 가하는 방법은 사용해보지 않았습니다. 자세한 방법은 &lt;a href=&quot;https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/resource_management_guide/sec-modifying_control_groups&quot;&gt;redhat 7의 관련 문서&lt;/a&gt; 혹은 아래의 reference에서 redhat7 부분을 참고하시면 좋을 듯합니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;libcgroup&quot;&gt;libcgroup&lt;/h1&gt;
+&lt;p&gt;이 친구는 따로 설치를 해줘야 합니다. OS에 맞게 설치를 진행하시면 됩니다. 저의 경우&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;centos: &lt;code class=&quot;highlighter-rouge&quot;&gt;yum install libcgroup libcgroup-tools&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;ubuntu: &lt;code class=&quot;highlighter-rouge&quot;&gt;apt-get install cgroup-bin cgroup-lite libcgroup1&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;로 설치했습니다.
+libcgroup은 다양한 기능이 있지만 이번에 살펴볼 것은 &lt;code class=&quot;highlighter-rouge&quot;&gt;cgconfig.conf&lt;/code&gt; 작성법입니다. 이 파일은 &lt;code class=&quot;highlighter-rouge&quot;&gt;/etc/cgconfig.conf&lt;/code&gt;에 있으며 이 파일을 보고 libcgroup이 cgroup을 생성하는 방식입니다. 파일 작성법은 다음과 같습니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/cgroups-2/image1.png&quot; title=&quot;cgconfig.conf&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;controller&amp;gt;&lt;/code&gt;부분은 subsystem을 적어주면 됩니다. RHEL 7 기준 default subsystem들은 이미 &lt;code class=&quot;highlighter-rouge&quot;&gt;/sys/fs/cgroup/&amp;lt;controller_name&amp;gt;&lt;/code&gt;에 마운트 되어 있습니다. 따라서 맨 윗 블록인 mount블록은 작성을 하지 않아도 됩니다. &lt;br /&gt; perm부분은 name이라는 cgroup의 권한을 설정하는 부분입니다. 생략해도 상관없으며 task에 있는 유저들은 task를 추가, 삭제할 수 있고 admin에 있는 유저들은 cgroup설정을 변경 가능합니다. &lt;br /&gt; 마지막으로 원하는 subsystem을 적어준 뒤 &lt;a href=&quot;https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/resource_management_guide/ch-subsystems_and_tunable_parameters&quot;&gt;이곳&lt;/a&gt;에 있는 subsystem들의 parameter를 원하는 것만 설정해주면 됩니다. &lt;br /&gt; 마지막으로 수정 후에는 cgconfig service를 재시작 해야 합니다.(systemctl restart &lt;서비스 이름=&quot;&quot;&gt;). 서비스 이름은 OS별로 다를 수 있습니다. 실제 예시는 다음과 같습니다.&lt;/서비스&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/cgroups-2/image2.png&quot; title=&quot;cgconfig.conf-example&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;cgred&quot;&gt;cgred&lt;/h1&gt;
+&lt;p&gt;cgred는 만들어진 제한 정책을 유저, 혹은 유저그룹단위로 적용할 수 있게 합니다. 즉, 특정 유저그룹의 모든 혹은 특정 프로세스를 원하는 cgroup에 속하도록 하는 것입니다. &lt;code class=&quot;highlighter-rouge&quot;&gt;/etc/cgrules.conf&lt;/code&gt;에 configure파일을 작성해주면 됩니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/cgroups-2/image3.png&quot; title=&quot;cgrules.conf-example&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;앞에서부터 user / subsystems / cgroup 순으로 작성하면 되고 매칭은 맨 윗줄부터 매칭해서 할당됩니다. user자리의 경우 앞에 @가 붙으면 user group이 됩니다. subsystem에서 *의 경우 모든 subsystem을 의미합니다. %는 윗 줄의 item과 똑같다를 의미합니다. 마찬가지로 수정 후 cgred service를 재시작해야 합니다.&lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;h1 id=&quot;reference&quot;&gt;Reference&lt;/h1&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.kernel.org/doc/Documentation/cgroup-v1/cgroups.txt&quot;&gt;kernel.org&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/resource_management_guide/index&quot;&gt;redhat 7&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/resource_management_guide/index&quot;&gt;redhat 6&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>ryul99</name></author><category term="Linux" /><category term="cgroups" /><summary type="html">목차 Linux cgroups에 대해 알아보자 1 Linux cgroups에 대해 알아보자 2</summary></entry><entry><title type="html">IT 구직시 팁들</title><link href="http://ryul99.github.io/category/%EC%82%BD%EC%A7%88/Finding-Job-Tips/" rel="alternate" type="text/html" title="IT 구직시 팁들" /><published>2019-06-18T17:20:59+09:00</published><updated>2019-06-18T17:20:59+09:00</updated><id>http://ryul99.github.io/category/%EC%82%BD%EC%A7%88/Finding-Job-Tips</id><content type="html" xml:base="http://ryul99.github.io/category/%EC%82%BD%EC%A7%88/Finding-Job-Tips/">&lt;p&gt;줄이고 있는 추세긴 하지만 IT계열에 관심 있는 많은 학생들이 IT병역특례를 지원하고 있습니다. IT병역특례를 하려고 찾고 있거나 구직을 처음 하는 사람들을 위한 팁을 남겨 봅니다. 여기서 언급되는 구인구직이 아닌 병역 관련 정보들은 언제든지 바뀔 수 있습니다. 병역 관련 정보들은 쉽게 바뀌기 때문에 병무청이 올리는 공지나 기타 정보들을 최대한 수집하고 관심을 기울이셔야 합니다. 여기서 언급되는 병특 관련 정보들은 모두 2019년 6월 기준 정보들입니다. 여기서 언급하는 구인구직 팁들은 공채가 아닌 중소기업(스타트업) 상시채용 기준입니다.&lt;/p&gt;
+
+&lt;h1 id=&quot;현역이라면-연초에-병특-회사를-찾아야-합니다&quot;&gt;현역이라면 연초에 병특 회사를 찾아야 합니다&lt;/h1&gt;
+&lt;p&gt;2019년 기준으로 현역은 TO가 있는 회사를 찾아서 들어가야 합니다. 일반적으로 TO를 받는 회사들이 있고 이는 병무청에서 알 수 있는데 문제는 이 TO가 연초에 거의 다 동납니다. 실제 현역 재배정 TO는 연말에 결정되지만 연초에 회사에서 TO제공을 약속받고 들어가는 사람들이 많기 때문입니다. 때문에 최대한 빨리, 연초에 병특 회사를 찾아야 합니다.
+보충역이라면 언제 회사를 찾던지 상관없습니다. 보충역의 경우 회사마다 정해진 TO가 없고 심지어 병특 시작도 원하는 시기에 할 수 있습니다.&lt;/p&gt;
+
+&lt;h1 id=&quot;면접에서는-아는-것을-최대한-많이-말하세요&quot;&gt;면접에서는 아는 것을 최대한 많이 말하세요&lt;/h1&gt;
+&lt;p&gt;기술면접은 일반적으로 프레임워크, 자료구조 등등의 기술적인 질문들을 받고 답하는 자리입니다. 질문들의 답들을 알면 대답하시면 되지만 사람인 이상 모를 수도 있습니다. 그럴 경우 거리낌 없이 면접관에게 문제에 대해 질문하거나 여러분이 아는 관련된 다른 내용을 말하겠다고 한 후 말하세요. 자신이 아는 것을 최대한 자랑하세요&lt;/p&gt;
+
+&lt;h1 id=&quot;최대한-많은-회사를-지원하세요&quot;&gt;최대한 많은 회사를 지원하세요&lt;/h1&gt;
+&lt;p&gt;말 그대로입니다. 회사들을 최대한 많이 지원하세요. 이는 연봉협상에 유리하기 때문입니다. 합격한 회사들은 일종의 카드입니다. 이 회사는 얼마 주더라, 저 회사는 얼마 주더라 하면서 자신의 몸값을 높일 수 있는 카드고 그렇게 하셔야 합니다. 회사는 당신에게 천만 원 2천만 원 더 준다고 망하지 않습니다. 좋은 회사들을, 최대한 많이 붙으시고 안 좋은 회사더라도 일단 붙으시고 다른 회사 연봉협상에 카드로 사용하신 후 안 가시면 됩니다. 회사에서 다른 회사에 붙은 곳이 있는지 물어보는 경우가 있습니다. 혹시라도 붙은 곳이 없거나 연봉을 잘 주는, 혹은 좋은 회사를 붙은 곳이 없다면 대답 안 하셔도 됩니다. 자신의 손패를 상대에게 다 보여줄 필요는 없습니다.&lt;/p&gt;
+
+&lt;h1 id=&quot;연봉은-협상자리에서-결정할-필요가-없습니다&quot;&gt;연봉은 협상자리에서 결정할 필요가 없습니다&lt;/h1&gt;
+&lt;p&gt;회사에 붙으셨다면 연봉협상을 하게 됩니다. 구직을 처음 하는 사람에게는 연봉협상 자리에서 바로 연봉을 땅땅땅하고 결정해야 할 것 같습니다. 하지만 전혀 그렇지 않습니다. 연봉은 협상자리가 끝나도 확정만 안 지으면 어느 정도 시간 안에는 바꿀 수 있습니다.
+또한 연봉은 특정 금액을 정해서 말하는 것보다 금액의 범위를 말하는 것이 좋으며 어차피 회사에 의해 깎이므로 어느 정도 높게 불러도 됩니다. 연봉협상(임원면접)에서 조심해야 할 것은 할 말은 다 하면서 상대방의 기분을 좋게 해야 한다는 것입니다. 임원들은 말 그대로 여러분의 연봉을 더 높일 수도 낮출 수도 있는 사람입니다. 할 말은 다 하되 기분 나쁘게 하지는 마세요&lt;/p&gt;
+
+&lt;h1 id=&quot;연락을-하세요&quot;&gt;연락을 하세요&lt;/h1&gt;
+&lt;p&gt;지원 후에 회사에서 연락이 늦어지는 경우가 있습니다. 공채가 아니기 때문에 일반적으로 회사가 사람을 탈락시킬 때에는 연락을 주고 안 주면 저희가 연락을 해서 알아내야 합니다. 지원 후에 회사로부터 연락이 없다고 탈락했다고 생각하지 마시고 꼭 회사에 입사 전형이 진행되고 있는지 연락을 하셔야 합니다. 대부분의 경우는 회사가 바빠서, 혹은 다른 일 때문에 정신이 없어서 까먹고 연락을 못 주고 있는 경우입니다. 때문에 회사에서 연락이 늦으면 꼭 회사와 연락해서 진행되고 있는지 확인하셔야 합니다. 제 기준으로 연락이 늦는 것은 5영업일, 일주일 정도입니다.&lt;br /&gt;
+병특회사 중에는 탈락 시에 왜 탈락했는지 물어보면 이유를 알려주는 회사도 있습니다. 탈락이유를 아는 것은 지원자 입장에서 거부할 이유가 없습니다. 가능하다면 물어보세요.&lt;/p&gt;</content><author><name>ryul99</name></author><category term="Jobs" /><category term="병특" /><summary type="html">줄이고 있는 추세긴 하지만 IT계열에 관심 있는 많은 학생들이 IT병역특례를 지원하고 있습니다. IT병역특례를 하려고 찾고 있거나 구직을 처음 하는 사람들을 위한 팁을 남겨 봅니다. 여기서 언급되는 구인구직이 아닌 병역 관련 정보들은 언제든지 바뀔 수 있습니다. 병역 관련 정보들은 쉽게 바뀌기 때문에 병무청이 올리는 공지나 기타 정보들을 최대한 수집하고 관심을 기울이셔야 합니다. 여기서 언급되는 병특 관련 정보들은 모두 2019년 6월 기준 정보들입니다. 여기서 언급하는 구인구직 팁들은 공채가 아닌 중소기업(스타트업) 상시채용 기준입니다.</summary></entry><entry><title type="html">Linux cgroups에 대해 알아보자 1</title><link href="http://ryul99.github.io/category/%EC%82%BD%EC%A7%88/cgroups-1/" rel="alternate" type="text/html" title="Linux cgroups에 대해 알아보자 1" /><published>2019-06-18T15:20:59+09:00</published><updated>2019-06-18T15:20:59+09:00</updated><id>http://ryul99.github.io/category/%EC%82%BD%EC%A7%88/cgroups-1</id><content type="html" xml:base="http://ryul99.github.io/category/%EC%82%BD%EC%A7%88/cgroups-1/">&lt;h3 id=&quot;목차&quot;&gt;목차&lt;/h3&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;/category/삽질/cgroups-1/&quot;&gt;Linux cgroups에 대해 알아보자 1&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/category/삽질/cgroups-2/&quot;&gt;Linux cgroups에 대해 알아보자 2&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;hr /&gt;
+
+&lt;h1 id=&quot;cgroups&quot;&gt;cgroups?&lt;/h1&gt;
+&lt;p&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Cgroups&quot;&gt;위키피디아&lt;/a&gt;에서는 cgroups가 다음과 같이 설명되어 있습니다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;cgroups (abbreviated from control groups) is a Linux kernel feature that limits, accounts for, and isolates the resource usage (CPU, memory, disk I/O, network, etc.) of a collection of processes.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;즉, &lt;strong&gt;프로세스 모음&lt;/strong&gt;에 대해 시스템의 자원을 제한할 수 있는 커널의 기능입니다. 때문에 cgroups는 하나의 프로세스에 대해 제한을 가하는 ulimit와는 다릅니다. cgroups에는 2007년부터 있던 cgroups v1이 있고 커널 4.5에서 처음 등장한 cgroups v2가 있습니다. 이 글에서 다룰 cgroups는 v1입니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;주요-용어&quot;&gt;주요 용어&lt;/h1&gt;
+&lt;p&gt;cgroups에서 사용되는 주요 단어들이 있습니다. 아래의 설명은 &lt;a href=&quot;https://www.kernel.org/doc/Documentation/cgroup-v1/cgroups.txt&quot;&gt;kernel.org&lt;/a&gt;의 설명을 번역한 것입니다.&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;strong&gt;cgroup&lt;/strong&gt;: task의 집합과 하나 이상의 subsystem들의 parameters 집합이 서로 연관된 형태입니다.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;subsystem&lt;/strong&gt;: 묶어진 cgroup의 task들을 특정한 형태로 사용하는 모듈입니다. 여기서는 resource controller로서 cgroup당 자원을 관리하는 모듈입니다. &lt;code class=&quot;highlighter-rouge&quot;&gt;lssubsys -am&lt;/code&gt;명령어를 통해 종류와 마운트 지점을 알 수 있습니다.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;hierarchy&lt;/strong&gt;: 트리 형태로 구성된 cgroup들의 집합입니다. 시스템의 모든 task는 hierarchy 상의 하나의 cgroup에 존재합니다. 가상의 파일시스템으로 구성되어 있습니다.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;cgroups는 process와 유사하게 1. 계층적이고, 2. child가 parent로부터 특정 attributes를 상속받습니다. 하지만 process는 init프로세스를 root로 하는 거대한 하나의 트리지만 cgroups는 하나 이상의 분리된 hierarchy를 가집니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;규칙&quot;&gt;규칙&lt;/h1&gt;
+&lt;p&gt;cgroups에는 규칙이 4가지 있습니다. 각 규칙은 다음과 같습니다.&lt;/p&gt;
+
+&lt;h3 id=&quot;규칙-1&quot;&gt;규칙 1&lt;/h3&gt;
+&lt;p&gt;각 hierarchy는 하나 이상의 subsystem들을 가질 수 있습니다. 
+&lt;img src=&quot;/assets/images/cgroups-1/image1.png&quot; title=&quot;Rule 1&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;규칙-2&quot;&gt;규칙 2&lt;/h3&gt;
+&lt;p&gt;한 subsystem이 연결하려는 hierarchy들이 이미 다른 subsystem을 가지고 있다면 둘 이상의 다른 hierarchy에 연결할 수 없습니다.(그 중 하나에만 연결할 수 있습니다.) 하지만 연결하려는 hierarchy들이 subsystem으로 자신 하나만 가진다면 여러 hierarchy에 연결할 수 있습니다.
+&lt;img src=&quot;/assets/images/cgroups-1/image2.png&quot; title=&quot;Rule 2&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;규칙-3&quot;&gt;규칙 3&lt;/h3&gt;
+&lt;p&gt;각 task들은 여러 cgroup에 속할 수 있지만 한 hierarchy 내에서는 하나의 cgroup에만 속해야 합니다. 또한 모든 system task는 항상 적어도 하나의 cgroup에 속합니다.
+&lt;img src=&quot;/assets/images/cgroups-1/image3.png&quot; title=&quot;Rule 3&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;규칙-4&quot;&gt;규칙 4&lt;/h3&gt;
+&lt;p&gt;항상 child task는 parent task의 cgroup을 상속받아 초기화됩니다. 하지만 parent와 child는 독립적이기 때문에 이후에 바뀔 수 있습니다.
+&lt;img src=&quot;/assets/images/cgroups-1/image4.png&quot; title=&quot;Rule 4&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;기본적인-사용법&quot;&gt;기본적인 사용법&lt;/h1&gt;
+&lt;p&gt;가장 기본적인 사용법은 다음과 같습니다.&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;mount -t tmpfs &amp;lt;cgroup_root&amp;gt; &amp;lt;path&amp;gt;&lt;/code&gt;: cgroup_root라는 이름으로 path를 tmpfs마운트 합니다. 이곳이 hierarchy들을 담을 장소가 됩니다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;mount -t cgroup -o &amp;lt;comma_separated_subsystem_names&amp;gt; &amp;lt;path&amp;gt;&lt;/code&gt;: path에 subsystem들을 마운트합니다. path폴더가 하나의 cgroup이 됩니다.&lt;/li&gt;
+  &lt;li&gt;cgroup의 폴더 안에 있는 파일 중 task파일 안에 원하는 프로세스 PID를 적어주면 됩니다.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;하지만 이런 방법으로는 실제 사용하기가 매우 힘듭니다. 다음 게시글에서 실제 사용법을 알아보겠습니다.&lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;h1 id=&quot;reference&quot;&gt;Reference&lt;/h1&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.kernel.org/doc/Documentation/cgroup-v1/cgroups.txt&quot;&gt;kernel.org&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/resource_management_guide/index&quot;&gt;redhat 7&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/resource_management_guide/index&quot;&gt;redhat 6&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>ryul99</name></author><category term="Linux" /><category term="cgroups" /><summary type="html">목차 Linux cgroups에 대해 알아보자 1 Linux cgroups에 대해 알아보자 2</summary></entry><entry><title type="html">Github Pages deploy</title><link href="http://ryul99.github.io/category/%EC%82%BD%EC%A7%88/Github-Pages-deploy/" rel="alternate" type="text/html" title="Github Pages deploy" /><published>2019-06-09T23:43:59+09:00</published><updated>2019-06-09T23:43:59+09:00</updated><id>http://ryul99.github.io/category/%EC%82%BD%EC%A7%88/Github-Pages-deploy</id><content type="html" xml:base="http://ryul99.github.io/category/%EC%82%BD%EC%A7%88/Github-Pages-deploy/">&lt;p&gt;Github Pages는 지원되는 jekyll plugin이 정해져 있습니다. (&lt;a href=&quot;https://pages.github.com/versions/&quot;&gt;여기&lt;/a&gt;에서 확인할 수 있습니다.) 때문에 깃헙에서 지원되지 않는 jekyll plugin을 사용하려면 jekyll 소스코드를 build 하는 것이 아니라 빌드된 결과물을 서빙해야 합니다. 이번에는 이 방법을 몇 가지 정리해보려 합니다.&lt;/p&gt;
+
+&lt;h1 id=&quot;subtree&quot;&gt;subtree&lt;/h1&gt;
+&lt;p&gt;git subtree는 기본적으로 하나의 깃 레포 안에 다른 깃 레포가 포함되어 있는 형태입니다. 다만, subtree의 경우 포함되어 있는 하위 레포는 포함하고 있는 상위 레포에 의해 버전 관리가 이루어지고 이렇게 관리된 버전을 하위 폴더의 remote에 push 혹은 pull 하기만 할 뿐입니다. Workflow는 다음과 같습니다.&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;git subtree add --prefix {local subdirectory} {remote repo} {remote branch}&lt;/code&gt; 를 통해서 local subdirectory의 위치에 remote repo의 remote branch에서 clone 받습니다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;git subtree [pull/push] --prefix {local subdirectory} {remote repo} {remote branch}&lt;/code&gt; 를 통해서 local subdirectory를 pull / push 할 수 있습니다.
+Github Page에서 이를 활용하는 방법은 remote에 build 된 결과물을 두는 브랜치를 따로 두고 이를 subtree로 사용하는 방법입니다. 저는 master를 deploy브랜치, source를 소스코드 브랜치로 두고 있습니다.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h1 id=&quot;orphan-branch&quot;&gt;orphan branch&lt;/h1&gt;
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;git checkout --orphan {new branch}&lt;/code&gt;를 하면 어떤 커밋도 없는 브랜치가 new branch라는 명칭으로 생깁니다. 이를 활용해서 새로 만든 브랜치에 build 된 결과물을 두고 이 브랜치를 기준으로 deploy 하면 됩니다. subtree와 비교해보면 이 방법은  소스코드와 결과물의 버전 관리를 각각 하게 되고 빌드한 결과물을 빼내서 다른 곳에 둔 후 checkout 한 후 다시 결과물을 넣어줘야 한다는 특징이 있습니다.&lt;/p&gt;</content><author><name>ryul99</name></author><category term="github" /><summary type="html">Github Pages는 지원되는 jekyll plugin이 정해져 있습니다. (여기에서 확인할 수 있습니다.) 때문에 깃헙에서 지원되지 않는 jekyll plugin을 사용하려면 jekyll 소스코드를 build 하는 것이 아니라 빌드된 결과물을 서빙해야 합니다. 이번에는 이 방법을 몇 가지 정리해보려 합니다.</summary></entry><entry><title type="html">Github Pages에 구글 애드센스 달기</title><link href="http://ryul99.github.io/category/%EC%82%BD%EC%A7%88/Github-Pages%EC%97%90-%EA%B5%AC%EA%B8%80-%EC%95%A0%EB%93%9C%EC%84%BC%EC%8A%A4-%EB%8B%AC%EA%B8%B0/" rel="alternate" type="text/html" title="Github Pages에 구글 애드센스 달기" /><published>2019-05-30T20:43:59+09:00</published><updated>2019-05-30T20:43:59+09:00</updated><id>http://ryul99.github.io/category/%EC%82%BD%EC%A7%88/Github-Pages%EC%97%90-%EA%B5%AC%EA%B8%80-%EC%95%A0%EB%93%9C%EC%84%BC%EC%8A%A4-%EB%8B%AC%EA%B8%B0</id><content type="html" xml:base="http://ryul99.github.io/category/%EC%82%BD%EC%A7%88/Github-Pages%EC%97%90-%EA%B5%AC%EA%B8%80-%EC%95%A0%EB%93%9C%EC%84%BC%EC%8A%A4-%EB%8B%AC%EA%B8%B0/">&lt;p&gt;첫 게시글! 삽질 정리를 위해 블로깅을 하기에 블로깅 하기 위해서 했던 삽질부터 올립니다.
+저는 개인용으로 github pages를 처음 써서 이 블로그를 만들었습니다.&lt;/p&gt;
+
+&lt;h1 id=&quot;문제의-시작&quot;&gt;문제의 시작…&lt;/h1&gt;
+&lt;p&gt;처음에 제가 원했던 것은 마크다운 파일들만 정리해서 올리고 레포 세팅에서 테마 선택하는 것 정도로 간단하게 하는 것이었습니다.
+문제는 구글 애드센스와 구글 애널리틱스 삽입..
+결론부터 말하자면 &lt;strong&gt;깃헙 세팅에서 테마 선택하는 거로는 애드센스와 애널리틱스 적용이 안되더군요&lt;/strong&gt;
+하지만 생각보다 애드센스와 애널리틱스 적용하는 게 어렵지는 않습니다.&lt;/p&gt;
+
+&lt;h1 id=&quot;테마-가져오기&quot;&gt;테마 가져오기&lt;/h1&gt;
+&lt;p&gt;애드센스와 애널리틱스를 적용하려면 직접 테마를 자신의 github page 레포에 가져와서 적용을 해야 합니다.
+찾아보니 github page는 기본적으로 Jekyll이라는 것으로 돌아가고 있고 깃헙 세팅에서 테마를 선택하는 것도 이 Jekyll 테마를 자동으로 적용해주는 것입니다.
+&lt;a href=&quot;github help&quot;&gt;github help&lt;/a&gt;를 참고해보면 깃헙에서 제공하는 Jekyll 테마는 &lt;a href=&quot;https://github.com/pages-themes/&quot;&gt;여기&lt;/a&gt;에서 확인할 수 있다는 것을 알 수 있습니다.
+깃헙에서 제공되는 Jekyll 테마 외에도 Jekyll 테마는 다양한 테마가 있는데 이 들을 자신의 레포로 가져오면 됩니다.&lt;/p&gt;
+
+&lt;h2 id=&quot;jekyll-설명&quot;&gt;Jekyll 설명&lt;/h2&gt;
+&lt;p&gt;이렇게 가져온 Jekyll 테마들을 사용하기 위해서 간단히 Jekyll에 대해서 알아봅시다. (저도 Jekyll에 대해서 확실히 아는 것은 아니고 삽질하면서 배운 정도가 다이니 너무 맹신하지는 말아주세요)
+먼저 중요하게 보셔야 할 것이 &lt;code class=&quot;highlighter-rouge&quot;&gt;_config.yml&lt;/code&gt;입니다. 사이트의 설정들을 담고 있는 듯한데 뒤에서 설명할 &lt;code class=&quot;highlighter-rouge&quot;&gt;_includes&lt;/code&gt;나 &lt;code class=&quot;highlighter-rouge&quot;&gt;_layouts&lt;/code&gt;폴더 안의 html 파일들을 보면 이 파일에서 변수를 가져와서 렌더링 하는 부분이 있을 수 있습니다. 때문에 가져오신 테마의 &lt;code class=&quot;highlighter-rouge&quot;&gt;_config.yml&lt;/code&gt;를 잘 이해하시고 설정해주셔야 합니다.
+&lt;code class=&quot;highlighter-rouge&quot;&gt;_includes&lt;/code&gt;와 &lt;code class=&quot;highlighter-rouge&quot;&gt;_layouts&lt;/code&gt;는 실제 html를 담고 있습니다. 보통 &lt;code class=&quot;highlighter-rouge&quot;&gt;_includes&lt;/code&gt;에는 &lt;code class=&quot;highlighter-rouge&quot;&gt;_layouts&lt;/code&gt;에서 사용할 코드들을 조각조각으로 가지고 있고 &lt;code class=&quot;highlighter-rouge&quot;&gt;_layouts&lt;/code&gt;에 있는 파일들을 이용해서 페이지를 렌더링 할 수 있습니다.
+&lt;code class=&quot;highlighter-rouge&quot;&gt;_post&lt;/code&gt;에는 말 그대로 블로그의 글들이 담기게 됩니다. 여기에 담기는 파일들의 양식은 &lt;code class=&quot;highlighter-rouge&quot;&gt;YYYY-MM-DD-title.md&lt;/code&gt;이런 식으로 담기고 이 파일의 맨 위에 &lt;code class=&quot;highlighter-rouge&quot;&gt;---&lt;/code&gt;로 감싼 부분(front matter)에서 layout과 다른 설정들을 정할 수 있습니다.
+예를 들어&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;---
+layout: post
+title:  &quot;Github Pages에 구글 애드센스 달기&quot;
+date:   2019-05-30 11:43:59 +0900
+author: ryul99
+categories: 삽질
+tags:	github adsense
+---
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;라고 하면 &lt;code class=&quot;highlighter-rouge&quot;&gt;_layouts&lt;/code&gt;에 저장된 post.html이 적용되어 나오게 됩니다.&lt;/p&gt;
+
+&lt;h1 id=&quot;애드센스애널리틱스의-코드-스니펫-추가하기&quot;&gt;애드센스/애널리틱스의 코드 스니펫 추가하기&lt;/h1&gt;
+&lt;p&gt;이제 마지막으로 애드센스/애널리틱스에서 준 코드 스니펫을 추가하면 됩니다!
+실제 사용되는 &lt;code class=&quot;highlighter-rouge&quot;&gt;_layouts&lt;/code&gt;의 파일이나 &lt;code class=&quot;highlighter-rouge&quot;&gt;_layouts&lt;/code&gt;에서 사용되는 &lt;code class=&quot;highlighter-rouge&quot;&gt;_includes&lt;/code&gt;의 파일에 추가하시면 됩니다.
+제가 추가했던 커밋은 &lt;a href=&quot;https://github.com/ryul99/ryul99.github.io/commit/2c77701489c15aa6de77a1eaf3d07784359ee80b&quot;&gt;여기서&lt;/a&gt; 확인하실 수 있으니 함께 참고하시면 좋을 듯합니다.&lt;/p&gt;</content><author><name>ryul99</name></author><category term="github" /><category term="adsense" /><summary type="html">첫 게시글! 삽질 정리를 위해 블로깅을 하기에 블로깅 하기 위해서 했던 삽질부터 올립니다. 저는 개인용으로 github pages를 처음 써서 이 블로그를 만들었습니다.</summary></entry></feed>
