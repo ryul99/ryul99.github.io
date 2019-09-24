@@ -8,12 +8,12 @@ tags:	Linux cgroups
 ---
 
 ### 목차
-1. <a href="{{ site.baseurl }}/category/삽질/cgroups-1/">Linux cgroups에 대해 알아보자 1</a>
-1. <a href="{{ site.baseurl }}/category/삽질/cgroups-2/">Linux cgroups에 대해 알아보자 2</a>
+1. <a href="/category/삽질/cgroups-1/">Linux cgroups에 대해 알아보자 1</a>
+1. <a href="/category/삽질/cgroups-2/">Linux cgroups에 대해 알아보자 2</a>
 
 ----
 
-<a href="{{ site.baseurl }}/category/삽질/cgroups-1/">지난 포스트</a>에서 cgroups이 어떤 것이고 기본적으로 어떻게 사용하면 되는지 알아보았습니다. 이번 글에서는 실제로 어떻게 적용할 수 있는지 알아보도록 하겠습니다.
+<a href="/category/삽질/cgroups-1/">지난 포스트</a>에서 cgroups이 어떤 것이고 기본적으로 어떻게 사용하면 되는지 알아보았습니다. 이번 글에서는 실제로 어떻게 적용할 수 있는지 알아보도록 하겠습니다.
 
 <br>
 
@@ -31,18 +31,18 @@ cgroups는 기본적으로 systemd에 적용할 수 있습니다. 하지만 제�
 로 설치했습니다.
 libcgroup은 다양한 기능이 있지만 이번에 살펴볼 것은 `cgconfig.conf` 작성법입니다. 이 파일은 `/etc/cgconfig.conf`에 있으며 이 파일을 보고 libcgroup이 cgroup을 생성하는 방식입니다. 파일 작성법은 다음과 같습니다.
 
-<img src="{{ site.baseurl }}/assets/images/cgroups-2/image1.png" title="cgconfig.conf">
+<img src="/assets/images/cgroups-2/image1.png" title="cgconfig.conf">
 
 `<controller>`부분은 subsystem을 적어주면 됩니다. RHEL 7 기준 default subsystem들은 이미 `/sys/fs/cgroup/<controller_name>`에 마운트 되어 있습니다. 따라서 맨 윗 블록인 mount블록은 작성을 하지 않아도 됩니다. <br> perm부분은 name이라는 cgroup의 권한을 설정하는 부분입니다. 생략해도 상관없으며 task에 있는 유저들은 task를 추가, 삭제할 수 있고 admin에 있는 유저들은 cgroup설정을 변경 가능합니다. <br> 마지막으로 원하는 subsystem을 적어준 뒤 [이곳](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/resource_management_guide/ch-subsystems_and_tunable_parameters)에 있는 subsystem들의 parameter를 원하는 것만 설정해주면 됩니다. <br> 마지막으로 수정 후에는 cgconfig service를 재시작 해야 합니다.(systemctl restart <서비스 이름>). 서비스 이름은 OS별로 다를 수 있습니다. 실제 예시는 다음과 같습니다.
 
-<img src="{{ site.baseurl }}/assets/images/cgroups-2/image2.png" title="cgconfig.conf-example">
+<img src="/assets/images/cgroups-2/image2.png" title="cgconfig.conf-example">
 
 <br>
 
 # cgred
 cgred는 만들어진 제한 정책을 유저, 혹은 유저그룹단위로 적용할 수 있게 합니다. 즉, 특정 유저그룹의 모든 혹은 특정 프로세스를 원하는 cgroup에 속하도록 하는 것입니다. `/etc/cgrules.conf`에 configure파일을 작성해주면 됩니다.
 
-<img src="{{ site.baseurl }}/assets/images/cgroups-2/image3.png" title="cgrules.conf-example">
+<img src="/assets/images/cgroups-2/image3.png" title="cgrules.conf-example">
 
 앞에서부터 user / subsystems / cgroup 순으로 작성하면 되고 매칭은 맨 윗줄부터 매칭해서 할당됩니다. user자리의 경우 앞에 @가 붙으면 user group이 됩니다. subsystem에서 *의 경우 모든 subsystem을 의미합니다. %는 윗 줄의 item과 똑같다를 의미합니다. 마찬가지로 수정 후 cgred service를 재시작해야 합니다.
 

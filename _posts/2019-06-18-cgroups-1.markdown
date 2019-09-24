@@ -8,8 +8,8 @@ tags:	Linux cgroups
 ---
 
 ### 목차
-1. <a href="{{ site.baseurl }}/category/삽질/cgroups-1/">Linux cgroups에 대해 알아보자 1</a>
-1. <a href="{{ site.baseurl }}/category/삽질/cgroups-2/">Linux cgroups에 대해 알아보자 2</a>
+1. <a href="/category/삽질/cgroups-1/">Linux cgroups에 대해 알아보자 1</a>
+1. <a href="/category/삽질/cgroups-2/">Linux cgroups에 대해 알아보자 2</a>
 
 ----
 
@@ -37,19 +37,19 @@ cgroups에는 규칙이 4가지 있습니다. 각 규칙은 다음과 같습니�
 
 ### 규칙 1
 각 hierarchy는 하나 이상의 subsystem들을 가질 수 있습니다. 
-<img src="{{ site.baseurl }}/assets/images/cgroups-1/image1.png" title="Rule 1">
+<img src="/assets/images/cgroups-1/image1.png" title="Rule 1">
 
 ### 규칙 2
 한 subsystem이 연결하려는 hierarchy들이 이미 다른 subsystem을 가지고 있다면 둘 이상의 다른 hierarchy에 연결할 수 없습니다.(그 중 하나에만 연결할 수 있습니다.) 하지만 연결하려는 hierarchy들이 subsystem으로 자신 하나만 가진다면 여러 hierarchy에 연결할 수 있습니다.
-<img src="{{ site.baseurl }}/assets/images/cgroups-1/image2.png" title="Rule 2">
+<img src="/assets/images/cgroups-1/image2.png" title="Rule 2">
 
 ### 규칙 3
 각 task들은 여러 cgroup에 속할 수 있지만 한 hierarchy 내에서는 하나의 cgroup에만 속해야 합니다. 또한 모든 system task는 항상 적어도 하나의 cgroup에 속합니다.
-<img src="{{ site.baseurl }}/assets/images/cgroups-1/image3.png" title="Rule 3">
+<img src="/assets/images/cgroups-1/image3.png" title="Rule 3">
 
 ### 규칙 4
 항상 child task는 parent task의 cgroup을 상속받아 초기화됩니다. 하지만 parent와 child는 독립적이기 때문에 이후에 바뀔 수 있습니다.
-<img src="{{ site.baseurl }}/assets/images/cgroups-1/image4.png" title="Rule 4">
+<img src="/assets/images/cgroups-1/image4.png" title="Rule 4">
 
 <br>
 
