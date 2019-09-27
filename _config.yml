@@ -96,8 +96,8 @@ descriptions:
 social:
   - name: Twitter
     icon: twitter
-    username:
-    url: 
+    username: ryul99_dev
+    url: https://twitter.com/ryul99_dev
     desc: Follow me on Twitter
     share: true
 
@@ -117,8 +117,8 @@ social:
 
   - name: LinkedIn
     icon: linkedin
-    username: 
-    url: 
+    username: ryul99
+    url: www.linkedin.com/in/ryul99
     desc: Connect with me on LinkedIn
     share: true
 
