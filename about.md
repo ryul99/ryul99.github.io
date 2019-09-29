@@ -6,4 +6,4 @@ permalink: /about/
 
 <img src="/assets/profile-placeholder.png" title="Profile Picture" class="profile">
 
-I'm developer and student from Korea. I have an interest in many part of computer. Asking what I don't know and learning from it are my advantages. You can see my work at my [github](https://github.com/ryul99/). Contact me by creating [issue](https://github.com/ryul99/ryul99.github.io/issues).
+I'm developer and student from Korea. I am interested in ML(Deep Learning) and DevOps. You can see my work at my [github](https://github.com/ryul99/). You can see me on [Twitter](https://twitter.com/ryul99_dev) too.
