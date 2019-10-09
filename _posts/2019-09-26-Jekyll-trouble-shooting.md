@@ -1,9 +1,5 @@
 ---
-layout: post
 title:  "Jekyll Trouble Shooting"
-date:   2019-09-26 14:43:59 +0900
-author: ryul99
-categories: 삽질
 tags:	Jekyll
 ---
 

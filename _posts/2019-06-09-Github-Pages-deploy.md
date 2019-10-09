@@ -1,9 +1,5 @@
 ---
-layout: post
 title:  "Github Pages deploy"
-date:   2019-06-09 23:43:59 +0900
-author: ryul99
-categories: 삽질
 tags:	github
 ---
 
