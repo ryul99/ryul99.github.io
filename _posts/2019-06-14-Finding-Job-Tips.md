@@ -1,9 +1,5 @@
 ---
-layout: post
 title:  "IT 구직시 팁들"
-date:   2019-06-18 17:20:59 +0900
-author: ryul99
-categories: 삽질
 tags:	Jobs 병특
 ---
 
