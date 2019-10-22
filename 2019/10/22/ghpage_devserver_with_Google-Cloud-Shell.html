@@ -1,10 +1,10 @@
 <!DOCTYPE html><html lang="en">
   <head><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"><title>Jekyll Trouble Shooting - Lab of ryul99</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"><title>Run dev-server with Google Cloud Shell - Lab of ryul99</title>
 
-<meta name="description" content="깃헙 페이지를 위해 Jekyll을 사용하면서 겪었던 trouble shooting들을 정리해본다.  윈도우에서 한글 카테고리의 포스트가 포스트 목록에는 보이지만 링크를 눌렀을 때 포스트에 접속이 안되고 Not Found가 뜨는 경우          윈도우용 루비를 설치해서 Jeky...">
-<link rel="canonical" href="http://ryul99.github.io/2019/09/26/Jekyll-trouble-shooting.html"><link rel="alternate" type="application/rss+xml" title="Lab of ryul99" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<meta name="description" content="github page를 블로그로 사용하면서 불편했던 것 중 하나는 네이버, 티스토리 블로그등과는 다르게 웹 브라우저에서 블로그 글을 수정하거나 새롭게 적는 것이 안된다는 점이었습니다. 또한 블로그에 수정이 필요할 때마다 로컬에 빌드 환경을 구축해야 했고 로컬의 환경이 달라짐에 따라...">
+<link rel="canonical" href="http://ryul99.github.io/2019/10/22/ghpage_devserver_with_Google-Cloud-Shell.html"><link rel="alternate" type="application/rss+xml" title="Lab of ryul99" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <link rel="shortcut icon" href="/assets/icons/favicon.ico" type="image/x-icon">
 <link rel="icon" href="/assets/icons/favicon.ico" type="image/x-icon">
 <!-- end favicons snippet --><link rel="stylesheet" href="/assets/css/main.css"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" ><!-- start custom head snippets -->
@@ -272,32 +272,43 @@
 
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
-<!-- end custom main top snippet --><article itemscope itemtype="http://schema.org/Article"><div class="article__header"><header><h1>Jekyll Trouble Shooting</h1></header><span class="split-space">&nbsp;</span>
+<!-- end custom main top snippet --><article itemscope itemtype="http://schema.org/Article"><div class="article__header"><header><h1>Run dev-server with Google Cloud Shell</h1></header><span class="split-space">&nbsp;</span>
           <a class="edit-on-github"
             title="Edit on Github"
-            href="https://github.com/ryul99/ryul99.github.io/tree/master/_posts/2019-09-26-Jekyll-trouble-shooting.md">
-            <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Jekyll Trouble Shooting"><div class="article__info clearfix"><ul class="left-col menu"><li>
+            href="https://github.com/ryul99/ryul99.github.io/tree/master/_posts/2019-10-22-ghpage_devserver_with_Google-Cloud-Shell.md">
+            <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Run dev-server with Google Cloud Shell"><div class="article__info clearfix"><ul class="left-col menu"><li>
               <a class="button button--secondary button--pill button--sm"
-                href="/archive.html?tag=Jekyll">Jekyll</a>
-            </li></ul><ul class="right-col menu"><li><i class="far fa-calendar-alt"></i> <span>Sep 26, 2019</span>
-            </li></ul></div><meta itemprop="author" content="Changmin Choi"/><meta itemprop="datePublished" content="2019-09-26T00:00:00+09:00">
-    <meta itemprop="keywords" content="Jekyll"><div class="js-article-content"><div class="layout--article"><!-- start custom article top snippet -->
+                href="/archive.html?tag=github">github</a>
+            </li><li>
+              <a class="button button--secondary button--pill button--sm"
+                href="/archive.html?tag=GCP">GCP</a>
+            </li></ul><ul class="right-col menu"><li><i class="far fa-calendar-alt"></i> <span>Oct 22, 2019</span>
+            </li></ul></div><meta itemprop="author" content="Changmin Choi"/><meta itemprop="datePublished" content="2019-10-22T00:00:00+09:00">
+    <meta itemprop="keywords" content="github,GCP"><div class="js-article-content"><div class="layout--article"><!-- start custom article top snippet -->
 
-<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><p>깃헙 페이지를 위해 Jekyll을 사용하면서 겪었던 trouble shooting들을 정리해본다.</p>
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><p>github page를 블로그로 사용하면서 불편했던 것 중 하나는 네이버, 티스토리 블로그등과는 다르게 웹 브라우저에서 블로그 글을 수정하거나 새롭게 적는 것이 안된다는 점이었습니다. 
+또한 블로그에 수정이 필요할 때마다 로컬에 빌드 환경을 구축해야 했고 로컬의 환경이 달라짐에 따라 빌드가 안되는 경우도 종종 생겼습니다. 
+그래서 제가 찾아보았던 방법은 클라우드 서비스에 블로그 소스코드와 빌드 환경을 구축하고 여기에 접속해서 블로그 글을 작성하고 수정하는 방식으로 로컬 환경의 제약없이 블로그를 빌드하는 것이었습니다.
+그러던 중 제가 찾은 완벽한 대안은 Google Cloud Platform에서 제공하는 Google Cloud Shell입니다.
+<br /></p>
+<h1 id="google-cloud-shell의-특징">Google Cloud Shell의 특징</h1>
+<p>Google Cloud Shell은 다양한 특징이 있는 데 제가 중점적으로 끌렸던 특징을 모아봤습니다.</p>
 
 <ul>
-  <li>윈도우에서 한글 카테고리의 포스트가 포스트 목록에는 보이지만 링크를 눌렀을 때 포스트에 접속이 안되고 Not Found가 뜨는 경우
-    <ul>
-      <li>윈도우용 루비를 설치해서 Jekyll을 사용하면 url에 한글이 들어갈 경우 한글이 깨지기 때문에 url에 한글이 들어가는 페이지는 들어갈 수 없다.인코딩 설정을 해서 해결할 수 있어 보이는데 나는 그냥 WSL을 사용했다.</li>
-    </ul>
-  </li>
-  <li>포스트 링크를 통해서는 들어갈 수 있는데 페이지 목록에 뜨지 않는 경우 등의 플러그인 작동 오류
-    <ul>
-      <li>Jekyll 3.5부터 <code class="highlighter-rouge">_config.yml</code>에 있는 <code class="highlighter-rouge">gems</code>키워드가 <code class="highlighter-rouge">plugins</code>로 바뀌었다. Jekyll 4.0.0에서는 <code class="highlighter-rouge">gems</code>로 되어 있는 경우 인식을 못해 플러그인들이 동작하지 않았다. <a href="https://jekyllrb.com/news/releases/">지킬 릴리즈 참조</a></li>
-    </ul>
-  </li>
+  <li>웹 브라우저에서 인스턴스에 대한 명령줄 액세스</li>
+  <li>코드 편집기(베타) 기본 제공</li>
+  <li>5GB의 영구 디스크 저장소</li>
+  <li>사전 설치된 Google Cloud SDK 및 기타 도구</li>
+  <li>자바, Go, Python, Node.js, PHP, Ruby, .NET과 같은 언어 지원</li>
+  <li>웹 미리보기 기능</li>
 </ul>
-</div><section class="article__sharing d-print-none"></section><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2019-09-26T00:00:00+09:00"><!-- start custom article footer snippet -->
+
+<p>여기서 특히 좋은 것은 인스턴스에서 개발서버를 열었을 때 웹 미리보기가 가능한 점, 웹 브라우저에서 인스턴스에 대한 명령줄 액세스가 가능한 점, 웹 브라우저 상에서 코드 편집기를 제공하는 점이었습니다.
+웹 브라우저에서 게시글의 수정, 빌드가 가능하고 deploy하기 전 잘 보이는 지 확인까지 별다른 설정없이 가능하기에, 네이버 / 티스토리 블로그 같이 웹 브라우저에서 모든 블로그 관리가 가능해졌습니다.<br />
+다만 조심해야 할 점은 이 인스턴스는 일시적으로 사용이 가능하다는 점입니다. 홈디렉토리를 제외하면 인스턴스는 일정시간 후에 삭제됩니다.</p>
+
+<p><a href="https://cloud.google.com/shell/docs/">공식문서</a>를 참고하시면 더 좋을 듯 합니다.</p>
+</div><section class="article__sharing d-print-none"></section><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2019-10-22T00:00:00+09:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --><div class="article__subscribe"><div class="subscribe"><i class="fas fa-rss"></i> <a type="application/rss+xml" href="/feed.xml">Subscribe</a></div></div><div class="article__license"><div class="license">
     <p>This work is licensed under a <a itemprop="license" rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/">Attribution-NonCommercial 4.0 International</a> license.
@@ -305,7 +316,7 @@
         <img alt="Attribution-NonCommercial 4.0 International" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" />
       </a>
     </p>
-  </div></div></footer><div class="article__section-navigator clearfix"><div class="previous"><span>PREVIOUS</span><a href="/2019/06/20/cgroups-2.html">Linux cgroups에 대해 알아보자 2</a></div><div class="next"><span>NEXT</span><a href="/2019/10/22/ghpage_devserver_with_Google-Cloud-Shell.html">Run dev-server with Google Cloud Shell</a></div></div></div>
+  </div></div></footer><div class="article__section-navigator clearfix"><div class="previous"><span>PREVIOUS</span><a href="/2019/09/26/Jekyll-trouble-shooting.html">Jekyll Trouble Shooting</a></div></div></div>
 
 </div>
 
