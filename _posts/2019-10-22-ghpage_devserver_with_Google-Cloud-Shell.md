@@ -20,5 +20,11 @@ Google Cloud Shell은 다양한 특징이 있는 데 제가 중점적으로 끌�
 여기서 특히 좋은 것은 인스턴스에서 개발서버를 열었을 때 웹 미리보기가 가능한 점, 웹 브라우저에서 인스턴스에 대한 명령줄 액세스가 가능한 점, 웹 브라우저 상에서 코드 편집기를 제공하는 점이었습니다.
 웹 브라우저에서 게시글의 수정, 빌드가 가능하고 deploy하기 전 잘 보이는 지 확인까지 별다른 설정없이 가능하기에, 네이버 / 티스토리 블로그 같이 웹 브라우저에서 모든 블로그 관리가 가능해졌습니다.<br>
 다만 조심해야 할 점은 이 인스턴스는 일시적으로 사용이 가능하다는 점입니다. 홈디렉토리를 제외하면 인스턴스는 일정시간 후에 삭제됩니다.
+<br>
+# 시작하기
+[https://ssh.cloud.google.com/cloudshell](https://ssh.cloud.google.com/cloudshell)에 접속하셔서 사용하실 수 있습니다.<br>
+웹 미리보기의 경우 아래 사진의 연필 모양(편집기 모양) 오른쪽에 있는 아이콘입니다.<br>
+<img src="/assets/images/Google-Cloud-Platform/startcloudshell2.png" title="GCP control bar">
 
+<br>
 [공식문서](https://cloud.google.com/shell/docs/)를 참고하시면 더 좋을 듯 합니다.
