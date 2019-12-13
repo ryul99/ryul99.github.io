@@ -1,0 +1,68 @@
+==================================================================
+https://keybase.io/ryul_99
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://ryul99.github.io
+  * I am ryul_99 (https://keybase.io/ryul_99) on keybase.
+  * I have a public key with fingerprint A18B E3FE DDCF D4F9 BC46  D696 C1C3 4851 BA8B 6E67
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "0101a15013d3b213bc728afaec10b91e7502d85f3d2a7fe42e621c7c64e5e9b5b2c60a",
+      "fingerprint": "a18be3feddcfd4f9bc46d696c1c34851ba8b6e67",
+      "host": "keybase.io",
+      "key_id": "c1c34851ba8b6e67",
+      "kid": "0101a15013d3b213bc728afaec10b91e7502d85f3d2a7fe42e621c7c64e5e9b5b2c60a",
+      "uid": "f839edf7578251dae7ce179bd3a8d319",
+      "username": "ryul_99"
+    },
+    "service": {
+      "hostname": "ryul99.github.io",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 1
+  },
+  "ctime": 1576210745,
+  "expire_in": 157680000,
+  "prev": "76e3e6a6830645cc53ca8a69f533883cfd4a5a1aafcf9c750c606e0bcf628ee1",
+  "seqno": 44,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+-----BEGIN PGP MESSAGE-----
+Version: Keybase OpenPGP v2.1.3
+Comment: https://keybase.io/crypto
+
+yMIpAnicrVJbSBRRGF6zq2C0FanYjQkrYd3mzJnrYi9aGWlgUEQX2c6cOaOT68w2
+O+sl2UwhIyhNiQq8gL6IEkaRpIZZFtFte6hICOniS4EQ0Y2VQDqjBT302Hk5nP98
+33e+7z///dRkT0pSy0i/PRDIHU56crct6in56lVqGdXSaphALVNOZjcS0kjECZYb
+GhNgWMACBAQWQA2qHIAqljgZ6YhgwKoKIJLAcpos6FDjkKQTniMiB7CERZ4IRFEF
+lcMiixgfoxtmKbHDtmE6VBYBWSVQJ5qGdY3XFRXzoiYqIgYY8rIAVCSrIhElSiyz
+Ii6DmlNRhPgNi9boIThr7x/4/+w7Oiuny1Ahmi4JkswJQENEwgRIiqpBJGsQKC4w
+QmwTVRCKtmuioaCiMDEfQ4uVBiZuX90gfwEUxV9qOGVRdS5S2LYcC1shelvmOOFI
+wGU7NWEXXkXU4G+hoGqYGm0lZVQSO2JYJhMAFIkdw1UGgkRzsBIv+BhSHTZsEjTM
+ubLM0uW+QyqppCQSSEQkypAVeQFjAWIkI1HRBQhlGbq/ggQEENKxrmDaLdoOkbAq
+1kVOJgQwbrRjpsUEeJ76RKVUM2KUmsiJ2oSJjd05PN+TlOJZuGCeO2OelCXL/kxe
+4vliz8kV0/7Uwt6lw0U/km+YqdeWj34p8KSFDnxv/FE4kdW7ufH1mevZmSuLJ7Yp
+OcGZF5NTTy/d3rFnqrGrCg60JRI/C4487lnb+WDmYF+95735oTtQsCHz+kMZVnzL
+zujxn1p/Zb13//b4WHzrp7Nruvunve/qR1Z+7Lixumc4OvV51a43OycKZ4LSXmPN
+y+lDi2KDAwN937xpsXLU3lyXkxEekm+O7/OtazidOGr8bPIWtZxpBS9334u/Wt15
+dTS9eTxvyBd/9vlybsXZlsl1uW83WXk5GVv6L+S3N8Cx82n5g8XptzjrRF3RuZGm
+rvTNxzd2lCSM5NbBeHtH9aOLocCBrqxfGdxEUQ==
+=cHWc
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/ryul_99
+
+==================================================================
