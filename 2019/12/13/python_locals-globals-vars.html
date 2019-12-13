@@ -1,11 +1,10 @@
 <!DOCTYPE html><html lang="en">
   <head><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"><title>Home - Lab of ryul99</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"><title>Difference of locals, globals, vars in python3 - Lab of ryul99</title>
 
-<meta name="description" content="Lab for doing what ryul99 wants
-">
-<link rel="canonical" href="http://ryul99.github.io/"><link rel="alternate" type="application/rss+xml" title="Lab of ryul99" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<meta name="description" content="reference: https://stackoverflow.com/a/7969953부족한 영어실력으로 해석해서 정리한 글입니다. 오류가 있을 경우 지적해주세요.파이썬 globals, locals, vars의 차이  globals()          module의 namespace의...">
+<link rel="canonical" href="http://ryul99.github.io/2019/12/13/python_locals-globals-vars.html"><link rel="alternate" type="application/rss+xml" title="Lab of ryul99" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <link rel="shortcut icon" href="/assets/icons/favicon.ico" type="image/x-icon">
 <link rel="icon" href="/assets/icons/favicon.ico" type="image/x-icon">
 <!-- end favicons snippet --><link rel="stylesheet" href="/assets/css/main.css"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" ><!-- start custom head snippets -->
@@ -251,7 +250,7 @@
 </script></head>
   <body>
     <div class="root" data-is-touch="false">
-      <div class="layout--page js-page-root"><div class="page__main js-page-main page__viewport cell cell--auto">
+      <div class="layout--page js-page-root"><div class="page__main js-page-main page__viewport has-aside cell cell--auto">
 
       <div class="page__main-inner"><div class="page__header d-print-none"><header class="header"><div class="main">
       <div class="header__title">
@@ -269,173 +268,83 @@
   </header>
 </div><div class="page__content"><div class ="main"><div class="grid grid--reverse">
 
-              <div class="col-aside d-print-none js-col-aside"></div>
+              <div class="col-aside d-print-none js-col-aside"><aside class="page__aside js-page-aside"><div class="toc-aside js-toc-root"></div></aside></div>
 
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
-<!-- end custom main top snippet --><article itemscope itemtype="http://schema.org/WebPage"><header style="display:none;"><h1>Home</h1></header><meta itemprop="headline" content="Home"><meta itemprop="author" content="Changmin Choi"/><div class="js-article-content"><div class="layout--articles"><div class="article-list items items--divided"><article class="item" itemscope itemtype="http://schema.org/BlogPosting"><div class="item__content">
-          <header><a href="/2019/12/13/python_locals-globals-vars.html"><h2 itemprop="headline" class="item__header">Difference of locals, globals, vars in python3</h2></a></header>
-          <div class="item__description"><div class="article__content" itemprop="description articleBody">reference: https://stackoverflow.com/a/7969953
-부족한 영어실력으로 해석해서 정리한 글입니다. 오류가 있을 경우 지적해주세요.
-
-파이썬 globals, locals, vars의 차이
-
-  globals()
-    
-      module의 namespace의 dic이를 return한다.
-    
-  
-  locals()
-    
-      함수 안에서는 함수의 locals()를 호출한 순간의 namespace의 dict - 실제 namespace를 reflect하지 않음
-      함수 밖에서는 현재의 namespace의 dict - 실제 namespace를 reflect함
-  ...</div><p><a href="/2019/12/13/python_locals-globals-vars.html">Read more</a></p></div><div class="article__info clearfix"><ul class="left-col menu"><li>
+<!-- end custom main top snippet --><article itemscope itemtype="http://schema.org/Article"><div class="article__header"><header><h1>Difference of locals, globals, vars in python3</h1></header><span class="split-space">&nbsp;</span>
+          <a class="edit-on-github"
+            title="Edit on Github"
+            href="https://github.com/ryul99/ryul99.github.io/tree/master/_posts/2019-12-13-python_locals-globals-vars.md">
+            <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Difference of locals, globals, vars in python3"><div class="article__info clearfix"><ul class="left-col menu"><li>
               <a class="button button--secondary button--pill button--sm"
                 href="/archive.html?tag=python">python</a>
             </li></ul><ul class="right-col menu"><li><i class="far fa-calendar-alt"></i> <span>Dec 13, 2019</span>
             </li></ul></div><meta itemprop="author" content="Changmin Choi"/><meta itemprop="datePublished" content="2019-12-13T00:00:00+09:00">
-    <meta itemprop="keywords" content="python"></div>
-      </article><article class="item" itemscope itemtype="http://schema.org/BlogPosting"><div class="item__content">
-          <header><a href="/2019/10/22/ghpage_devserver_with_Google-Cloud-Shell.html"><h2 itemprop="headline" class="item__header">Run dev-server with Google Cloud Shell</h2></a></header>
-          <div class="item__description"><div class="article__content" itemprop="description articleBody">github page를 블로그로 사용하면서 불편했던 것 중 하나는 네이버, 티스토리 블로그등과는 다르게 웹 브라우저에서 블로그 글을 수정하거나 새롭게 적는 것이 안된다는 점이었습니다. 
-또한 블로그에 수정이 필요할 때마다 로컬에 빌드 환경을 구축해야 했고 로컬의 환경이 달라짐에 따라 빌드가 안되는 경우도 종종 생겼습니다. 
-그래서 제가 찾아보았던 방법은 클라우드 서비스에 블로그 소스코드와 빌드 환경을 구축하고 여기에 접속해서 블로그 글을 작성하고 수정하는 방식으로 로컬 환경의 제약없이 블로그를 빌드하는 것이었습니다.
-그러던 중 제가 찾은 완벽한 대안은 Google Cloud Platform에서 제공하는 Google...</div><p><a href="/2019/10/22/ghpage_devserver_with_Google-Cloud-Shell.html">Read more</a></p></div><div class="article__info clearfix"><ul class="left-col menu"><li>
-              <a class="button button--secondary button--pill button--sm"
-                href="/archive.html?tag=github">github</a>
-            </li><li>
-              <a class="button button--secondary button--pill button--sm"
-                href="/archive.html?tag=GCP">GCP</a>
-            </li></ul><ul class="right-col menu"><li><i class="far fa-calendar-alt"></i> <span>Oct 22, 2019</span>
-            </li></ul></div><meta itemprop="author" content="Changmin Choi"/><meta itemprop="datePublished" content="2019-10-22T00:00:00+09:00">
-    <meta itemprop="keywords" content="github,GCP"></div>
-      </article><article class="item" itemscope itemtype="http://schema.org/BlogPosting"><div class="item__content">
-          <header><a href="/2019/09/26/Jekyll-trouble-shooting.html"><h2 itemprop="headline" class="item__header">Jekyll Trouble Shooting</h2></a></header>
-          <div class="item__description"><div class="article__content" itemprop="description articleBody">깃헙 페이지를 위해 Jekyll을 사용하면서 겪었던 trouble shooting들을 정리해본다.
+    <meta itemprop="keywords" content="python"><div class="js-article-content"><div class="layout--article"><!-- start custom article top snippet -->
 
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><p>reference: <a href="https://stackoverflow.com/a/7969953">https://stackoverflow.com/a/7969953</a><br />
+부족한 영어실력으로 해석해서 정리한 글입니다. 오류가 있을 경우 지적해주세요.</p>
 
-  윈도우에서 한글 카테고리의 포스트가 포스트 목록에는 보이지만 링크를 눌렀을 때 포스트에 접속이 안되고 Not Found가 뜨는 경우
-    
-      윈도우용 루비를 설치해서 Jekyll을 사용하면 url에 한글이 들어갈 경우 한글이 깨지기 때문에 url에 한글이 들어가는 페이지는 들어갈 수 없다.인코딩 설정을 해서 해결할 수 있어 보이는데 나는 그냥 WSL을 사용했다.
-    
-  
-  포스트 링크를 통해서는 들어갈 수 있는데 페이지 목록에 뜨지 않는 경우 등의 플러그인 작동 오류
-    
-      Jek...</div><p><a href="/2019/09/26/Jekyll-trouble-shooting.html">Read more</a></p></div><div class="article__info clearfix"><ul class="left-col menu"><li>
-              <a class="button button--secondary button--pill button--sm"
-                href="/archive.html?tag=Jekyll">Jekyll</a>
-            </li></ul><ul class="right-col menu"><li><i class="far fa-calendar-alt"></i> <span>Sep 26, 2019</span>
-            </li></ul></div><meta itemprop="author" content="Changmin Choi"/><meta itemprop="datePublished" content="2019-09-26T00:00:00+09:00">
-    <meta itemprop="keywords" content="Jekyll"></div>
-      </article><article class="item" itemscope itemtype="http://schema.org/BlogPosting"><div class="item__content">
-          <header><a href="/2019/06/20/cgroups-2.html"><h2 itemprop="headline" class="item__header">Linux cgroups에 대해 알아보자 2</h2></a></header>
-          <div class="item__description"><div class="article__content" itemprop="description articleBody">목차
+<h1 id="파이썬-globals-locals-vars의-차이">파이썬 globals, locals, vars의 차이</h1>
+<ul>
+  <li>globals()
+    <ul>
+      <li>module의 namespace의 dic이를 return한다.</li>
+    </ul>
+  </li>
+  <li>locals()
+    <ul>
+      <li>함수 안에서는 함수의 locals()를 호출한 순간의 namespace의 dict - 실제 namespace를 reflect하지 않음</li>
+      <li>함수 밖에서는 현재의 namespace의 dict - 실제 namespace를 reflect함</li>
+      <li>함수 안에서 locals()가 호출한 순간의 namespace를 들고오고 reflect 하지 않는다는 것은 CPython specific</li>
+    </ul>
+  </li>
+  <li>vars()
+    <ul>
+      <li>인자로 object를 받는데 받은 object의 __dict__를 부르고 이게 없을 경우 그 object의 namespace를 return</li>
+      <li>인자 없이 사용하는 vars()는 locals()랑 같다</li>
+      <li>vars()의 인자로 function을 줄 수 있는데 이 경우도 object로 봐서 function.__dict__를 부르거나 없다면 function의 object의 namespace를 부른다. function의 namespace와 다르게 function object의 namespace임</li>
+    </ul>
+  </li>
+</ul>
+</div><section class="article__sharing d-print-none"></section><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2019-12-13T00:00:00+09:00"><!-- start custom article footer snippet -->
 
-  Linux cgroups에 대해 알아보자 1
-  Linux cgroups에 대해 알아보자 2
+<!-- end custom article footer snippet --><div class="article__subscribe"><div class="subscribe"><i class="fas fa-rss"></i> <a type="application/rss+xml" href="/feed.xml">Subscribe</a></div></div><div class="article__license"><div class="license">
+    <p>This work is licensed under a <a itemprop="license" rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/">Attribution-NonCommercial 4.0 International</a> license.
+      <a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/">
+        <img alt="Attribution-NonCommercial 4.0 International" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" />
+      </a>
+    </p>
+  </div></div></footer><div class="article__section-navigator clearfix"><div class="previous"><span>PREVIOUS</span><a href="/2019/10/22/ghpage_devserver_with_Google-Cloud-Shell.html">Run dev-server with Google Cloud Shell</a></div></div></div>
 
+</div>
 
+<script>(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    $(function() {
+      var $this ,$scroll;
+      var $articleContent = $('.js-article-content');
+      var hasSidebar = $('.js-page-root').hasClass('layout--page--sidebar');
+      var scroll = hasSidebar ? '.js-page-main' : 'html, body';
+      $scroll = $(scroll);
 
-
-지난 포스트에서 cgroups이 어떤 것이고 기본적으로 어떻게 사용하면 되는지 알아보았습니다. 이번 글에서는 실제로 어떻게 적용할 수 있는지 알아보도록 하겠습니다.
-
-
-
-systemd
-cgroups는 기본적으로 systemd에 적용할 수 있습니다. 하지만 제가 필요했던 제한은 유저에게 가해지는 제한이었기 때문에 systemd 유닛에 제한을 가하는 방법은 사용해보지 않았습니다. 자세한 방법은 redhat 7의 관련 문서 혹은 아래의 reference에서 redhat7 부분을 참고하시면 좋을 듯합니다.
-
-
-
-...</div><p><a href="/2019/06/20/cgroups-2.html">Read more</a></p></div><div class="article__info clearfix"><ul class="left-col menu"><li>
-              <a class="button button--secondary button--pill button--sm"
-                href="/archive.html?tag=Linux">Linux</a>
-            </li><li>
-              <a class="button button--secondary button--pill button--sm"
-                href="/archive.html?tag=cgroups">cgroups</a>
-            </li></ul><ul class="right-col menu"><li><i class="far fa-calendar-alt"></i> <span>Jun 20, 2019</span>
-            </li></ul></div><meta itemprop="author" content="Changmin Choi"/><meta itemprop="datePublished" content="2019-06-20T00:00:00+09:00">
-    <meta itemprop="keywords" content="Linux,cgroups"></div>
-      </article><article class="item" itemscope itemtype="http://schema.org/BlogPosting"><div class="item__content">
-          <header><a href="/2019/06/18/cgroups-1.html"><h2 itemprop="headline" class="item__header">Linux cgroups에 대해 알아보자 1</h2></a></header>
-          <div class="item__description"><div class="article__content" itemprop="description articleBody">목차
-
-  Linux cgroups에 대해 알아보자 1
-  Linux cgroups에 대해 알아보자 2
-
-
-
-
-cgroups?
-위키피디아에서는 cgroups가 다음과 같이 설명되어 있습니다.
-
-
-  cgroups (abbreviated from control groups) is a Linux kernel feature that limits, accounts for, and isolates the resource usage (CPU, memory, disk I/O, network, etc.) of a collection of processes.
-
-
-즉, 프로세스 모음에 대해 시스템의 자원을 제한할 수 있는 커널의 기...</div><p><a href="/2019/06/18/cgroups-1.html">Read more</a></p></div><div class="article__info clearfix"><ul class="left-col menu"><li>
-              <a class="button button--secondary button--pill button--sm"
-                href="/archive.html?tag=Linux">Linux</a>
-            </li><li>
-              <a class="button button--secondary button--pill button--sm"
-                href="/archive.html?tag=cgroups">cgroups</a>
-            </li></ul><ul class="right-col menu"><li><i class="far fa-calendar-alt"></i> <span>Jun 18, 2019</span>
-            </li></ul></div><meta itemprop="author" content="Changmin Choi"/><meta itemprop="datePublished" content="2019-06-18T00:00:00+09:00">
-    <meta itemprop="keywords" content="Linux,cgroups"></div>
-      </article><article class="item" itemscope itemtype="http://schema.org/BlogPosting"><div class="item__content">
-          <header><a href="/2019/06/14/Finding-Job-Tips.html"><h2 itemprop="headline" class="item__header">IT 구직시 팁들</h2></a></header>
-          <div class="item__description"><div class="article__content" itemprop="description articleBody">줄이고 있는 추세긴 하지만 IT계열에 관심 있는 많은 학생들이 IT병역특례를 지원하고 있습니다. IT병역특례를 하려고 찾고 있거나 구직을 처음 하는 사람들을 위한 팁을 남겨 봅니다. 여기서 언급되는 구인구직이 아닌 병역 관련 정보들은 언제든지 바뀔 수 있습니다. 병역 관련 정보들은 쉽게 바뀌기 때문에 병무청이 올리는 공지나 기타 정보들을 최대한 수집하고 관심을 기울이셔야 합니다. 여기서 언급되는 병특 관련 정보들은 모두 2019년 6월 기준 정보들입니다. 여기서 언급하는 구인구직 팁들은 공채가 아닌 중소기업(스타트업) 상시채용 기준입니다.
-
-현역이라면 연초에 병특 회사를 찾아야 합니다
-2019년 기준으로 현역은 T...</div><p><a href="/2019/06/14/Finding-Job-Tips.html">Read more</a></p></div><div class="article__info clearfix"><ul class="left-col menu"><li>
-              <a class="button button--secondary button--pill button--sm"
-                href="/archive.html?tag=Jobs">Jobs</a>
-            </li><li>
-              <a class="button button--secondary button--pill button--sm"
-                href="/archive.html?tag=%EB%B3%91%ED%8A%B9">병특</a>
-            </li></ul><ul class="right-col menu"><li><i class="far fa-calendar-alt"></i> <span>Jun 14, 2019</span>
-            </li></ul></div><meta itemprop="author" content="Changmin Choi"/><meta itemprop="datePublished" content="2019-06-14T00:00:00+09:00">
-    <meta itemprop="keywords" content="Jobs,병특"></div>
-      </article><article class="item" itemscope itemtype="http://schema.org/BlogPosting"><div class="item__content">
-          <header><a href="/2019/06/09/Github-Pages-deploy.html"><h2 itemprop="headline" class="item__header">Github Pages deploy</h2></a></header>
-          <div class="item__description"><div class="article__content" itemprop="description articleBody">Github Pages는 지원되는 jekyll plugin이 정해져 있습니다. (여기에서 확인할 수 있습니다.) 때문에 깃헙에서 지원되지 않는 jekyll plugin을 사용하려면 jekyll 소스코드를 build 하는 것이 아니라 빌드된 결과물을 서빙해야 합니다. 이번에는 이 방법을 몇 가지 정리해보려 합니다.
-
-subtree
-git subtree는 기본적으로 하나의 깃 레포 안에 다른 깃 레포가 포함되어 있는 형태입니다. 다만, subtree의 경우 포함되어 있는 하위 레포는 포함하고 있는 상위 레포에 의해 버전 관리가 이루어지고 이렇게 관리된 버전을 하위 폴더의 remote에 push 혹은 pull 하기만 할...</div><p><a href="/2019/06/09/Github-Pages-deploy.html">Read more</a></p></div><div class="article__info clearfix"><ul class="left-col menu"><li>
-              <a class="button button--secondary button--pill button--sm"
-                href="/archive.html?tag=github">github</a>
-            </li></ul><ul class="right-col menu"><li><i class="far fa-calendar-alt"></i> <span>Jun 09, 2019</span>
-            </li></ul></div><meta itemprop="author" content="Changmin Choi"/><meta itemprop="datePublished" content="2019-06-09T00:00:00+09:00">
-    <meta itemprop="keywords" content="github"></div>
-      </article><article class="item" itemscope itemtype="http://schema.org/BlogPosting"><div class="item__content">
-          <header><a href="/2019/05/30/Github-Pages-Adsense.html"><h2 itemprop="headline" class="item__header">Github Pages에 구글 애드센스 달기</h2></a></header>
-          <div class="item__description"><div class="article__content" itemprop="description articleBody">첫 게시글! 삽질 정리를 위해 블로깅을 하기에 블로깅 하기 위해서 했던 삽질부터 올립니다.
-저는 개인용으로 github pages를 처음 써서 이 블로그를 만들었습니다.
-
-문제의 시작…
-처음에 제가 원했던 것은 마크다운 파일들만 정리해서 올리고 레포 세팅에서 테마 선택하는 것 정도로 간단하게 하는 것이었습니다.
-문제는 구글 애드센스와 구글 애널리틱스 삽입..
-결론부터 말하자면 깃헙 세팅에서 테마 선택하는 거로는 애드센스와 애널리틱스 적용이 안되더군요
-하지만 생각보다 애드센스와 애널리틱스 적용하는 게 어렵지는 않습니다.
-
-테마 가져오기
-애드센스와 애널리틱스를 적용하려면 직접 테마를 자신의 github page 레포에...</div><p><a href="/2019/05/30/Github-Pages-Adsense.html">Read more</a></p></div><div class="article__info clearfix"><ul class="left-col menu"><li>
-              <a class="button button--secondary button--pill button--sm"
-                href="/archive.html?tag=github">github</a>
-            </li><li>
-              <a class="button button--secondary button--pill button--sm"
-                href="/archive.html?tag=adsense">adsense</a>
-            </li></ul><ul class="right-col menu"><li><i class="far fa-calendar-alt"></i> <span>May 30, 2019</span>
-            </li></ul></div><meta itemprop="author" content="Changmin Choi"/><meta itemprop="datePublished" content="2019-05-30T00:00:00+09:00">
-    <meta itemprop="keywords" content="github,adsense"></div>
-      </article></div>
-</div><div class="layout--home"></div>
-<script>/*(function () {
-
-})();*/
-</script>
-
-
-</div><section class="page__comments d-print-none"></section></article><!-- start custom main bottom snippet -->
+      $articleContent.find('.highlight').each(function() {
+        $this = $(this);
+        $this.attr('data-lang', $this.find('code').attr('data-lang'));
+      });
+      $articleContent.find('h1[id], h2[id], h3[id], h4[id], h5[id], h6[id]').each(function() {
+        $this = $(this);
+        $this.append($('<a class="anchor d-print-none" aria-hidden="true"></a>').html('<i class="fas fa-anchor"></i>'));
+      });
+      $articleContent.on('click', '.anchor', function() {
+        $scroll.scrollToAnchor('#' + $(this).parent().attr('id'), 400);
+      });
+    });
+  });
+})();
+</script></div><section class="page__comments d-print-none"></section></article><!-- start custom main bottom snippet -->
 
 <!-- end custom main bottom snippet --></div>
             </div></div></div><div class="page__footer d-print-none">
@@ -992,6 +901,68 @@ window.Lazyload.js([SOURCES.jquery, PAHTS.search_js], function() {
 /*(function () {
 
 })();*/
+</script><script>
+  /* toc must before affix, since affix need to konw toc' height. */(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  var TOC_SELECTOR = window.TEXT_VARIABLES.site.toc.selectors;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    var $window = $(window);
+    var $articleContent = $('.js-article-content');
+    var $tocRoot = $('.js-toc-root'), $col2 = $('.js-col-aside');
+    var toc;
+    var tocDisabled = false;
+    var hasSidebar = $('.js-page-root').hasClass('layout--page--sidebar');
+    var hasToc = $articleContent.find(TOC_SELECTOR).length > 0;
+
+    function disabled() {
+      return $col2.css('display') === 'none' || !hasToc;
+    }
+
+    tocDisabled = disabled();
+
+    toc = $tocRoot.toc({
+      selectors: TOC_SELECTOR,
+      container: $articleContent,
+      scrollTarget: hasSidebar ? '.js-page-main' : null,
+      scroller: hasSidebar ? '.js-page-main' : null,
+      disabled: tocDisabled
+    });
+
+    $window.on('resize', window.throttle(function() {
+      tocDisabled = disabled();
+      toc && toc.setOptions({
+        disabled: tocDisabled
+      });
+    }, 100));
+
+  });
+})();
+(function() {
+  var SOURCES = window.TEXT_VARIABLES.sources;
+  window.Lazyload.js(SOURCES.jquery, function() {
+    var $window = $(window), $pageFooter = $('.js-page-footer');
+    var $pageAside = $('.js-page-aside');
+    var affix;
+    var tocDisabled = false;
+    var hasSidebar = $('.js-page-root').hasClass('layout--page--sidebar');
+
+    affix = $pageAside.affix({
+      offsetBottom: $pageFooter.outerHeight(),
+      scrollTarget: hasSidebar ? '.js-page-main' : null,
+      scroller: hasSidebar ? '.js-page-main' : null,
+      scroll: hasSidebar ? $('.js-page-main').children() : null,
+      disabled: tocDisabled
+    });
+
+    $window.on('resize', window.throttle(function() {
+      affix && affix.setOptions({
+        disabled: tocDisabled
+      });
+    }, 100));
+
+    window.pageAsideAffix = affix;
+  });
+})();
 </script>
     </div>
     <script>(function () {
