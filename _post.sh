@@ -1,2 +1,2 @@
 #!/bin/bash
-git subtree push _site/ origin master
+git subtree push --prefix _site/ origin master
