@@ -1,5 +1,29 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="http://ryul99.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="http://ryul99.github.io/" rel="alternate" type="text/html" /><updated>2019-12-13T13:22:04+09:00</updated><id>http://ryul99.github.io/feed.xml</id><title type="html">Lab of ryul99</title><subtitle>Lab for doing what ryul99 wants
-</subtitle><author><name>Changmin Choi</name><email>cmchoi9901@gmail.com</email></author><entry><title type="html">Run dev-server with Google Cloud Shell</title><link href="http://ryul99.github.io/2019/10/22/ghpage_devserver_with_Google-Cloud-Shell.html" rel="alternate" type="text/html" title="Run dev-server with Google Cloud Shell" /><published>2019-10-22T00:00:00+09:00</published><updated>2019-10-22T00:00:00+09:00</updated><id>http://ryul99.github.io/2019/10/22/ghpage_devserver_with_Google-Cloud-Shell</id><content type="html" xml:base="http://ryul99.github.io/2019/10/22/ghpage_devserver_with_Google-Cloud-Shell.html">&lt;p&gt;github page를 블로그로 사용하면서 불편했던 것 중 하나는 네이버, 티스토리 블로그등과는 다르게 웹 브라우저에서 블로그 글을 수정하거나 새롭게 적는 것이 안된다는 점이었습니다. 
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="http://ryul99.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="http://ryul99.github.io/" rel="alternate" type="text/html" /><updated>2019-12-13T13:37:29+09:00</updated><id>http://ryul99.github.io/feed.xml</id><title type="html">Lab of ryul99</title><subtitle>Lab for doing what ryul99 wants
+</subtitle><author><name>Changmin Choi</name><email>cmchoi9901@gmail.com</email></author><entry><title type="html">Difference of locals, globals, vars in python3</title><link href="http://ryul99.github.io/2019/12/13/python_locals-globals-vars.html" rel="alternate" type="text/html" title="Difference of locals, globals, vars in python3" /><published>2019-12-13T00:00:00+09:00</published><updated>2019-12-13T00:00:00+09:00</updated><id>http://ryul99.github.io/2019/12/13/python_locals-globals-vars</id><content type="html" xml:base="http://ryul99.github.io/2019/12/13/python_locals-globals-vars.html">&lt;p&gt;reference: &lt;a href=&quot;https://stackoverflow.com/a/7969953&quot;&gt;https://stackoverflow.com/a/7969953&lt;/a&gt;&lt;br /&gt;
+부족한 영어실력으로 해석해서 정리한 글입니다. 오류가 있을 경우 지적해주세요.&lt;/p&gt;
+
+&lt;h1 id=&quot;파이썬-globals-locals-vars의-차이&quot;&gt;파이썬 globals, locals, vars의 차이&lt;/h1&gt;
+&lt;ul&gt;
+  &lt;li&gt;globals()
+    &lt;ul&gt;
+      &lt;li&gt;module의 namespace의 dic이를 return한다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;locals()
+    &lt;ul&gt;
+      &lt;li&gt;함수 안에서는 함수의 locals()를 호출한 순간의 namespace의 dict - 실제 namespace를 reflect하지 않음&lt;/li&gt;
+      &lt;li&gt;함수 밖에서는 현재의 namespace의 dict - 실제 namespace를 reflect함&lt;/li&gt;
+      &lt;li&gt;함수 안에서 locals()가 호출한 순간의 namespace를 들고오고 reflect 하지 않는다는 것은 CPython specific&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;vars()
+    &lt;ul&gt;
+      &lt;li&gt;인자로 object를 받는데 받은 object의 __dict__를 부르고 이게 없을 경우 그 object의 namespace를 return&lt;/li&gt;
+      &lt;li&gt;인자 없이 사용하는 vars()는 locals()랑 같다&lt;/li&gt;
+      &lt;li&gt;vars()의 인자로 function을 줄 수 있는데 이 경우도 object로 봐서 function.__dict__를 부르거나 없다면 function의 object의 namespace를 부른다. function의 namespace와 다르게 function object의 namespace임&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Changmin Choi</name><email>cmchoi9901@gmail.com</email></author><category term="python" /><summary type="html">reference: https://stackoverflow.com/a/7969953 부족한 영어실력으로 해석해서 정리한 글입니다. 오류가 있을 경우 지적해주세요. 파이썬 globals, locals, vars의 차이 globals() module의 namespace의 dic이를 return한다. locals() 함수 안에서는 함수의 locals()를 호출한 순간의 namespace의 dict - 실제 namespace를 reflect하지 않음 함수 밖에서는 현재의 namespace의 dict - 실제 namespace를 reflect함 함수 안에서 locals()가 호출한 순간의 namespace를 들고오고 reflect 하지 않는다는 것은 CPython specific vars() 인자로 object를 받는데 받은 object의 __dict__를 부르고 이게 없을 경우 그 object의 namespace를 return 인자 없이 사용하는 vars()는 locals()랑 같다 vars()의 인자로 function을 줄 수 있는데 이 경우도 object로 봐서 function.__dict__를 부르거나 없다면 function의 object의 namespace를 부른다. function의 namespace와 다르게 function object의 namespace임</summary></entry><entry><title type="html">Run dev-server with Google Cloud Shell</title><link href="http://ryul99.github.io/2019/10/22/ghpage_devserver_with_Google-Cloud-Shell.html" rel="alternate" type="text/html" title="Run dev-server with Google Cloud Shell" /><published>2019-10-22T00:00:00+09:00</published><updated>2019-10-22T00:00:00+09:00</updated><id>http://ryul99.github.io/2019/10/22/ghpage_devserver_with_Google-Cloud-Shell</id><content type="html" xml:base="http://ryul99.github.io/2019/10/22/ghpage_devserver_with_Google-Cloud-Shell.html">&lt;p&gt;github page를 블로그로 사용하면서 불편했던 것 중 하나는 네이버, 티스토리 블로그등과는 다르게 웹 브라우저에서 블로그 글을 수정하거나 새롭게 적는 것이 안된다는 점이었습니다. 
 또한 블로그에 수정이 필요할 때마다 로컬에 빌드 환경을 구축해야 했고 로컬의 환경이 달라짐에 따라 빌드가 안되는 경우도 종종 생겼습니다. 
 그래서 제가 찾아보았던 방법은 클라우드 서비스에 블로그 소스코드와 빌드 환경을 구축하고 여기에 접속해서 블로그 글을 작성하고 수정하는 방식으로 로컬 환경의 제약없이 블로그를 빌드하는 것이었습니다.
 그러던 중 제가 찾은 완벽한 대안은 Google Cloud Platform에서 제공하는 Google Cloud Shell입니다.
