@@ -1,10 +1,10 @@
 <!DOCTYPE html><html lang="en">
   <head><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"><title>Jekyll Trouble Shooting - Lab of ryul99</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"><title>EDVR paper review - Lab of ryul99</title>
 
-<meta name="description" content="깃헙 페이지를 위해 Jekyll을 사용하면서 겪었던 trouble shooting들을 정리해본다.  윈도우에서 한글 카테고리의 포스트가 포스트 목록에는 보이지만 링크를 눌렀을 때 포스트에 접속이 안되고 Not Found가 뜨는 경우          윈도우용 루비를 설치해서 Jeky...">
-<link rel="canonical" href="http://ryul99.github.io/2019/09/26/Jekyll-trouble-shooting.html"><link rel="alternate" type="application/rss+xml" title="Lab of ryul99" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<meta name="description" content="EDVR: Video Restoration with Enhanced Deformable Convolutional NetworksEDVR: Video Restoration with Enhanced Deformable Convolutional NetworksOverviewThe ove...">
+<link rel="canonical" href="http://ryul99.github.io/2019/12/24/EDVR_paper_review.html"><link rel="alternate" type="application/rss+xml" title="Lab of ryul99" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <link rel="shortcut icon" href="/assets/icons/favicon.ico" type="image/x-icon">
 <link rel="icon" href="/assets/icons/favicon.ico" type="image/x-icon">
 <!-- end favicons snippet --><link rel="stylesheet" href="/assets/css/main.css"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" ><!-- start custom head snippets -->
@@ -272,32 +272,134 @@
 
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
-<!-- end custom main top snippet --><article itemscope itemtype="http://schema.org/Article"><div class="article__header"><header><h1>Jekyll Trouble Shooting</h1></header><span class="split-space">&nbsp;</span>
+<!-- end custom main top snippet --><article itemscope itemtype="http://schema.org/Article"><div class="article__header"><header><h1>EDVR paper review</h1></header><span class="split-space">&nbsp;</span>
           <a class="edit-on-github"
             title="Edit on Github"
-            href="https://github.com/ryul99/ryul99.github.io/tree/master/_posts/2019-09-26-Jekyll-trouble-shooting.md">
-            <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Jekyll Trouble Shooting"><div class="article__info clearfix"><ul class="left-col menu"><li>
+            href="https://github.com/ryul99/ryul99.github.io/tree/master/_posts/2019-12-24-EDVR_paper_review.md">
+            <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="EDVR paper review"><div class="article__info clearfix"><ul class="left-col menu"><li>
               <a class="button button--secondary button--pill button--sm"
-                href="/archive.html?tag=Jekyll">Jekyll</a>
-            </li></ul><ul class="right-col menu"><li><i class="far fa-calendar-alt"></i> <span>Sep 26, 2019</span>
-            </li></ul></div><meta itemprop="author" content="Changmin Choi"/><meta itemprop="datePublished" content="2019-09-26T00:00:00+09:00">
-    <meta itemprop="keywords" content="Jekyll"><div class="js-article-content"><div class="layout--article"><!-- start custom article top snippet -->
+                href="/archive.html?tag=paper">paper</a>
+            </li><li>
+              <a class="button button--secondary button--pill button--sm"
+                href="/archive.html?tag=review">review</a>
+            </li><li>
+              <a class="button button--secondary button--pill button--sm"
+                href="/archive.html?tag=DeepLearning">DeepLearning</a>
+            </li></ul><ul class="right-col menu"><li><i class="far fa-calendar-alt"></i> <span>Dec 24, 2019</span>
+            </li></ul></div><meta itemprop="author" content="Changmin Choi"/><meta itemprop="datePublished" content="2019-12-24T00:00:00+09:00">
+    <meta itemprop="keywords" content="paper,review,DeepLearning"><div class="js-article-content"><div class="layout--article"><!-- start custom article top snippet -->
 
-<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><p>깃헙 페이지를 위해 Jekyll을 사용하면서 겪었던 trouble shooting들을 정리해본다.</p>
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h1 id="edvr-video-restoration-with-enhanced-deformable-convolutional-networks">EDVR: Video Restoration with Enhanced Deformable Convolutional Networks</h1>
+
+<p><a href="https://arxiv.org/abs/1905.02716">EDVR: Video Restoration with Enhanced Deformable Convolutional Networks</a></p>
+
+<h1 id="overview">Overview</h1>
+
+<h2 id="the-overall-framework-of-edvr">The overall framework of EDVR</h2>
+<p>Given <script type="math/tex">2N+1</script> consecutive frames <script type="math/tex">I_{[t-N:t+N]}</script>, denote middle frame <script type="math/tex">I_{t}</script> as the reference frame and the other frames as neighboring frames</p>
+
+<p><img src="/assets/images/EDVR_paper_review/overall_structure-1.png" alt="/assets/images/EDVR_paper_review/overall_structure-1.png" /></p>
+
+<p>Inputs with high spatial resolution are first down-sampled to reduce computational cost. Given blurry inputs, a PreDeblur Module is inserted before the PCD Align Module to improve alignment accuracy. We use three input frames as an illustrative example.</p>
 
 <ul>
-  <li>윈도우에서 한글 카테고리의 포스트가 포스트 목록에는 보이지만 링크를 눌렀을 때 포스트에 접속이 안되고 Not Found가 뜨는 경우
+  <li>
+    <p>Downsampling &amp; Upsampling:</p>
+
+    <p>If task is not Super Resolution with high spatial resolution inputs, input frames are first downsampled with strided convolution layers.</p>
+
+    <p>Resize the features back to the original input resolution in the upsampling layer at the end.</p>
+  </li>
+  <li>
+    <p>PreDeblur:</p>
+
+    <p>This is used before the alignment module to pre-process blurry inputs and improve alignment accuracy.</p>
+  </li>
+  <li>
+    <p>PCD:</p>
+
+    <p>Each neighboring frame is aligned to the reference one by the PCD alignment module at the feature level.</p>
+  </li>
+  <li>
+    <p>TSA:</p>
+
+    <p>The TSA fusion module fuses image information of different frames.</p>
+  </li>
+  <li>
+    <p>Reconstruction Module:</p>
+
+    <p>The fused features then pass through a reconstruction module, which is a cascade of residual blocks in EDVR and can be easily replaced by any other advanced modules in single image SR.</p>
+  </li>
+  <li>
+    <p>Residual at the end:</p>
+
+    <p>High-resolution frame is obtained by adding the predicted image residual to a direct upsampled image (Super Resolution).</p>
+  </li>
+  <li>
+    <p>Two-stage strategy:</p>
+
+    <p>Cascade the same EDVR network but with shallower depth to refine the output frames of the first stage.</p>
+
+    <p>The cascaded network can further remove the severe motion blur.</p>
+  </li>
+</ul>
+
+<h1 id="alignment-with-pyramid-cascading-and-deformable-convolution-pcd">Alignment with Pyramid, Cascading and Deformable Convolution (PCD)</h1>
+
+<h2 id="use-of-deformable-convolution">Use of Deformable Convolution</h2>
+
+<ul>
+  <li>Alignment features of each neighboring frame to reference frame.</li>
+  <li>
+    <p>Different from optical-flow based method, deformable alignment is applied on the features of each frame, denote by <script type="math/tex">F_{t+i},i \in [{-}N{:}{+}N]</script></p>
+  </li>
+  <li>Learnable offset (<script type="math/tex">\Delta \mathbf{P}_{t+i}</script>) of Deformable Convolution is predicted as <script type="math/tex">f(\ [F_{t+i}, F_t]\ )</script>, where <script type="math/tex">f</script> is general function consisting several convolution layers and <script type="math/tex">[F_{t+i}, F_t]</script> is concat of two feature <script type="math/tex">F_{t+i}, F_t</script>.</li>
+</ul>
+
+<h2 id="pyramidal-processing-and-cascading-refinement">Pyramidal processing and Cascading refinement</h2>
+
+<p><img src="/assets/images/EDVR_paper_review/pcd_align-1.png" alt="/assets/images/EDVR_paper_review/pcd_align-1.png" /></p>
+
+<ul>
+  <li>Black dash lines:
     <ul>
-      <li>윈도우용 루비를 설치해서 Jekyll을 사용하면 url에 한글이 들어갈 경우 한글이 깨지기 때문에 url에 한글이 들어가는 페이지는 들어갈 수 없다.인코딩 설정을 해서 해결할 수 있어 보이는데 나는 그냥 WSL을 사용했다.</li>
+      <li>To generate feature F in l-th level, strided convolution filters are used to downsample the features at the (l-1)-th pyramid level by factor of 2.</li>
     </ul>
   </li>
-  <li>포스트 링크를 통해서는 들어갈 수 있는데 페이지 목록에 뜨지 않는 경우 등의 플러그인 작동 오류
+  <li>Purple dash lines:
     <ul>
-      <li>Jekyll 3.5부터 <code class="highlighter-rouge">_config.yml</code>에 있는 <code class="highlighter-rouge">gems</code>키워드가 <code class="highlighter-rouge">plugins</code>로 바뀌었다. Jekyll 4.0.0에서는 <code class="highlighter-rouge">gems</code>로 되어 있는 경우 인식을 못해 플러그인들이 동작하지 않았다. <a href="https://jekyllrb.com/news/releases/">지킬 릴리즈 참조</a></li>
+      <li>At the l-th level, offsets and aligned features are predicted also with X2 upsampled offsets and aligned features from the upper (l+1)-th level, respectively</li>
+      <li>Output of Deformable Conv (blue line) and upsampled (l+1)-th level (purple dash lines) are mixed by general function with several convolution layers</li>
+    </ul>
+  </li>
+  <li>Light purple background:
+    <ul>
+      <li>Following the pyramid structure, a subsequent deformable alignment is cascaded to further refine the coarsely aligned features.</li>
     </ul>
   </li>
 </ul>
-</div><section class="article__sharing d-print-none"></section><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2019-09-26T00:00:00+09:00"><!-- start custom article footer snippet -->
+
+<h1 id="fusion-with-temporoal-and-spatial-attention">Fusion with Temporoal and Spatial Attention</h1>
+
+<p>Inter-frame temporal relation and intra-frame spatial relation are critical in fusion because</p>
+
+<ol>
+  <li>different neighboring frames are not equally informative due to occlusion, blurry regions and parallax problems</li>
+  <li>misalignment and unalignment arising from the preceding alignment stage adversely affect the subsequent reconstruction performance</li>
+</ol>
+
+<p>→ Temporal and spatial attentions during the fusion process is adopted</p>
+
+<p><img src="/assets/images/EDVR_paper_review/tsa_fusion-1.png" alt="/assets/images/EDVR_paper_review/tsa_fusion-1.png" /></p>
+
+<ul>
+  <li>
+    <p>Temporal Attention Maps: blue, red, green object of top left.</p>
+
+    <script type="math/tex; mode=display">F_{t}^{fusion} = \text{Conv}([\text{concat of attention-weighted features from t-N to t+N}])</script>
+  </li>
+</ul>
+</div><section class="article__sharing d-print-none"></section><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2019-12-24T00:00:00+09:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --><div class="article__subscribe"><div class="subscribe"><i class="fas fa-rss"></i> <a type="application/rss+xml" href="/feed.xml">Subscribe</a></div></div><div class="article__license"><div class="license">
     <p>This work is licensed under a <a itemprop="license" rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/">Attribution-NonCommercial 4.0 International</a> license.
@@ -305,7 +407,7 @@
         <img alt="Attribution-NonCommercial 4.0 International" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" />
       </a>
     </p>
-  </div></div></footer><div class="article__section-navigator clearfix"><div class="previous"><span>PREVIOUS</span><a href="/2019/06/20/cgroups-2.html">Linux cgroups에 대해 알아보자 2</a></div><div class="next"><span>NEXT</span><a href="/2019/10/22/ghpage_devserver_with_Google-Cloud-Shell.html">Run dev-server with Google Cloud Shell</a></div></div></div>
+  </div></div></footer><div class="article__section-navigator clearfix"><div class="previous"><span>PREVIOUS</span><a href="/2019/12/13/python_locals-globals-vars.html">Difference of locals, globals, vars in python3</a></div></div></div>
 
 </div>
 
