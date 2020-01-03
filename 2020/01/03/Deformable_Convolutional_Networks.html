@@ -10,10 +10,10 @@
 		
 	</script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"><title>EDVR paper review - Lab of ryul99</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"><title>Deformable Convolution paper review - Lab of ryul99</title>
 
-<meta name="description" content="EDVR: Video Restoration with Enhanced Deformable Convolutional NetworksPaper arxiv linkOverviewThe overall framework of EDVRGiven  consecutive frames , denot...">
-<link rel="canonical" href="http://ryul99.github.io/2019/12/24/EDVR_paper_review.html"><link rel="alternate" type="application/rss+xml" title="Lab of ryul99" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
+<meta name="description" content="Deformable Convolutional NetworksPaper arxiv linkDeformable ConvolutionStandard convolution has fixed sampling location and receptive field. To solve this pr...">
+<link rel="canonical" href="http://ryul99.github.io/2020/01/03/Deformable_Convolutional_Networks.html"><link rel="alternate" type="application/rss+xml" title="Lab of ryul99" href="/feed.xml"><!-- start favicons snippet, use https://realfavicongenerator.net/ -->
 <link rel="shortcut icon" href="/assets/icons/favicon.ico" type="image/x-icon">
 <link rel="icon" href="/assets/icons/favicon.ico" type="image/x-icon">
 <!-- end favicons snippet --><link rel="stylesheet" href="/assets/css/main.css"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" ><!-- start custom head snippets -->
@@ -281,11 +281,11 @@
 
               <div class="col-main cell cell--auto"><!-- start custom main top snippet -->
 
-<!-- end custom main top snippet --><article itemscope itemtype="http://schema.org/Article"><div class="article__header"><header><h1>EDVR paper review</h1></header><span class="split-space">&nbsp;</span>
+<!-- end custom main top snippet --><article itemscope itemtype="http://schema.org/Article"><div class="article__header"><header><h1>Deformable Convolution paper review</h1></header><span class="split-space">&nbsp;</span>
           <a class="edit-on-github"
             title="Edit on Github"
-            href="https://github.com/ryul99/ryul99.github.io/tree/master/_posts/2019-12-24-EDVR_paper_review.md">
-            <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="EDVR paper review"><div class="article__info clearfix"><ul class="left-col menu"><li>
+            href="https://github.com/ryul99/ryul99.github.io/tree/master/_posts/2020-01-03-Deformable_Convolutional_Networks.md">
+            <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Deformable Convolution paper review"><div class="article__info clearfix"><ul class="left-col menu"><li>
               <a class="button button--secondary button--pill button--sm"
                 href="/archive.html?tag=paper">paper</a>
             </li><li>
@@ -294,121 +294,66 @@
             </li><li>
               <a class="button button--secondary button--pill button--sm"
                 href="/archive.html?tag=DeepLearning">DeepLearning</a>
-            </li></ul><ul class="right-col menu"><li><i class="far fa-calendar-alt"></i> <span>Dec 24, 2019</span>
-            </li></ul></div><meta itemprop="author" content="Changmin Choi"/><meta itemprop="datePublished" content="2019-12-24T00:00:00+09:00">
+            </li></ul><ul class="right-col menu"><li><i class="far fa-calendar-alt"></i> <span>Jan 03, 2020</span>
+            </li></ul></div><meta itemprop="author" content="Changmin Choi"/><meta itemprop="datePublished" content="2020-01-03T00:00:00+09:00">
     <meta itemprop="keywords" content="paper,review,DeepLearning"><div class="js-article-content"><div class="layout--article"><!-- start custom article top snippet -->
 
-<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h1 id="edvr-video-restoration-with-enhanced-deformable-convolutional-networks">EDVR: Video Restoration with Enhanced Deformable Convolutional Networks</h1>
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><h1 id="deformable-convolutional-networks">Deformable Convolutional Networks</h1>
 
-<p><a href="https://arxiv.org/abs/1905.02716">Paper arxiv link</a></p>
+<p><a href="https://arxiv.org/abs/1703.06211">Paper arxiv link</a></p>
 
-<h1 id="overview">Overview</h1>
+<h2 id="deformable-convolution">Deformable Convolution</h2>
 
-<h2 id="the-overall-framework-of-edvr">The overall framework of EDVR</h2>
-<p>Given <script type="math/tex">2N+1</script> consecutive frames <script type="math/tex">I_{[t-N:t+N]}</script>, denote middle frame <script type="math/tex">I_{t}</script> as the reference frame and the other frames as neighboring frames</p>
+<p>Standard convolution has fixed sampling location and receptive field. To solve this problem, Deformable convolution use learnable offset.</p>
 
-<p><img src="/assets/images/EDVR_paper_review/overall_structure-1.png" alt="/assets/images/EDVR_paper_review/overall_structure-1.png" /></p>
+<h3 id="2d-convolution">2D Convolution</h3>
 
-<p>Inputs with high spatial resolution are first down-sampled to reduce computational cost. Given blurry inputs, a PreDeblur Module is inserted before the PCD Align Module to improve alignment accuracy. We use three input frames as an illustrative example.</p>
+<p>The standard 2D convolution consists of two steps: 1) sampling using a regular grid <script type="math/tex">\mathcal{R}</script> over the input feature map <script type="math/tex">\mathbf{x}</script>; 2) summation of sampled values weighted by <script type="math/tex">\mathbf{w}</script>.</p>
 
-<ul>
-  <li>
-    <p>Downsampling &amp; Upsampling:</p>
+<p>The receptive field size and dilation define the grid <script type="math/tex">\mathcal{R}</script>. For example, when 3 X 3 kernel with dilation 1 the grid is:</p>
 
-    <p>If task is not Super Resolution with high spatial resolution inputs, input frames are first downsampled with strided convolution layers.</p>
+<script type="math/tex; mode=display">\mathcal{R}=\{(-1, -1), (-1, 0), \ldots, (0,1), (1, 1)\}</script>
 
-    <p>Resize the features back to the original input resolution in the upsampling layer at the end.</p>
-  </li>
-  <li>
-    <p>PreDeblur:</p>
+<p>For each location <script type="math/tex">\mathbf{p}_0</script> on the output feature map <script type="math/tex">\mathbf{y}</script>, 2D convolution can be denoted as followings:</p>
 
-    <p>This is used before the alignment module to pre-process blurry inputs and improve alignment accuracy.</p>
-  </li>
-  <li>
-    <p>PCD:</p>
+<script type="math/tex; mode=display">\mathbf{y}(\mathbf{p}_0)=\sum_{\mathbf{p}_n\in\mathcal{R}}\mathbf{w}(\mathbf{p}_n)\cdot \mathbf{x}(\mathbf{p}_0+\mathbf{p}_n),</script>
 
-    <p>Each neighboring frame is aligned to the reference one by the PCD alignment module at the feature level.</p>
-  </li>
-  <li>
-    <p>TSA:</p>
+<h3 id="2d-deformable-convolution">2D Deformable Convolution</h3>
 
-    <p>The TSA fusion module fuses image information of different frames.</p>
-  </li>
-  <li>
-    <p>Reconstruction Module:</p>
+<p><img src="/assets/images/Deformable_Convolutional_Networks/deform_conv_layer_v7-1.png" alt="/assets/images/Deformable_Convolutional_Networks/deform_conv_layer_v7-1.png" /></p>
 
-    <p>The fused features then pass through a reconstruction module, which is a cascade of residual blocks in EDVR and can be easily replaced by any other advanced modules in single image SR.</p>
-  </li>
-  <li>
-    <p>Residual at the end:</p>
+<p>In deformable convolution, the regular grid <script type="math/tex">\mathcal{R}</script> is augmented with offsets <script type="math/tex">\{\Delta \mathbf{p}_n \lvert n=1,...,N\}</script>, where <script type="math/tex">N= \lvert \mathcal{R} \lvert</script>. In other words, offsets can be different per grid offset. The offsets are obtained by applying a convolution layer over same input feature map, which means the offsets are learned.</p>
 
-    <p>High-resolution frame is obtained by adding the predicted image residual to a direct upsampled image (Super Resolution).</p>
-  </li>
-  <li>
-    <p>Two-stage strategy:</p>
+<script type="math/tex; mode=display">\mathbf{y}(\mathbf{p}_0)=\sum_{\mathbf{p}_n\in\mathcal{R}}\mathbf{w}(\mathbf{p}_n)\cdot \mathbf{x}(\mathbf{p}_0+\mathbf{p}_n+\Delta \mathbf{p}_n).</script>
 
-    <p>Cascade the same EDVR network but with shallower depth to refine the output frames of the first stage.</p>
+<p>Now, the sampling is on the irregular because the offset <script type="math/tex">\Delta \mathbf{p}_n</script> is typically fractional. So <script type="math/tex">\mathbf{x}(\mathbf{p}_0+\mathbf{p}_n+\Delta \mathbf{p}_n)</script> is implemented via bilinear interpolation as</p>
 
-    <p>The cascaded network can further remove the severe motion blur.</p>
-  </li>
-</ul>
+<script type="math/tex; mode=display">\mathbf{x}(\mathbf{p})=\sum_\mathbf{q} G(\mathbf{q},\mathbf{p})\cdot \mathbf{x}(\mathbf{q}),</script>
 
-<h1 id="alignment-with-pyramid-cascading-and-deformable-convolution-pcd">Alignment with Pyramid, Cascading and Deformable Convolution (PCD)</h1>
+<p>where <script type="math/tex">\mathbf{p}=\mathbf{p}_0+\mathbf{p}_n+\Delta \mathbf{p}_n</script> and <script type="math/tex">\mathbf{q}</script> is integral positions within 2 X 2 square which is centered with <script type="math/tex">\mathbf{p}</script>. <script type="math/tex">G(\cdot,\cdot)</script> is the bilinear interpolation kernel and can be denoted as follows:</p>
 
-<h2 id="use-of-deformable-convolution">Use of Deformable Convolution</h2>
+<script type="math/tex; mode=display">G(\mathbf{q},\mathbf{p})=(1- \lvert q_x-p_x \lvert ) \cdot (1- \lvert q_y-p_y \lvert )</script>
 
-<ul>
-  <li>Alignment features of each neighboring frame to reference frame.</li>
-  <li>
-    <p>Different from optical-flow based method, deformable alignment is applied on the features of each frame, denote by <script type="math/tex">F_{t+i},i \in [{-}N{:}{+}N]</script></p>
-  </li>
-  <li>Learnable offset (<script type="math/tex">\Delta \mathbf{P}_{t+i}</script>) of Deformable Convolution is predicted as <script type="math/tex">f(\ [F_{t+i}, F_t]\ )</script>, where <script type="math/tex">f</script> is general function consisting several convolution layers and <script type="math/tex">[F_{t+i}, F_t]</script> is concat of two feature <script type="math/tex">F_{t+i}, F_t</script>.</li>
-</ul>
+<h2 id="result">Result</h2>
 
-<h2 id="pyramidal-processing-and-cascading-refinement">Pyramidal processing and Cascading refinement</h2>
+<p>As Deformable convolution has offset on its grid, It can have more flexible receptive field.</p>
 
-<p><img src="/assets/images/EDVR_paper_review/pcd_align-1.png" alt="/assets/images/EDVR_paper_review/pcd_align-1.png" /></p>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Standard Convolution</th>
+      <th style="text-align: center">Deformable Convolution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><img src="/assets/images/Deformable_Convolutional_Networks/standard_conv_receptive_field_v6-1.png" alt="/assets/images/Deformable_Convolutional_Networks/standard_conv_receptive_field_v6-1.png" /></td>
+      <td style="text-align: center"><img src="/assets/images/Deformable_Convolutional_Networks/deform_conv_receptive_field_v6-1.png" alt="/assets/images/Deformable_Convolutional_Networks/deform_conv_receptive_field_v6-1.png" /></td>
+    </tr>
+  </tbody>
+</table>
 
-<ul>
-  <li>Black dash lines:
-    <ul>
-      <li>To generate feature F in l-th level, strided convolution filters are used to downsample the features at the (l-1)-th pyramid level by factor of 2.</li>
-    </ul>
-  </li>
-  <li>Purple dash lines:
-    <ul>
-      <li>At the l-th level, offsets and aligned features are predicted also with X2 upsampled offsets and aligned features from the upper (l+1)-th level, respectively</li>
-      <li>Output of Deformable Conv (blue line) and upsampled (l+1)-th level (purple dash lines) are mixed by general function with several convolution layers</li>
-    </ul>
-  </li>
-  <li>Light purple background:
-    <ul>
-      <li>Following the pyramid structure, a subsequent deformable alignment is cascaded to further refine the coarsely aligned features.</li>
-    </ul>
-  </li>
-</ul>
-
-<h1 id="fusion-with-temporoal-and-spatial-attention">Fusion with Temporoal and Spatial Attention</h1>
-
-<p>Inter-frame temporal relation and intra-frame spatial relation are critical in fusion because</p>
-
-<ol>
-  <li>different neighboring frames are not equally informative due to occlusion, blurry regions and parallax problems</li>
-  <li>misalignment and unalignment arising from the preceding alignment stage adversely affect the subsequent reconstruction performance</li>
-</ol>
-
-<p>→ Temporal and spatial attentions during the fusion process is adopted</p>
-
-<p><img src="/assets/images/EDVR_paper_review/tsa_fusion-1.png" alt="/assets/images/EDVR_paper_review/tsa_fusion-1.png" /></p>
-
-<ul>
-  <li>
-    <p>Temporal Attention Maps: blue, red, green object of top left.</p>
-
-    <script type="math/tex; mode=display">F_{t}^{fusion} = \text{Conv}([\text{concat of attention-weighted features from t-N to t+N}])</script>
-  </li>
-</ul>
-</div><section class="article__sharing d-print-none"></section><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2019-12-24T00:00:00+09:00"><!-- start custom article footer snippet -->
+</div><section class="article__sharing d-print-none"></section><div class="d-print-none"><footer class="article__footer"><meta itemprop="dateModified" content="2020-01-03T00:00:00+09:00"><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --><div class="article__subscribe"><div class="subscribe"><i class="fas fa-rss"></i> <a type="application/rss+xml" href="/feed.xml">Subscribe</a></div></div><div class="article__license"><div class="license">
     <p>This work is licensed under a <a itemprop="license" rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/">Attribution-NonCommercial 4.0 International</a> license.
@@ -416,7 +361,7 @@
         <img alt="Attribution-NonCommercial 4.0 International" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" />
       </a>
     </p>
-  </div></div></footer><div class="article__section-navigator clearfix"><div class="previous"><span>PREVIOUS</span><a href="/2019/12/13/python_locals-globals-vars.html">Difference of locals, globals, vars in python3</a></div><div class="next"><span>NEXT</span><a href="/2020/01/03/Deformable_Convolutional_Networks.html">Deformable Convolution paper review</a></div></div></div>
+  </div></div></footer><div class="article__section-navigator clearfix"><div class="previous"><span>PREVIOUS</span><a href="/2019/12/24/EDVR_paper_review.html">EDVR paper review</a></div></div></div>
 
 </div>
 
