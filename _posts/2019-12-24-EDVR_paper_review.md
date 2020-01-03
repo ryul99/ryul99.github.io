@@ -4,7 +4,7 @@ tags:	paper review DeepLearning
 ---
 # EDVR: Video Restoration with Enhanced Deformable Convolutional Networks
 
-[EDVR: Video Restoration with Enhanced Deformable Convolutional Networks](https://arxiv.org/abs/1905.02716)
+[Paper arxiv link](https://arxiv.org/abs/1905.02716)
 
 # Overview
 
