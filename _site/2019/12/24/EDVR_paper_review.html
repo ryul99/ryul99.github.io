@@ -375,9 +375,15 @@
       <li>To generate feature F in l-th level, strided convolution filters are used to downsample the features at the (l-1)-th pyramid level by factor of 2.</li>
     </ul>
   </li>
+  <li>Orange lines:
+    <ul>
+      <li>Concat reference frame with neighboring frame.</li>
+      <li>The offset is made by convolution with concatenation.</li>
+    </ul>
+  </li>
   <li>Purple dash lines:
     <ul>
-      <li>At the l-th level, offsets and aligned features are predicted also with X2 upsampled offsets and aligned features from the upper (l+1)-th level, respectively</li>
+      <li>At the l-th level, offsets and aligned features are predicted also with X2 bilinear-interpolation-upsampled offsets and aligned features from the upper (l+1)-th level, respectively</li>
       <li>Output of Deformable Conv (blue line) and upsampled (l+1)-th level (purple dash lines) are mixed by general function with several convolution layers</li>
     </ul>
   </li>

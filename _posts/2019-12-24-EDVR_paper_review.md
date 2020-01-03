@@ -62,8 +62,11 @@ Inputs with high spatial resolution are first down-sampled to reduce computation
 
 - Black dash lines:
     - To generate feature F in l-th level, strided convolution filters are used to downsample the features at the (l-1)-th pyramid level by factor of 2.
+- Orange lines:
+    - Concat reference frame with neighboring frame.
+    - The offset is made by convolution with concatenation.
 - Purple dash lines:
-    - At the l-th level, offsets and aligned features are predicted also with X2 upsampled offsets and aligned features from the upper (l+1)-th level, respectively
+    - At the l-th level, offsets and aligned features are predicted also with X2 bilinear-interpolation-upsampled offsets and aligned features from the upper (l+1)-th level, respectively
     - Output of Deformable Conv (blue line) and upsampled (l+1)-th level (purple dash lines) are mixed by general function with several convolution layers
 - Light purple background:
     - Following the pyramid structure, a subsequent deformable alignment is cascaded to further refine the coarsely aligned features.
