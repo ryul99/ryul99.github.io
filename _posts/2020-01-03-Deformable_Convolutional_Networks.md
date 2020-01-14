@@ -1,6 +1,6 @@
 ---
 title:  "Deformable Convolution paper review"
-tags:	paper review DeepLearning
+tags:	paper review DeepLearning Vision
 ---
 
 # Deformable Convolutional Networks
@@ -25,7 +25,7 @@ $$\mathbf{y}(\mathbf{p}_0)=\sum_{\mathbf{p}_n\in\mathcal{R}}\mathbf{w}(\mathbf{p
 
 ### 2D Deformable Convolution
 
-![/assets/images/Deformable_Convolutional_Networks/deform_conv_layer_v7-1.png](/assets/images/Deformable_Convolutional_Networks/deform_conv_layer_v7-1.png)
+![Deformable_Convolutional_Networks/deform_conv_layer_v7-1.png](/assets/images/Deformable_Convolutional_Networks/deform_conv_layer_v7-1.png)
 
 In deformable convolution, the regular grid $$\mathcal{R}$$ is augmented with offsets $$\{\Delta \mathbf{p}_n \lvert n=1,...,N\}$$, where $$N= \lvert \mathcal{R} \lvert $$. In other words, offsets can be different per grid offset. The offsets are obtained by applying a convolution layer over same input feature map, which means the offsets are learned.
 
@@ -45,5 +45,5 @@ As Deformable convolution has offset on its grid, It can have more flexible rece
 
 Standard Convolution | Deformable Convolution
 :---------:|:---------:
-![/assets/images/Deformable_Convolutional_Networks/standard_conv_receptive_field_v6-1.png](/assets/images/Deformable_Convolutional_Networks/standard_conv_receptive_field_v6-1.png) | ![/assets/images/Deformable_Convolutional_Networks/deform_conv_receptive_field_v6-1.png](/assets/images/Deformable_Convolutional_Networks/deform_conv_receptive_field_v6-1.png)
+![Deformable_Convolutional_Networks/standard_conv_receptive_field_v6-1.png](/assets/images/Deformable_Convolutional_Networks/standard_conv_receptive_field_v6-1.png) | ![Deformable_Convolutional_Networks/deform_conv_receptive_field_v6-1.png](/assets/images/Deformable_Convolutional_Networks/deform_conv_receptive_field_v6-1.png)
 

@@ -1,6 +1,6 @@
 ---
 title:  "EDVR paper review"
-tags:	paper review DeepLearning
+tags:	paper review DeepLearning Vision
 ---
 # EDVR: Video Restoration with Enhanced Deformable Convolutional Networks
 
@@ -11,7 +11,7 @@ tags:	paper review DeepLearning
 ## The overall framework of EDVR
 Given $$2N+1$$ consecutive frames $$I_{[t-N:t+N]}$$, denote middle frame $$I_{t}$$ as the reference frame and the other frames as neighboring frames
 
-![/assets/images/EDVR_paper_review/overall_structure-1.png](/assets/images/EDVR_paper_review/overall_structure-1.png)
+![EDVR_paper_review/overall_structure-1.png](/assets/images/EDVR_paper_review/overall_structure-1.png)
 
 Inputs with high spatial resolution are first down-sampled to reduce computational cost. Given blurry inputs, a PreDeblur Module is inserted before the PCD Align Module to improve alignment accuracy. We use three input frames as an illustrative example.
 
@@ -58,7 +58,7 @@ Inputs with high spatial resolution are first down-sampled to reduce computation
 
 ## Pyramidal processing and Cascading refinement
 
-![/assets/images/EDVR_paper_review/pcd_align-1.png](/assets/images/EDVR_paper_review/pcd_align-1.png)
+![EDVR_paper_review/pcd_align-1.png](/assets/images/EDVR_paper_review/pcd_align-1.png)
 
 - Black dash lines:
     - To generate feature F in l-th level, strided convolution filters are used to downsample the features at the (l-1)-th pyramid level by factor of 2.
@@ -80,7 +80,7 @@ Inter-frame temporal relation and intra-frame spatial relation are critical in f
 
 → Temporal and spatial attentions during the fusion process is adopted
 
-![/assets/images/EDVR_paper_review/tsa_fusion-1.png](/assets/images/EDVR_paper_review/tsa_fusion-1.png)
+![EDVR_paper_review/tsa_fusion-1.png](/assets/images/EDVR_paper_review/tsa_fusion-1.png)
 
 - Temporal Attention Maps: blue, red, green object of top left.
 
