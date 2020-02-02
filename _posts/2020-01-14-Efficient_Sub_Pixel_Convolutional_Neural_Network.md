@@ -1,5 +1,6 @@
 ---
 title:  "Efficient Sub-Pixel Convolutional Neural Network"
+mathjax: true
 tags:	paper review DeepLearning Vision
 ---
 

@@ -1,5 +1,6 @@
 ---
 title:  "Basic Deep Learning Concepts good for you"
+layout: article
 tags:	DeepLearning
 ---
 # Basic Deep Learning Concepts
