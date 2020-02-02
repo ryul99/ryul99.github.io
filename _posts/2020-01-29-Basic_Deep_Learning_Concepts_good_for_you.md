@@ -2,6 +2,7 @@
 title:  "Basic Deep Learning Concepts good for you"
 layout: article
 tags:	DeepLearning
+key: "Basic_Deep_Learning_Concepts_good_for_you"
 ---
 # Basic Deep Learning Concepts
 

@@ -1,6 +1,7 @@
 ---
 title:  "Difference of locals, globals, vars in python3"
 tags:	python
+key: "python_locals-globals-vars"
 ---
 reference: [https://stackoverflow.com/a/7969953](https://stackoverflow.com/a/7969953)<br>
 부족한 영어실력으로 해석해서 정리한 글입니다. 오류가 있을 경우 지적해주세요.

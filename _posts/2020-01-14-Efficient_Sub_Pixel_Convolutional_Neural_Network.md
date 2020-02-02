@@ -2,6 +2,7 @@
 title:  "Efficient Sub-Pixel Convolutional Neural Network"
 mathjax: true
 tags:	paper review DeepLearning Vision
+key: "Efficient_Sub_Pixel_Convolutional_Neural_Network"
 ---
 
 Paper arxiv link: [Real-Time Single Image and Video Super-Resolution Using an Efficient Sub-Pixel Convolutional Neural Network](https://arxiv.org/abs/1609.05158)

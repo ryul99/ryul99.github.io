@@ -1,6 +1,7 @@
 ---
 title:  "Github Pages deploy"
 tags:	github
+key: "Github-Pages-deploy"
 ---
 
 Github Pages는 지원되는 jekyll plugin이 정해져 있습니다. ([여기](https://pages.github.com/versions/)에서 확인할 수 있습니다.) 때문에 깃헙에서 지원되지 않는 jekyll plugin을 사용하려면 jekyll 소스코드를 build 하는 것이 아니라 빌드된 결과물을 서빙해야 합니다. 이번에는 이 방법을 몇 가지 정리해보려 합니다.

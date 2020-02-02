@@ -1,6 +1,7 @@
 ---
 title:  "Run dev-server with Google Cloud Shell"
 tags:	github GCP
+key: "ghpage_devserver_with_Google-Cloud-Shell"
 ---
 github page를 블로그로 사용하면서 불편했던 것 중 하나는 네이버, 티스토리 블로그등과는 다르게 웹 브라우저에서 블로그 글을 수정하거나 새롭게 적는 것이 안된다는 점이었습니다. 
 또한 블로그에 수정이 필요할 때마다 로컬에 빌드 환경을 구축해야 했고 로컬의 환경이 달라짐에 따라 빌드가 안되는 경우도 종종 생겼습니다. 
