@@ -1,6 +1,7 @@
 ---
 title:  "Jekyll Trouble Shooting"
 tags:	Jekyll
+key: "Jekyll-trouble-shooting"
 ---
 
 깃헙 페이지를 위해 Jekyll을 사용하면서 겪었던 trouble shooting들을 정리해본다.

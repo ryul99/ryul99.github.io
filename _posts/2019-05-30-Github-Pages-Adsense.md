@@ -1,6 +1,7 @@
 ---
 title:  "Github Pages에 구글 애드센스 달기"
 tags:	github adsense
+key: "Github-Pages-Adsense"
 ---
 
 첫 게시글! 삽질 정리를 위해 블로깅을 하기에 블로깅 하기 위해서 했던 삽질부터 올립니다.
