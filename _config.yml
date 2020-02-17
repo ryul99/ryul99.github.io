@@ -15,7 +15,7 @@
 ##############################
 text_skin: default # "default" (default), "dark", "forest", "ocean", "chocolate", "orange"
 highlight_theme: default # "default" (default), "tomorrow", "tomorrow-night", "tomorrow-night-eighties", "tomorrow-night-blue", "tomorrow-night-bright"
-url     : "http://ryul99.github.io" # the base hostname & protocol for your site e.g. https://www.someone.com
+url     : "http://torch.vision" # the base hostname & protocol for your site e.g. https://www.someone.com
 baseurl : "" # does not include hostname
 title   : Lab of ryul99
 description: > # this means to ignore newlines until "Language & timezone"
@@ -33,7 +33,7 @@ timezone: Asia/Seoul # see https://en.wikipedia.org/wiki/List_of_tz_database_tim
 author:
   type      : # "person" (default), "organization"
   name      : Changmin Choi
-  url       : "http://ryul99.github.io"
+  url       : "http://torch.vision"
   avatar    : # path or url of avatar image (square)
   bio       : CSE undergraduate student at Seoul National University
   email     : cmchoi9901@gmail.com
