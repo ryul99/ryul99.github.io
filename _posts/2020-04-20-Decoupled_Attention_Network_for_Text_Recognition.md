@@ -17,7 +17,7 @@ In traditional attention mechanism, alignment is coupled with decoding. They con
 
 Traditional attention mechanism often have alignment problems. Alignment can be affected by "past historical decoding information". This can confuse alignment. As shown in figure 2, matching operation is confused by "ly" and "ing". Also, traditional attentions struggle with aligning a long sequence.
 
-To solve these problems, authors separate "alignment module" which conduct alignment operations only with visual information and "text decoder" which conduct recognition only using visual information and aligned attention map together.
+To solve these problems, authors separate into "alignment module" which conduct alignment operations only with visual information and "text decoder" which conduct recognition only using visual information and aligned attention map together.
 
 ## Contributions
 
