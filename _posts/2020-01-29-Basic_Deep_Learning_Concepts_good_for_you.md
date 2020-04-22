@@ -71,6 +71,8 @@ Hard concepts are **Bolded**
 - [blog post about Optimizer](https://gomguard.tistory.com/187) (kor)
 - [d2l textbook](http://d2l.ai/) (en)
     - [d2l korean textbook](http://ko.d2l.ai/) (kor)
+- [distill.pub](https://distill.pub/) (en)
+- [colah blog](https://colah.github.io/) (en)
 
 # Lectures
 
