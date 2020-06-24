@@ -49,7 +49,7 @@ Hard concepts are **Bolded**
 
 ## Normalization
 
-![Basic%20Deep%20Learning%20Concepts%20good%20for%20you/Untitled.png](/assets/images/Basic%20Deep%20Learning%20Concepts%20good%20for%20you/Untitled.png)
+![Basic%20Deep%20Learning%20Concepts%20good%20for%20you/normalization_method.png](/assets/images/Basic%20Deep%20Learning%20Concepts%20good%20for%20you/normalization_method.png)
 
 - batch normalization
 - **Layer Norm**
