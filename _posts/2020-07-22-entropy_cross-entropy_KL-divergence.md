@@ -7,7 +7,7 @@ key: "entropy_cross-entropy_KL-divergence"
 
 # Entropy (at Information theory)
 
-- The **expectation of bits** that used for notating (or classify each other) **probabilistic events** when using optimal bits coding scheme. ($$log_2(p)$$ bits for notating events)
+- The **expectation of bits** that used for notating (or classify each other) **probabilistic events** when using optimal bits coding scheme. ($$log_2(\frac{1}{p})$$ bits for notating events)
 - Entropy also can be interpreted as the **average rate** at which **information is produced** by stochastic source of data. (rare events have more information than an often occurring event.)
 - Entropy can be calculated by $$\text{H}(X) = \text{E}[-\text{log}_2 (\text{P}(X)] = \sum\limits_{p \in P} p \text{log}_2(\frac{1}{p}) = -\sum\limits_{p \in P} p \text{log}_2({p})$$ where $$P$$ is probability distribution. (Shannon's source coding theorem)
 

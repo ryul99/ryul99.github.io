@@ -127,8 +127,7 @@ Neurons are combine together and make new detector
 
 ![CVPR20-tuto_Interpretable_Machine_Learning/figure-8.png](/assets/images/CVPR20-tuto_Interpretable_Machine_Learning/figure-8.png)
 
-## How do we know we aren’t fooling
-ourselves?
+## How do we know we aren’t fooling ourselves?
 
 ### Edit circuits to change model behavior
 

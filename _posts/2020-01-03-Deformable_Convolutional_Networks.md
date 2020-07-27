@@ -1,8 +1,8 @@
 ---
-title:  "Deformable Convolution paper review"
+title:  "Paper Review: Deformable Convolution"
 mathjax: true
 tags:	paper review DeepLearning Vision
-key: "EDVR_paper_review"
+key: "Deformable_Convolution_paper_review"
 ---
 
 # Deformable Convolutional Networks
