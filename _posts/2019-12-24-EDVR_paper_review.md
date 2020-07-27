@@ -1,7 +1,8 @@
 ---
-title:  "EDVR paper review"
+title:  "Paper Review: EDVR"
 mathjax: true
 tags:	paper review DeepLearning Vision
+key: "EDVR_paper_review"
 ---
 # EDVR: Video Restoration with Enhanced Deformable Convolutional Networks
 

@@ -1,5 +1,5 @@
 ---
-title:  "Pix2Pix paper review"
+title:  "Paper Review: Pix2Pix"
 mathjax: true
 tags:	paper review DeepLearning Vision
 key: "Pix2Pix_Paper_Review"

@@ -1,5 +1,5 @@
 ---
-title:  "Review: IMAGENET-TRAINED CNNS ARE BIASED TOWARDS TEXTURE"
+title:  "Paper Review: IMAGENET-TRAINED CNNS ARE BIASED TOWARDS TEXTURE"
 mathjax: true
 tags:	paper review DeepLearning Vision
 key: "ImageNet_trained_CNN_texture"

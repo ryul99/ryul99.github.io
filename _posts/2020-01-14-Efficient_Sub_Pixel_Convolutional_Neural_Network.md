@@ -1,5 +1,5 @@
 ---
-title:  "Efficient Sub-Pixel Convolutional Neural Network"
+title:  "Paper Review: Efficient Sub-Pixel Convolutional Neural Network"
 mathjax: true
 tags:	paper review DeepLearning Vision
 key: "Efficient_Sub_Pixel_Convolutional_Neural_Network"
