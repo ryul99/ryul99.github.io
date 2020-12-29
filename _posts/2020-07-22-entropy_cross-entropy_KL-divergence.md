@@ -8,8 +8,8 @@ key: "entropy_cross-entropy_KL-divergence"
 # Entropy (at Information theory)
 
 - The **expectation of bits** that used for notating (or classify each other) **probabilistic events** when using optimal bits coding scheme. ($$log_2(\frac{1}{p})$$ bits for notating events)
-- Entropy also can be interpreted as the **average rate** at which **information is produced** by stochastic source of data. (rare events have more information than an often occurring event.)
-- Entropy can be calculated by $$\text{H}(X) = \text{E}[-\text{log}_2 (\text{P}(X)] = \sum\limits_{p \in P} p \text{log}_2(\frac{1}{p}) = -\sum\limits_{p \in P} p \text{log}_2({p})$$ where $$P$$ is probability distribution. (Shannon's source coding theorem)
+- Entropy also can be interpreted as the **average rate** at which **information is produced** ($$\text{I}(X) = log_2(\frac{1}{p})$$) by stochastic source of data. (rare events have more information than an often occurring event.)
+- Entropy can be calculated by $$\text{H}(X) = \text{E}[\text{I}(X)] = \text{E}[-\text{log}_2 (\text{P}(X)] = \sum\limits_{p \in P} p \text{log}_2(\frac{1}{p}) = -\sum\limits_{p \in P} p \text{log}_2({p})$$ where $$P$$ is probability distribution. (Shannon's source coding theorem)
 
 Let's think about the situation that you need to notate characters "**A**, **B**, **C**, **D**" in bits that stochastically written in a sentence. You can simply notate each character with 2 bits. For example, "00" for **A**, "01" for **B**, "10" for **C**, "11" for D. If every character have the same probability, ($$\text{P}(A) = \text{P}(B) = \text{P}(C) = \text{P}(D) = 1/4$$) this notating is optimal notating. You used **2 bits for each character on average.** (2 * 1/4 * 4)
 
