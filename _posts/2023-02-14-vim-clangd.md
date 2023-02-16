@@ -1,7 +1,7 @@
 ---
 title: "coc.clangd가 vim에서 기본적인 부분에서 에러를 내뱉는 경우"
 mathjax: true
-tags:	git github linux debugging
+tags:	vim c c++ linux debugging
 key: "ssh-agent-forwarding-debugging-tip"
 ---
 
