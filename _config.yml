@@ -222,5 +222,6 @@ plugins:
   - jekyll-paginate
   - jekyll-sitemap
   - jemoji
+  - jekyll-redirect-from
 
 remote_theme: ryul99/jekyll-TeXt-theme
