@@ -80,7 +80,7 @@ tmux는 tmux가 완전히 재실행되어야 conf파일을 읽어오기 때문�
 - Ctrl-B를 눌러서 진입한 :가 앞에 붙은 command prompt에서 `source-file ~/.tmux.conf` 를 입력
 - 혹은, 셸에서 `tmux source-file ~/.tmux.conf` 를 입력
 
-### Reference
+## Reference
 
 - https://blog.testdouble.com/posts/2016-11-18-reconciling-tmux-and-ssh-agent-forwarding/
 - https://blog.sanctum.geek.nz/reloading-tmux-config/
