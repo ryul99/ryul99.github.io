@@ -39,7 +39,9 @@ ExecStart=/usr/bin/ssh-agent -D -a $SSH_AUTH_SOCK
 WantedBy=default.target
 ```
 
-2. `systemctl --user enable --now ssh-agent`를 실행합니다.
+2. `systemctl --user daemon-reload` 를 실행합니다.
+
+3. `systemctl --user enable --now ssh-agent`를 실행합니다.
 
 ## Reference
 
