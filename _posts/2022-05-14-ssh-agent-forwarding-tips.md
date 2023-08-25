@@ -51,7 +51,7 @@ WantedBy=default.target
 
 이렇게 하면 `${XDG_RUNTIME_DIR}/ssh-agent.socket`위치에 file의 형태로 `SSH_AUTH_SOCK`이 저장됩니다.
 
-앞서 말한대로 SSH Agent Overwrite 이슈를 피하기 위해서는, `~/.ssh/rc`에 다음을 추가해주는 것이 좋습니다.
+앞서 말한대로 SSH Agent Overwrite 이슈를 피하기 위해서는, shell rc (.bashrc / .zshrc 등...) 에 다음을 추가해주는 것이 좋습니다.
 
 이 코드는 `SSH_AUTH_SOCK`이 설정되어 있지 않을 때 위에서 작업한 SSH Agent의 SOCK을 바라보도록 하는 코드입니다.
 
@@ -72,7 +72,7 @@ tmux에서 ssh agent forwarding이 잘 안되는 이유는, tmux가 ssh 세션�
 
 ## 과정
 
-- `~/.ssh/rc`에 위에서 추가한 것이후로 다음 코드를 추가해줍니다. 이미 Set되는 것이 보장되어있으므로 if/fi 문을 빼고 작성하셔도 좋습니다.
+- `~/.ssh/rc`에 다음 코드를 추가해줍니다.
 
 ```sh
 # Fix SSH auth socket location so agent forwarding works with tmux
@@ -81,25 +81,17 @@ if test "$SSH_AUTH_SOCK" ; then
 fi
 ```
 
-- `~/.tmux.conf`에 다음 코드를 추가해줍니다.
+- 그리고 위에서 shell rc에 추가한 코드를 수정하여 다음과 같이 바꿉니다.
 
 ```sh
-# Remove SSH_AUTH_SOCK to disable tmux automatically resetting the variable
-set -g update-environment "DISPLAY SSH_ASKPASS SSH_AGENT_PID \
-                             SSH_CONNECTION WINDOWID XAUTHORITY"
-
-# Use a symlink to look up SSH authentication
-setenv -g SSH_AUTH_SOCK $HOME/.ssh/ssh_auth_sock
+if ! test "$SSH_AUTH_SOCK" ; then
+    if test "~/.ssh/ssh_auth_sock" ; then
+        export SSH_AUTH_SOCK='~/.ssh/ssh_auth_sock'
+    else
+        export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/ssh-agent.socket"
+    fi
+fi
 ```
-
-이렇게 하면 가장 최신의 `SSH_AUTH_SOCK`을 `~/.ssh/ssh_auth_sock`으로 저장하게 되고, tmux에서는 그걸 바라보게 됩니다.
-
-## 이미 켜져있는 tmux에서는
-
-tmux는 tmux가 완전히 재실행되어야 conf파일을 읽어오기 때문에, tmux창 안에서 다음과 같은 방법 중 하나를 취할 수 있습니다.
-
-- Ctrl-B를 눌러서 진입한 :가 앞에 붙은 command prompt에서 `source-file ~/.tmux.conf` 를 입력
-- 혹은, 셸에서 `tmux source-file ~/.tmux.conf` 를 입력
 
 ## Reference
 
