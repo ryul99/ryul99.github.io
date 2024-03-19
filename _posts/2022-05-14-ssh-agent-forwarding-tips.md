@@ -82,14 +82,14 @@ fi
 ```
 
 - 그리고 위에서 shell rc에 추가한 코드를 수정하여 다음과 같이 바꿉니다.
+    - 이 코드는 `~/.ssh/ssh_auth_sock`, `SSH_AUTH_SOCK`, `XDG_RUNTIME_DIR` 순서대로 값을 확인하고 `SSH_AUTH_SOCK`을 설정하는 코드입니다.
 
 ```sh
-if ! test "$SSH_AUTH_SOCK" ; then
-    if test -e "$(readlink -f $HOME/.ssh/ssh_auth_sock)" ; then
-        export SSH_AUTH_SOCK="$HOME/.ssh/ssh_auth_sock"
-    else
-        export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/ssh-agent.socket"
-    fi
+# (2024-03-19 수정)
+if test -e "$(readlink -f $HOME/.ssh/ssh_auth_sock)" ; then
+    export SSH_AUTH_SOCK="$HOME/.ssh/ssh_auth_sock"
+elif ! test "$SSH_AUTH_SOCK" ; then
+    export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/ssh-agent.socket"
 fi
 ```
 
