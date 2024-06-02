@@ -178,8 +178,13 @@ analytics:
 ##############################
 markdown    : kramdown
 highlighter : rouge
-permalink   : date
+permalink   : title
 encoding: utf-8
+
+collections:
+  posts:
+    output: true
+    permalink: posts/:title
 
 exclude:
   - CHANGELOG.md
