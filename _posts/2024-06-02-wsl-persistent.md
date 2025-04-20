@@ -25,7 +25,7 @@ WSL2는 윈도우에서 Linux를 쉽게 사용할 수 있는 방법중에 하나
 실제 작업을 위해 systemd 서비스를 만들어줍니다.
 원리는 wsl의 백그라운드에서 아무 일도 하지 않는 프로세스를 돌리는 것입니다. [firejox 유저의 깃헙 코멘트 참고](https://github.com/microsoft/WSL/issues/8854#issuecomment-1490454734)
 
-1. `/etc/systemd/system/wsl-alive.service`이라는 파일을 만들어 다음 내용을 추가합니다.
+1. `/etc/systemd/system/wsl-alive.service`이라는 파일을 만들어 다음 내용을 추가합니다. (`/windows/path/to/waitfor.exe`는 실제 waitfor.exe의 경로로 바꿔주세요.)
 
    ```
    [Unit]
@@ -41,7 +41,7 @@ WSL2는 윈도우에서 Linux를 쉽게 사용할 수 있는 방법중에 하나
    WantedBy=multi-user.target
    ```
 
-2. `sudo systemctl daemon-reload`를 하여 서비스를 로드한 후 `sudo systemctl enable --now wsl-alive.serivce`를 하여 서비스를 켜줍니다.
+2. `sudo systemctl daemon-reload`를 하여 서비스를 로드한 후 `sudo systemctl enable --now wsl-alive.service`를 하여 서비스를 켜줍니다.
 
 3. `sudo systemctl status wsl-alive.service`를 하여 제대로 켜져 있는 지 확인합니다.
 
