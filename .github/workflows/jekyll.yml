@@ -65,4 +65,4 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
         with:
-          name: github-pages-${{ github.run_id }}
+          artifact-name: github-pages-${{ github.run_id }}
