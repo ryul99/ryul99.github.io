@@ -40,17 +40,14 @@ ws.run "wsl -d <배포판 이름> --cd ~", 0, False
 원리는 wsl의 백그라운드에서 아무 일도 하지 않는 프로세스를 돌리는 것입니다. [firejox 유저의 깃헙 코멘트 참고](https://github.com/microsoft/WSL/issues/8854#issuecomment-1490454734)
 
 1. `/etc/systemd/system/wsl-alive.service`이라는 파일을 만들어 다음 내용을 추가합니다.
-일반적으로는 `/mnt/c/Windows/System32/waitfor.exe`의 위치가 맞지만, 혹시나 다른 경우 cmd창에서 `where waitfor.exe` 또는 PowerShell창에서 `(get-command waitfor.exe).Path` 를 입력하여 확인할 수 있습니다. (`C:` 를 `/mnt/c` 로, `\`를 `/`로 바꾸는 것을 잊지마세요.)
+  * 2025/05/09 수정: waitfor.exe가 사용하는 protocol이 24H2에서 deprecated 되어서 방법을 수정하였습니다. [관련 링크](https://learn.microsoft.com/en-us/windows/whats-new/whats-new-windows-11-version-24h2#remote-mailslot-protocol-disabled-by-default)
 
    ```
    [Unit]
    Description=Keep Distro Alive
 
    [Service]
-   # cleanup the waiting signal previous set for
-   ExecStartPre=/mnt/c/Windows/system32/waitfor.exe /si MakeDistroAlive
-
-   ExecStart=/mnt/c/Windows/system32/waitfor.exe MakeDistroAlive
+   ExecStart=/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -WindowStyle Hidden -NonInteractive -NoProfile -Command "while ($true) { Start-Sleep -Seconds 3600 }"
 
    [Install]
    WantedBy=multi-user.target
