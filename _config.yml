@@ -218,6 +218,7 @@ defaults:
       show_edit_on_github: true
       show_subscribe: true
       pageview: true
+      image: /assets/images/profile.png
 
 
 ## => Plugins
