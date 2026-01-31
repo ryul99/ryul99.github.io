@@ -218,6 +218,9 @@ defaults:
       show_edit_on_github: true
       show_subscribe: true
       pageview: true
+  - scope:
+      path: ""
+    values:
       image:
         path: /assets/images/profile.png
         alt: profile image
