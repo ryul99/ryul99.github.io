@@ -223,6 +223,8 @@ defaults:
     values:
       image:
         path: /assets/images/profile.png
+        height: 100
+        width: 100
         alt: profile image
 
 
