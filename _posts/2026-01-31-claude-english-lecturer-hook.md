@@ -1,5 +1,5 @@
 ---
-title: "Claude Code Hook으로 영어 프롬프트 공부하기"
+title: "Claude Code Hook으로 영어 공부하기"
 mathjax: true
 tags:	ai tool claude
 key: "claude-english-lecturer-hook"
