@@ -1,5 +1,5 @@
 ---
-title: "Claude Code Hook으로 영어 프롬프트 교정하기"
+title: "Claude Code Hook으로 영어 프롬프트 공부하기"
 mathjax: true
 tags:	ai tool claude
 key: "claude-english-lecturer-hook"
@@ -13,7 +13,7 @@ key: "claude-english-lecturer-hook"
 처음에는 prompt rewriter를 만들어서 기존 프롬프트를 자동으로 교정된 버전으로 대체하는 hook을 만들려고 했습니다. 하지만 Claude Code의 hook 시스템은 기존 프롬프트를 수정하는 것이 아니라 추가적인 프롬프트만 제공할 수 있었습니다.
 또한 추가적인 프롬프트 제공도 완벽하지 않다는 이슈들이 있어 실제로 적용하는 데 어려움이 있었습니다. [issue link](https://github.com/anthropics/claude-code/issues/12151)
 
-그러다 [jiun.dev의 글](https://jiun.dev/posts/claude-hooks-english-study/)에서 영어 공부용으로 hook을 활용하는 아이디어를 얻었고, 이를 참고해서 영어 교정용으로 수정해보기로 했습니다.
+그러다 [jiun.dev의 글](https://jiun.dev/posts/claude-hooks-english-study/)에서 영어 공부용으로 hook을 활용하는 아이디어를 얻었고, 이를 참고해서 영어 공부용으로 수정해보기로 했습니다.
 
 ## 구현
 
@@ -38,31 +38,67 @@ key: "claude-english-lecturer-hook"
 ```bash
 cat > ~/.claude/english-lecturer.sh << 'EOF'
 #!/bin/bash
-
-INPUT_PROMPT="$(cat | jq '.prompt')"
+# acknowledge: https://github.com/crescent-stdio for prompt
 
 if [[ -n "$REWRITER_LOCK" ]]; then
     exit 0
 fi
 
+INPUT_PROMPT="$(cat | jq '.prompt')"
 TARGET_LANGUAGE="Korean"
+
 JSON_SCHEMA='
 {
     "type": "object",
     "properties": {
-        "enhanced_prompt": { "type": "string" },
-        "lesson": { "type": "string" }
-    }
+        "enhanced_prompt": {
+            "type": "string",
+            "description": "The improved prompt preserving original meaning"
+        },
+        "has_corrections": {
+            "type": "boolean",
+            "description": "Whether the original prompt had any issues to improve"
+        },
+        "corrections": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "original": { "type": "string" },
+                    "suggestion": { "type": "string" },
+                    "category": {
+                        "type": "string",
+                        "enum": ["grammar", "vocabulary", "style", "spelling", "word_order"]
+                    },
+                    "explanation": { "type": "string" }
+                },
+                "required": ["original", "suggestion", "category", "explanation"]
+            },
+            "description": "Gentle improvement suggestions, max 3 items"
+        },
+        "tip": {
+            "type": "string",
+            "description": "One concise learning tip"
+        }
+    },
+    "required": ["enhanced_prompt", "has_corrections", "corrections", "tip"]
 }
 '
 
 INPUT_PROMPT="\
-Rewrite the following prompt in English to make it more grammatically correct and clear, while preserving its original meaning.
-Please let me know if there are any mistakes, and provide a brief explanation in $TARGET_LANGUAGE to help me learn.
+You are a supportive, encouraging English coach for a $TARGET_LANGUAGE developer. Analyze the prompt below and return structured JSON.
 
-Result should have two fields:
-- enhanced_prompt: containing the improved prompt
-- lesson: containing the brief explanation in $TARGET_LANGUAGE.
+Rules:
+1. enhanced_prompt: Rewrite to be clear, natural, professional English. Preserve the original intent exactly. If the prompt is code-only or already perfect English, return it unchanged.
+2. has_corrections: true if you made any meaningful improvements, false if the prompt was already correct or is pure code/commands.
+3. corrections: List up to 3 gentle improvement suggestions. Each must have:
+   - original: the phrase from the original prompt
+   - suggestion: the improved phrase
+   - category: one of grammar, vocabulary, style, spelling, word_order
+   - explanation: brief explanation in $TARGET_LANGUAGE (1 sentence, max 20 words).
+4. tip: One memorable tip in $TARGET_LANGUAGE (1 sentence, max 30 words) about the most useful pattern. If no corrections, share a useful English expression tip.
+
+Focus on patterns $TARGET_LANGUAGE speakers commonly struggle with: articles (a/the), prepositions, singular/plural, tense consistency, word order.
 
 <PROMPT>
 $INPUT_PROMPT
@@ -79,23 +115,35 @@ RESPONSE="$( \
 
 STRUCTURED_OUTPUT="$(echo "$RESPONSE" | jq -r '.structured_output')"
 
-if [[ -z "$STRUCTURED_OUTPUT" ]]; then
+echo 'This is lesson message for user. Assistant should dismiss it.
+'
+
+if [[ -z "$STRUCTURED_OUTPUT" || "$STRUCTURED_OUTPUT" == "null" ]]; then
     OUTPUT_PROMPT="Failed to generate lesson."
-else
-    OUTPUT_PROMPT="\
-$(echo "$STRUCTURED_OUTPUT" | jq -r .enhanced_prompt)
----
-$(echo "$STRUCTURED_OUTPUT" | jq -r .lesson)
-"
+    exit 0
 fi
 
-OUTPUT_PROMPT="\
-This is lesson message for user. You should dismiss it.
----
-$OUTPUT_PROMPT
-"
+ENHANCED="$(echo "$STRUCTURED_OUTPUT" | jq -r '.enhanced_prompt')"
+HAS_CORRECTIONS="$(echo "$STRUCTURED_OUTPUT" | jq -r '.has_corrections')"
+TIP="$(echo "$STRUCTURED_OUTPUT" | jq -r '.tip')"
 
-echo -e "$OUTPUT_PROMPT"
+OUTPUT_PROMPT="$ENHANCED"
+
+if [[ "$HAS_CORRECTIONS" == "true" ]]; then
+    CORRECTIONS_DISPLAY="$(echo "$STRUCTURED_OUTPUT" | jq -r '
+        .corrections[] |
+        "- ✅ \(.category): \(.original) → \(.suggestion)\n  - \(.explanation)\n"
+    ')"
+    OUTPUT_PROMPT="$OUTPUT_PROMPT
+
+$CORRECTIONS_DISPLAY"
+fi
+
+OUTPUT_PROMPT="$OUTPUT_PROMPT
+
+✨ $TIP"
+
+echo "$OUTPUT_PROMPT"
 exit 0
 EOF
 chmod +x ~/.claude/english-lecturer.sh
@@ -120,6 +168,12 @@ chmod +x ~/.claude/english-lecturer.sh
     ]
   }
 }
+```
+
+혹은 아래 명령어를 실행합니다.
+
+```bash
+jq '.hooks.UserPromptSubmit = ((.hooks.UserPromptSubmit // []) + [{"hooks": [{"type": "command", "command": "~/.claude/english-lecturer.sh"}]}])' ~/.claude/settings.json > /tmp/settings.json && mv /tmp/settings.json ~/.claude/settings.json
 ```
 
 ### 3. 커스터마이징
