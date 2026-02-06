@@ -20,7 +20,7 @@ key: "claude-english-lecturer-hook"
 저는 모델 성능 저하를 최소화하고 싶었기 때문에 메인 프롬프트에 context가 주입되지 않는 것이 이상적이었습니다. 이를 위하여 2가지 방법을 사용하였습니다.
 
 - 메인 Claude Code 프로세스에서 영어 공부 프롬프트를 처리하지 않고 별도의 Claude Code 서브 프로세스에서 non-interactive모드와 structured output을 사용하여 처리하도록 하였습니다.
-- hook의 output으로 json을 사용하여 유저에게만 메시지가 보일 수 있도록 하였습니다. ([claude code docs](https://code.claude.com/docs/en/hooks#json-output))
+- hook의 output으로 systemMessage를 사용하여 유저에게만 메시지가 보일 수 있도록 하였습니다. ([관련 claude code 문서](https://code.claude.com/docs/en/hooks#json-output))
 
 이때 별도의 Claude Code 프로세스를 non-interactive 모드로 실행하더라도 hook이 주입되기 때문에 환경변수를 통해 아주 간단한 LOCK을 구현하였습니다. 
 
