@@ -17,15 +17,14 @@ key: "claude-english-lecturer-hook"
 
 ## 구현
 
-저는 모델 성능 저하를 최소화하고 싶었기 때문에 메인 프롬프트에 context가 주입되지 않는 것이 이상적이었습니다. 하지만 필요한 hook인 `UserPromptSubmit`은 유저에게만 메시지를 보내는 기능을 지원하지 않았습니다.
+저는 모델 성능 저하를 최소화하고 싶었기 때문에 메인 프롬프트에 context가 주입되지 않는 것이 이상적이었습니다. 이를 위하여 2가지 방법을 사용하였습니다.
 
-그럼에도 context 낭비를 최소화하기 위해 별도의 Claude Code 프로세스를 실행해서 structured output 형식으로 결과를 출력하도록 구현했습니다. 이렇게 하면 hook의 출력이 context에 들어가긴 하지만 메인 context의 낭비를 최소화 할 수 있습니다.
+- 메인 Claude Code 프로세스에서 영어 공부 프롬프트를 처리하지 않고 별도의 Claude Code 서브 프로세스에서 non-interactive모드와 structured output을 사용하여 처리하도록 하였습니다.
+- hook의 output으로 json을 사용하여 유저에게만 메시지가 보일 수 있도록 하였습니다. ([claude code docs](https://code.claude.com/docs/en/hooks#json-output))
 
 이때 별도의 Claude Code 프로세스를 non-interactive 모드로 실행하더라도 hook이 주입되기 때문에 환경변수를 통해 아주 간단한 LOCK을 구현하였습니다. 
 
 `disableAllHooks` 옵션을 통해 hook을 비활성화 할 수 있으나 이 경우에 structured output이 필요로하는 SDK hook이 동작하지 않아 structured output을 받을 수 없습니다.
-
-다만 이러한 방식들로 구현할 경우 `ctrl-o` 를 통해 토글할 수 있는 history 창에서만 출력을 볼 수 있고 resume 시에 보이지 않는다는 단점이 있습니다.
 
 ![Korean example](/assets/images/claude-english-lecturer-hook/korean_example.png) | ![English example](/assets/images/claude-english-lecturer-hook/english_example.png)
 
@@ -33,10 +32,9 @@ key: "claude-english-lecturer-hook"
 
 ### 1. 스크립트 설치
 
-아래 명령어를 실행하면 스크립트 파일이 자동으로 생성되고 실행 권한이 설정됩니다.
+아래 스크립트를 `~/.claude/english-lecturer.sh`로 저장합니다. ( 제 [dotfiles 레포](https://github.com/ryul99/.dotfiles/blob/master/home/claude/english-lecturer.sh)에서도 확인가능합니다 )
 
 ```bash
-cat > ~/.claude/english-lecturer.sh << 'EOF'
 #!/bin/bash
 # acknowledge: https://github.com/crescent-stdio for prompt
 
@@ -107,6 +105,7 @@ $INPUT_PROMPT
 
 RESPONSE="$( \
     REWRITER_LOCK=1 claude \
+    --no-session-persistence \
     --model sonnet \
     --output-format json \
     --json-schema "$JSON_SCHEMA" \
@@ -115,8 +114,7 @@ RESPONSE="$( \
 
 STRUCTURED_OUTPUT="$(echo "$RESPONSE" | jq -r '.structured_output')"
 
-echo 'This is lesson message for user. Assistant should dismiss it.
-'
+# echo 'This is lesson message for user. Assistant should dismiss it.'
 
 if [[ -z "$STRUCTURED_OUTPUT" || "$STRUCTURED_OUTPUT" == "null" ]]; then
     OUTPUT_PROMPT="Failed to generate lesson."
@@ -139,14 +137,18 @@ if [[ "$HAS_CORRECTIONS" == "true" ]]; then
 $CORRECTIONS_DISPLAY"
 fi
 
-OUTPUT_PROMPT="$OUTPUT_PROMPT
+OUTPUT_PROMPT="
+$OUTPUT_PROMPT
 
 ✨ $TIP"
 
-echo -e "$OUTPUT_PROMPT"
+OUTPUT_PROMPT="$(echo -e "$OUTPUT_PROMPT")"
+# escape newlines
+OUTPUT_PROMPT="${OUTPUT_PROMPT//$'\n'/\\n}"
+# escape double quotes
+OUTPUT_PROMPT="${OUTPUT_PROMPT//\"/\\\"}"
+echo "{ \"suppressOutput\": false, \"systemMessage\": \"$OUTPUT_PROMPT\" }"
 exit 0
-EOF
-chmod +x ~/.claude/english-lecturer.sh
 ```
 
 ### 2. 설정 파일 수정
@@ -185,3 +187,9 @@ jq '.hooks.UserPromptSubmit = ((.hooks.UserPromptSubmit // []) + [{"hooks": [{"t
 - 사용 모델 (기본값: "sonnet" / haiku의 경우 빠르긴 하나 성능이 떨어졌습니다)
 
 이제 프롬프트를 제출할 때마다 자동으로 교정된 버전과 짧은 문법 설명을 받을 수 있습니다.
+
+### Appendix: change log
+
+- 2026/02/06: Claude Code에 추가된 systemMessage 기능 사용-history toggle 없이 표시, `--no-session-persistence` 옵션 추가
+- 2026/02/02: 프롬프트 개선
+- 2026/01/31: 포스트 첫 작성
