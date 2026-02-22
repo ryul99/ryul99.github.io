@@ -186,7 +186,7 @@ jq '.hooks.UserPromptSubmit = ((.hooks.UserPromptSubmit // []) + [{"hooks": [{"t
 
 ### Appendix: change log
 
-- 2026/02/22: LOCK 환경변수 대신 `disableAllHooks` 사용 / MAX_THINKING_TOKENS 을 제한
+- 2026/02/22: LOCK 환경변수 대신 `disableAllHooks` 사용 / `MAX_THINKING_TOKENS` 을 제한
 - 2026/02/06: Claude Code에 추가된 systemMessage 기능 사용-history toggle 없이 표시, `--no-session-persistence` 옵션 추가
 - 2026/02/02: 프롬프트 개선
 - 2026/01/31: 포스트 첫 작성
