@@ -22,9 +22,7 @@ key: "claude-english-lecturer-hook"
 - 메인 Claude Code 프로세스에서 영어 공부 프롬프트를 처리하지 않고 별도의 Claude Code 서브 프로세스에서 non-interactive모드와 structured output을 사용하여 처리하도록 하였습니다.
 - hook의 output으로 systemMessage를 사용하여 유저에게만 메시지가 보일 수 있도록 하였습니다. ([관련 claude code 문서](https://code.claude.com/docs/en/hooks#json-output))
 
-이때 별도의 Claude Code 프로세스를 non-interactive 모드로 실행하더라도 hook이 주입되기 때문에 환경변수를 통해 아주 간단한 LOCK을 구현하였습니다. 
-
-`disableAllHooks` 옵션을 통해 hook을 비활성화 할 수 있으나 이 경우에 structured output이 필요로하는 SDK hook이 동작하지 않아 structured output을 받을 수 없습니다.
+이때 별도의 Claude Code 프로세스를 non-interactive 모드로 실행하더라도 hook이 주입되기 때문에 `disableAllHooks` 옵션을 통해 hook을 비활성화 하여 해결하였습니다.
 
 ![Korean example](/assets/images/claude-english-lecturer-hook/korean_example.png) | ![English example](/assets/images/claude-english-lecturer-hook/english_example.png)
 
@@ -37,10 +35,6 @@ key: "claude-english-lecturer-hook"
 ```bash
 #!/bin/bash
 # acknowledge: https://github.com/crescent-stdio for prompt
-
-if [[ -n "$REWRITER_LOCK" ]]; then
-    exit 0
-fi
 
 INPUT_PROMPT="$(cat | jq '.prompt')"
 TARGET_LANGUAGE="Korean"
@@ -104,9 +98,10 @@ $INPUT_PROMPT
 "
 
 RESPONSE="$( \
-    REWRITER_LOCK=1 claude \
+    MAX_THINKING_TOKENS=4000 claude \
     --no-session-persistence \
     --model sonnet \
+    --settings '{ "disableAllHooks": true }' \
     --output-format json \
     --json-schema "$JSON_SCHEMA" \
     -p "$INPUT_PROMPT"
@@ -142,6 +137,7 @@ $OUTPUT_PROMPT
 
 ✨ $TIP"
 
+# handling when LLM output contains escaped characters
 OUTPUT_PROMPT="$(echo -e "$OUTPUT_PROMPT")"
 # escape newlines
 OUTPUT_PROMPT="${OUTPUT_PROMPT//$'\n'/\\n}"
@@ -190,6 +186,7 @@ jq '.hooks.UserPromptSubmit = ((.hooks.UserPromptSubmit // []) + [{"hooks": [{"t
 
 ### Appendix: change log
 
+- 2026/02/22: LOCK 환경변수 대신 `disableAllHooks` 사용 / MAX_THINKING_TOKENS 을 제한
 - 2026/02/06: Claude Code에 추가된 systemMessage 기능 사용-history toggle 없이 표시, `--no-session-persistence` 옵션 추가
 - 2026/02/02: 프롬프트 개선
 - 2026/01/31: 포스트 첫 작성
