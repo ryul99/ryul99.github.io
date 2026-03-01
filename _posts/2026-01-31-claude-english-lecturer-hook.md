@@ -137,13 +137,7 @@ $OUTPUT_PROMPT
 
 ✨ $TIP"
 
-# handling when LLM output contains escaped characters
-OUTPUT_PROMPT="$(echo -e "$OUTPUT_PROMPT")"
-# escape newlines
-OUTPUT_PROMPT="${OUTPUT_PROMPT//$'\n'/\\n}"
-# escape double quotes
-OUTPUT_PROMPT="${OUTPUT_PROMPT//\"/\\\"}"
-echo "{ \"suppressOutput\": false, \"systemMessage\": \"$OUTPUT_PROMPT\" }"
+printf '%s' "$OUTPUT_PROMPT" | jq -Rs '{ suppressOutput: false, systemMessage: . }'
 exit 0
 ```
 
@@ -186,6 +180,7 @@ jq '.hooks.UserPromptSubmit = ((.hooks.UserPromptSubmit // []) + [{"hooks": [{"t
 
 ### Appendix: change log
 
+- 2026/03/01: json 파싱 개선
 - 2026/02/22: LOCK 환경변수 대신 `disableAllHooks` 사용 / `MAX_THINKING_TOKENS` 을 제한
 - 2026/02/06: Claude Code에 추가된 systemMessage 기능 사용-history toggle 없이 표시, `--no-session-persistence` 옵션 추가
 - 2026/02/02: 프롬프트 개선
