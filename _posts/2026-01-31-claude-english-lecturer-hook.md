@@ -98,7 +98,8 @@ $INPUT_PROMPT
 "
 
 RESPONSE="$( \
-    MAX_THINKING_TOKENS=4000 CLAUDE_CODE_SIMPLE=1 claude \
+    CLAUDE_CODE_EFFORT_LEVEL=low MAX_THINKING_TOKENS=2000 \
+    CLAUDE_CODE_SIMPLE=1 claude \
     --no-session-persistence \
     --model sonnet \
     --settings '{ "disableAllHooks": true }' \
@@ -180,6 +181,7 @@ jq '.hooks.UserPromptSubmit = ((.hooks.UserPromptSubmit // []) + [{"hooks": [{"t
 
 ### Appendix: change log
 
+- 2026/03/11: `CLAUDE_CODE_EFFORT_LEVEL=low`, `CLAUDE_CODE_SIMPLE=1` 적용
 - 2026/03/01: json 파싱 개선
 - 2026/02/22: LOCK 환경변수 대신 `disableAllHooks` 사용 / `MAX_THINKING_TOKENS` 을 제한
 - 2026/02/06: Claude Code에 추가된 systemMessage 기능 사용-history toggle 없이 표시, `--no-session-persistence` 옵션 추가
