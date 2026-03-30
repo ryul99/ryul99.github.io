@@ -97,9 +97,17 @@ $INPUT_PROMPT
 </PROMPT>\
 "
 
+hook_output() {
+    printf '%s' "$1" | jq -Rs '{ suppressOutput: false, systemMessage: . }'
+}
+
 RESPONSE="$( \
     CLAUDE_CODE_EFFORT_LEVEL=low MAX_THINKING_TOKENS=2000 \
-    CLAUDE_CODE_SIMPLE=1 claude \
+    CLAUDE_CODE_DISABLE_AUTO_MEMORY=1 \
+    CLAUDE_CODE_SIMPLE=0 \
+    claude \
+    --tools='' \
+    --strict-mcp-config \
     --no-session-persistence \
     --model sonnet \
     --settings '{ "disableAllHooks": true }' \
@@ -110,35 +118,28 @@ RESPONSE="$( \
 
 STRUCTURED_OUTPUT="$(echo "$RESPONSE" | jq -r '.structured_output')"
 
-# echo 'This is lesson message for user. Assistant should dismiss it.'
-
 if [[ -z "$STRUCTURED_OUTPUT" || "$STRUCTURED_OUTPUT" == "null" ]]; then
-    OUTPUT_PROMPT="Failed to generate lesson."
+    ERROR_DETAIL="$(echo "$RESPONSE" | jq -r '.result // "unknown error"')"
+    hook_output "Failed to generate lesson: $ERROR_DETAIL"
     exit 0
 fi
 
 ENHANCED="$(echo "$STRUCTURED_OUTPUT" | jq -r '.enhanced_prompt')"
-HAS_CORRECTIONS="$(echo "$STRUCTURED_OUTPUT" | jq -r '.has_corrections')"
+CORRECTIONS_DISPLAY=""
 TIP="$(echo "$STRUCTURED_OUTPUT" | jq -r '.tip')"
 
-OUTPUT_PROMPT="$ENHANCED"
-
+HAS_CORRECTIONS="$(echo "$STRUCTURED_OUTPUT" | jq -r '.has_corrections')"
 if [[ "$HAS_CORRECTIONS" == "true" ]]; then
     CORRECTIONS_DISPLAY="$(echo "$STRUCTURED_OUTPUT" | jq -r '
         .corrections[] |
         "- ✅ \(.category): \(.original) → \(.suggestion)\n  - \(.explanation)\n"
     ')"
-    OUTPUT_PROMPT="$OUTPUT_PROMPT
-
-$CORRECTIONS_DISPLAY"
 fi
 
-OUTPUT_PROMPT="
-$OUTPUT_PROMPT
-
+hook_output "$ENHANCED
+$CORRECTIONS_DISPLAY
 ✨ $TIP"
 
-printf '%s' "$OUTPUT_PROMPT" | jq -Rs '{ suppressOutput: false, systemMessage: . }'
 exit 0
 ```
 
@@ -181,6 +182,7 @@ jq '.hooks.UserPromptSubmit = ((.hooks.UserPromptSubmit // []) + [{"hooks": [{"t
 
 ### Appendix: change log
 
+- 2026/03/30: 에러메시지 표시 수정, `CLAUDE_CODE_SIMPLE=0` 적용 (Claude Code 업데이트로 해당 옵션 사용시 OAuth 스킵하게 변경됨)
 - 2026/03/11: `CLAUDE_CODE_EFFORT_LEVEL=low`, `CLAUDE_CODE_SIMPLE=1` 적용
 - 2026/03/01: json 파싱 개선
 - 2026/02/22: LOCK 환경변수 대신 `disableAllHooks` 사용 / `MAX_THINKING_TOKENS` 을 제한
