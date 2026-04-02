@@ -226,6 +226,10 @@ defaults:
         height: 100
         width: 100
         alt: profile image
+  - scope:
+      path: '*.pdf'
+    values:
+      sitemap: false
 
 
 ## => Plugins
